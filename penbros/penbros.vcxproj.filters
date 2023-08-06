@@ -53,6 +53,12 @@
     <Filter Include="Engine\03.Manager\TimeMgr">
       <UniqueIdentifier>{8195d638-6676-411c-8017-074a34f81c06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\06.Resources\Texture">
+      <UniqueIdentifier>{5c6e7f81-4404-488e-9b12-423a0bb3da49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06.Resources\Sound">
+      <UniqueIdentifier>{83cd6ae3-1b50-46b7-a3c6-fb0be49b7afd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -106,6 +112,15 @@
     <ClInclude Include="CScene.h">
       <Filter>Engine\05.Scene</Filter>
     </ClInclude>
+    <ClInclude Include="CSound.h">
+      <Filter>Engine\06.Resources\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="CTexture.h">
+      <Filter>Engine\06.Resources\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="CRes.h">
+      <Filter>Engine\06.Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="penbros.rc">
@@ -156,6 +171,15 @@
     </ClCompile>
     <ClCompile Include="CScene.cpp">
       <Filter>Engine\05.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CSound.cpp">
+      <Filter>Engine\06.Resources\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="CTexture.cpp">
+      <Filter>Engine\06.Resources\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="CRes.cpp">
+      <Filter>Engine\06.Resources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
