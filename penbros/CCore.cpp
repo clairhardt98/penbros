@@ -4,6 +4,7 @@
 #include "CPathMgr.h"
 #include "CKeyMgr.h"
 #include "CSceneMgr.h"
+#include "CCollisionMgr.h"
 
 
 //objects
@@ -27,6 +28,11 @@ CCore::~CCore()
 
 	DeleteDC(m_memDC);
 	DeleteObject(m_hBit);
+
+	for (size_t i = 0; i < (UINT)PEN_TYPE::END; ++i)
+	{
+		DeleteObject(m_arrPen[i]);
+	}
 }
 
 int CCore::Init(HWND hWnd, POINT res)
@@ -46,12 +52,15 @@ int CCore::Init(HWND hWnd, POINT res)
 
 	HBITMAP hOldBit = (HBITMAP)SelectObject(m_memDC, m_hBit);
 	DeleteObject(hOldBit);
+	//자주 사용할 펜과 브러시 생성
+	CreateBrushPen();
 	//Init Mgr
 	CTimeMgr::GetInst()->Init();
 	CPathMgr::GetInst()->Init();
 	CKeyMgr::GetInst()->Init();
 	CSceneMgr::GetInst()->Init();
-	
+	CCollisionMgr::GetInst()->Init();
+
 	return S_OK;
 }
 
@@ -59,9 +68,10 @@ void CCore::Progress()
 {
 	CTimeMgr::GetInst()->Update();
 	CKeyMgr::GetInst()->Update();
-	CTimeMgr::GetInst()->Render();
+
 	CSceneMgr::GetInst()->Update();
-	
+	CCollisionMgr::GetInst()->Update();//충돌 검사 해준 후 렌더링으로 넘어가기
+
 	//>>
 	//Rendering
 	//<<
@@ -70,5 +80,16 @@ void CCore::Progress()
 	CSceneMgr::GetInst()->Render(m_memDC);
 
 	BitBlt(m_hdc, 0, 0, m_ptResolution.x, m_ptResolution.y, m_memDC, 0, 0, SRCCOPY);
+}
+
+void CCore::CreateBrushPen()
+{
+	//hollow brush
+	m_arrBrush[(UINT)BRUSH_TYPE::HOLLOW] =
+		(HBRUSH)GetStockObject(HOLLOW_BRUSH);//이미 Stock 오브젝트로 존재, delete 필요 없음
+
+	m_arrPen[(UINT)PEN_TYPE::RED] = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
+	m_arrPen[(UINT)PEN_TYPE::GREEN] = CreatePen(PS_SOLID, 1, RGB(0, 255, 0));
+	m_arrPen[(UINT)PEN_TYPE::BLUE] = CreatePen(PS_SOLID, 1, RGB(0, 0, 255));
 }
 

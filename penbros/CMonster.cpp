@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CMonster.h"
 #include "CTimeMgr.h"
+#include "CCollider.h"
 
 CMonster::CMonster()
 	:m_vCenterPos(Vector2D(0.0f, 0.0f))
@@ -8,6 +9,8 @@ CMonster::CMonster()
 	,m_fMaxDistance(50.0f)
 	,m_iDir(1)
 {
+	CreateCollider();
+	GetCollider()->SetScale(Vector2D(45.0f, 45.0f));
 }
 
 CMonster::~CMonster()
@@ -31,4 +34,15 @@ void CMonster::Update()
 	}
 	SetPos(vCurPos);
 	m_vCenterPos;
+}
+
+void CMonster::OnCollisionEnter(CCollider* _pOther)
+{
+	//몬스터 본인이 충돌 시 일어날 일
+	CObject* pOtherObj = _pOther->GetObj();
+	//if (pOtherObj->GetName() == L"Player")
+	//{
+	//	//씬에서 삭제
+	//}
+	int a = 0;
 }

@@ -11,16 +11,22 @@ private:
 	HBITMAP m_hBit;
 	HDC		m_memDC;
 
+	//자주 사용하는 펜
+	HBRUSH	m_arrBrush[(UINT)BRUSH_TYPE::END];
+	HPEN	m_arrPen[(UINT)PEN_TYPE::END];
 
 public:
 	int Init(HWND hWnd, POINT res);
 	void Progress();
 private:
+	void CreateBrushPen();
 	
 
 public:
 	HWND GetMainHwnd() { return m_hWnd; }
 	POINT GetResolution() { return m_ptResolution; }
 	HDC GetMainDC() { return m_hdc; }
+	HBRUSH GetBrush(BRUSH_TYPE _eType) { return m_arrBrush[(UINT)_eType]; }
+	HPEN GetPen(PEN_TYPE _eType) { return m_arrPen[(UINT)_eType]; }
 };
 

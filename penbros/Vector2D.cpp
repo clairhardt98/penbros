@@ -36,6 +36,7 @@ Vector2D operator*(float t, Vector2D& v)
 
 Vector2D Vector2D::operator/(float t)
 {
+    assert(!(0.f == t));
     return Vector2D(x / t, y / t);
 }
 

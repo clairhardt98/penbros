@@ -37,3 +37,25 @@ enum class SCENE_TYPE
 
 	END,
 };
+
+enum class BRUSH_TYPE
+{
+	HOLLOW,
+	END,
+};
+
+enum class PEN_TYPE
+{
+	RED,
+	GREEN,
+	BLUE,
+	END,
+};
+
+enum class EVENT_TYPE
+{
+	CREATE_OBJECT,
+	DELETE_OBJECT,
+	SCENE_CHANGE,
+	END,
+};
