@@ -166,6 +166,7 @@
     <ClInclude Include="pch.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="CAnimator.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="penbros.rc">
@@ -250,5 +251,6 @@
     <ClCompile Include="CTimeMgr.cpp">
       <Filter>Engine\03.Manager\TimeMgr</Filter>
     </ClCompile>
+    <ClCompile Include="CAnimator.cpp" />
   </ItemGroup>
 </Project>
