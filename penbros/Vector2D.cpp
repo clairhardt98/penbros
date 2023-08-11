@@ -5,14 +5,14 @@ Vector2D::Vector2D(const float x, const float y)
 {
     this->x = x;
     this->y = y;
-    mag = sqrt(pow(x, 2) + pow(y, 2));
+    mag = (float)sqrt(pow(x, 2) + pow(y, 2));
 }
 
 Vector2D::Vector2D(const POINT& _pt)
 {
     x = (float)_pt.x;
     y = (float)_pt.y;
-    mag = sqrt(pow(x, 2) + pow(y, 2));
+    mag = (float)sqrt(pow(x, 2) + pow(y, 2));
 }
 
 Vector2D Vector2D::normalize()

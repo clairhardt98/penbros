@@ -9,6 +9,8 @@ private:
     float       m_fMaxDistance;
     int         m_iDir;
 
+    int         m_iHP;
+
 public:
     float GetSpeed() { return m_fSpeed; }
     void SetSpeed(float _f) { m_fSpeed = _f; }
@@ -18,6 +20,8 @@ public:
     virtual void OnCollisionEnter(CCollider* _pOther);
 public:
     virtual void Update()override;
+
+    CLONE(CMonster);
 
 public:
     CMonster();

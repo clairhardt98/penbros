@@ -14,6 +14,7 @@ int g_arrVK[(int)KEY::LAST] =
 	VK_MENU,
 	VK_CONTROL,
 	VK_LSHIFT,
+	VK_SPACE,
 	VK_RETURN,
 	VK_ESCAPE,
 };
@@ -72,7 +73,7 @@ void CKeyMgr::Update()
 					//이전에도 안눌려있었다.
 					m_vecKey[i].eState = KEY_STATE::NONE;
 				}
-
+				m_vecKey[i].bPrev = false;
 			}
 		}
 	}

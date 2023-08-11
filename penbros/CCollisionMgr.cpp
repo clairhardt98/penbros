@@ -80,6 +80,7 @@ void CCollisionMgr::CollisionGroupUpdate(GROUP_TYPE _eLeft, GROUP_TYPE _eRight)
 			}
 			CCollider* pLeftCol = vecLeft[i]->GetCollider();
 			CCollider* pRightCol = vecRight[j]->GetCollider();
+			//두 충돌체 조합 ID 생성
 			COLLIDER_ID ID;
 			//8바이트를 겹치지 않는 두 값으로 채운다
 			ID.left_id = pLeftCol->GetID();
@@ -98,16 +99,30 @@ void CCollisionMgr::CollisionGroupUpdate(GROUP_TYPE _eLeft, GROUP_TYPE _eRight)
 				//현재 충돌중
 				if (iter->second)
 				{
+					if (vecLeft[i]->IsDead() || vecRight[j]->IsDead())
+					{
+						//삭제처리 예정인 오브젝트와의 충돌중이라면 충돌 벗어나게
+						pLeftCol->OnCollisionExit(pRightCol);
+						pRightCol->OnCollisionExit(pLeftCol);
+						iter->second = false;
+					}
 					//이전 프레임에도 충돌중
-					pLeftCol->OnCollision(pRightCol);
-					pRightCol->OnCollision(pLeftCol);
+					else
+					{
+						pLeftCol->OnCollision(pRightCol);
+						pRightCol->OnCollision(pLeftCol);
+					}
 				}
 				else
 				{
 					//이전엔 충돌하지 않았다가 이제 충돌한 경우
-					pLeftCol->OnCollisionEnter(pRightCol);
-					pRightCol->OnCollisionEnter(pLeftCol);
-					iter->second = true;
+					if (!vecLeft[i]->IsDead() && !vecRight[j]->IsDead())
+					{
+						//삭제처리 예정인 오브젝트와의 충돌중이라면 충돌 벗어나게
+						pLeftCol->OnCollisionEnter(pRightCol);
+						pRightCol->OnCollisionEnter(pLeftCol);
+						iter->second = true;
+					}
 				}
 			}
 			else
@@ -120,8 +135,6 @@ void CCollisionMgr::CollisionGroupUpdate(GROUP_TYPE _eLeft, GROUP_TYPE _eRight)
 					iter->second = false;
 				}
 			}
-			
-			
 		}
 	}
 

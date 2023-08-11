@@ -5,6 +5,7 @@
 #include "CKeyMgr.h"
 #include "CSceneMgr.h"
 #include "CCollisionMgr.h"
+#include "CEventMgr.h"
 
 
 //objects
@@ -66,10 +67,14 @@ int CCore::Init(HWND hWnd, POINT res)
 
 void CCore::Progress()
 {
+	//mgr update
 	CTimeMgr::GetInst()->Update();
 	CKeyMgr::GetInst()->Update();
 
+	//Scene update
 	CSceneMgr::GetInst()->Update();
+
+	//collision check
 	CCollisionMgr::GetInst()->Update();//충돌 검사 해준 후 렌더링으로 넘어가기
 
 	//>>
@@ -80,6 +85,11 @@ void CCore::Progress()
 	CSceneMgr::GetInst()->Render(m_memDC);
 
 	BitBlt(m_hdc, 0, 0, m_ptResolution.x, m_ptResolution.y, m_memDC, 0, 0, SRCCOPY);
+	CTimeMgr::GetInst()->Render();
+
+	//이벤트 지연처리
+	CEventMgr::GetInst()->Update();
+
 }
 
 void CCore::CreateBrushPen()

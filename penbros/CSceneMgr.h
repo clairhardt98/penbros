@@ -15,5 +15,9 @@ public:
 	void Render(HDC _dc);
 public:
 	CScene* GetCurScene() { return m_pCurScene; }
+private:
+	//ChangeScene은 이벤트 매니저만 호출할 수 있게 함
+	void ChangeScene(SCENE_TYPE _eNext);
+	friend class CEventMgr;
 };
 

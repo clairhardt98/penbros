@@ -10,7 +10,26 @@ CObject::CObject()
 	:m_vPos{}
 	, m_vScale{}
 	,m_pCollider(nullptr)
+	,m_pAnimator(nullptr)
+	,m_bAlive(true)
 {
+}
+
+CObject::CObject(const CObject& _origin)
+	:m_strName(_origin.m_strName)
+	,m_vPos(_origin.m_vPos)
+	,m_vScale(_origin.m_vScale)
+	,m_pCollider(nullptr)
+	,m_pAnimator(nullptr)
+	,m_bAlive(true)
+{
+	//CCollider의 복사생성자 호출해서 새로운 콜라이더 생성
+	if (_origin.m_pCollider)
+	{
+		m_pCollider = new CCollider(*_origin.m_pCollider);
+		m_pCollider->m_pOwner = this;
+	}
+	
 }
 
 CObject::~CObject()

@@ -27,7 +27,10 @@ void CTimeMgr::Update()
 	deltaTime = (double)(curCount.QuadPart - prevCount.QuadPart) / (double)frequency.QuadPart;
 
 	prevCount = curCount;
-
+#ifdef _DEBUG
+	if (deltaTime > (1. / 60.))
+		deltaTime = ((1. / 60.));
+#endif
 }
 
 void CTimeMgr::Render()

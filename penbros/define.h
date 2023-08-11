@@ -1,4 +1,5 @@
 #pragma once
+const float PI = 3.1415f;
 #define SINGLE(type) public:\
 						static type* GetInst()\
 						{\
@@ -12,6 +13,8 @@
 #define fDT CTimeMgr::GetInst()->GetfDT()
 #define DT CTimeMgr::GetInst()->GetDT()
 
+#define CLONE(type) type* Clone(){return new type(*this);}
+
 #define KEY_CHECK(key, state) CKeyMgr::GetInst()->GetKeyState(key) == state
 #define KEY_HOLD(key) KEY_CHECK(key, KEY_STATE::HOLD)
 #define KEY_TAP(key) KEY_CHECK(key, KEY_STATE::TAP)
@@ -24,6 +27,8 @@ enum class GROUP_TYPE
 	PLAYER,
 	BOMB,
 	MONSTER,
+	PROJ_PLAYER,
+	PROJ_ENEMY,
 
 	END = 32,
 };

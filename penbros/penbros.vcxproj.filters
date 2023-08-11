@@ -47,9 +47,6 @@
     <Filter Include="Engine\05.Scene\Scene_Start">
       <UniqueIdentifier>{f37d7585-ef3a-4dd5-9920-fd4db83a5556}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\05.Scene\NewFilter2">
-      <UniqueIdentifier>{6fc86ed9-056d-4fd9-8765-060a811d0629}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\03.Manager\TimeMgr">
       <UniqueIdentifier>{8195d638-6676-411c-8017-074a34f81c06}</UniqueIdentifier>
     </Filter>
@@ -77,11 +74,14 @@
     <Filter Include="Engine\03.Manager\CollisionMgr">
       <UniqueIdentifier>{dbb26b8c-1b24-4858-8220-65c36e963460}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\04.Object\Missile">
+      <UniqueIdentifier>{9864c711-517f-4d9e-9bd7-b47ebb5f9fb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05.Scene\Scene_Tool">
+      <UniqueIdentifier>{6fc86ed9-056d-4fd9-8765-060a811d0629}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
-      <Filter>Engine\01.Header</Filter>
-    </ClInclude>
     <ClInclude Include="define.h">
       <Filter>Engine\01.Header</Filter>
     </ClInclude>
@@ -154,6 +154,18 @@
     <ClInclude Include="CCollisionMgr.h">
       <Filter>Engine\03.Manager\CollisionMgr</Filter>
     </ClInclude>
+    <ClInclude Include="func.h">
+      <Filter>Engine\01.Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CMissile.h">
+      <Filter>Engine\04.Object\Missile</Filter>
+    </ClInclude>
+    <ClInclude Include="CScene_Tool.h">
+      <Filter>Engine\05.Scene\Scene_Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="penbros.rc">
@@ -180,9 +192,6 @@
     </ClCompile>
     <ClCompile Include="CPathMgr.cpp">
       <Filter>Engine\03.Manager\PathMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="CTimeMgr.cpp">
-      <Filter>Engine\03.Manager\TimeMgr</Filter>
     </ClCompile>
     <ClCompile Include="CKeyMgr.cpp">
       <Filter>Engine\03.Manager\KeyMgr</Filter>
@@ -228,6 +237,18 @@
     </ClCompile>
     <ClCompile Include="CCollisionMgr.cpp">
       <Filter>Engine\03.Manager\CollisionMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="func.cpp">
+      <Filter>Engine\01.Header</Filter>
+    </ClCompile>
+    <ClCompile Include="CMissile.cpp">
+      <Filter>Engine\04.Object\Missile</Filter>
+    </ClCompile>
+    <ClCompile Include="CScene_Tool.cpp">
+      <Filter>Engine\05.Scene\Scene_Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="CTimeMgr.cpp">
+      <Filter>Engine\03.Manager\TimeMgr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

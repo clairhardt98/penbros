@@ -3,17 +3,20 @@
 #include <Windows.h>
 #include <iostream>
 #include <vector>
-#include <string>
-#include <map>
-#include <cassert>
-
-#include "define.h"
-#include "Vector2D.h"
-
 using std::vector;
+#include <string>
 using std::string;
 using std::wstring;
+#include <map>
 using std::map;
 using std::make_pair;
 
+#include <cassert>
+
+
 #pragma comment(lib,"Msimg32.lib")
+
+#include "Vector2D.h"
+
+#include "define.h"
+#include "func.h"

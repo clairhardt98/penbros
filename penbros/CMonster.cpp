@@ -8,6 +8,7 @@ CMonster::CMonster()
 	,m_fSpeed(100.0f)
 	,m_fMaxDistance(50.0f)
 	,m_iDir(1)
+	,m_iHP(5)
 {
 	CreateCollider();
 	GetCollider()->SetScale(Vector2D(45.0f, 45.0f));
@@ -40,9 +41,11 @@ void CMonster::OnCollisionEnter(CCollider* _pOther)
 {
 	//몬스터 본인이 충돌 시 일어날 일
 	CObject* pOtherObj = _pOther->GetObj();
-	//if (pOtherObj->GetName() == L"Player")
-	//{
-	//	//씬에서 삭제
-	//}
-	int a = 0;
+	if (pOtherObj->GetName() == L"Missile_Player")
+	{
+		m_iHP -= 1;
+		if (m_iHP <= 0)
+			DeleteObject(this);
+	}
+	
 }
