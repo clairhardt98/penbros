@@ -59,6 +59,24 @@
     <Filter Include="Engine\06.Resources\Sound">
       <UniqueIdentifier>{83cd6ae3-1b50-46b7-a3c6-fb0be49b7afd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\03.Manager\EventMgr">
+      <UniqueIdentifier>{b1bb2349-1d4e-40c6-9645-8eb7f6953500}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07.Components">
+      <UniqueIdentifier>{ce407475-2f59-4e75-ba48-6ab37095275c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08.Module">
+      <UniqueIdentifier>{541dfb67-6190-4279-96d7-68f01399befd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03.Manager\ResourceMgr">
+      <UniqueIdentifier>{0b676888-399d-45f9-87a5-4e1f95a2fb01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07.Components\Collider">
+      <UniqueIdentifier>{ba777bda-8e8f-48c4-80b1-ea4aabb67d96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03.Manager\CollisionMgr">
+      <UniqueIdentifier>{dbb26b8c-1b24-4858-8220-65c36e963460}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -121,6 +139,21 @@
     <ClInclude Include="CRes.h">
       <Filter>Engine\06.Resources</Filter>
     </ClInclude>
+    <ClInclude Include="CEventMgr.h">
+      <Filter>Engine\03.Manager\EventMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectGDI.h">
+      <Filter>Engine\08.Module</Filter>
+    </ClInclude>
+    <ClInclude Include="CResMgr.h">
+      <Filter>Engine\03.Manager\ResourceMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollider.h">
+      <Filter>Engine\07.Components\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollisionMgr.h">
+      <Filter>Engine\03.Manager\CollisionMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="penbros.rc">
@@ -180,6 +213,21 @@
     </ClCompile>
     <ClCompile Include="CRes.cpp">
       <Filter>Engine\06.Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="CEventMgr.cpp">
+      <Filter>Engine\03.Manager\EventMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectGDI.cpp">
+      <Filter>Engine\08.Module</Filter>
+    </ClCompile>
+    <ClCompile Include="CResMgr.cpp">
+      <Filter>Engine\03.Manager\ResourceMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollider.cpp">
+      <Filter>Engine\07.Components\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollisionMgr.cpp">
+      <Filter>Engine\03.Manager\CollisionMgr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
