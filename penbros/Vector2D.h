@@ -14,6 +14,8 @@ public:
 	Vector2D operator+(const Vector2D&);
 	Vector2D operator/(float t);
 	Vector2D operator=(POINT _pt);
+	Vector2D operator*(int _i);
+	void operator+=(Vector2D _vOther);
 	bool operator==(const Vector2D&);
 
 	friend Vector2D operator*(float t, Vector2D& v);

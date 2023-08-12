@@ -33,7 +33,9 @@ private:
 public:
 
 	void CreateCollider();
+	void CreateAnimator();
 	CCollider* GetCollider() { return m_pCollider; }
+	CAnimator* GetAnimator() { return m_pAnimator; }
 
 	virtual void OnCollision(CCollider* _pOther) {};
 	virtual void OnCollisionEnter(CCollider* _pOther) {};

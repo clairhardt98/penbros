@@ -9,11 +9,7 @@ CResMgr::CResMgr()
 }
 CResMgr::~CResMgr()
 {
-	map<wstring, CTexture*>::iterator iter = m_mapTex.begin();
-	for (; iter != m_mapTex.end(); ++iter)
-	{
-		delete iter->second;
-	}
+	Safe_Delete_Map(m_mapTex);
 }
 
 CTexture* CResMgr::LoadTexture(const wstring& _strKey, const wstring& _strRelatviePath)
@@ -43,7 +39,7 @@ CTexture* CResMgr::LoadTexture(const wstring& _strKey, const wstring& _strRelatv
 CTexture* CResMgr::FindTexture(const wstring& _strKey)
 {
 	//map에서 탐색
-	map<wstring, CTexture*>::iterator iter = m_mapTex.find(_strKey);
+	map<wstring, CRes*>::iterator iter = m_mapTex.find(_strKey);
 	//없으면 nullptr 반환
 
 	if (iter == m_mapTex.end())
@@ -52,5 +48,5 @@ CTexture* CResMgr::FindTexture(const wstring& _strKey)
 	}
 	
 	//키값으로 리소스 찾아서 반환하는 함수
-	return iter->second;
+	return (CTexture*)iter->second;
 }

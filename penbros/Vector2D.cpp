@@ -45,6 +45,18 @@ Vector2D Vector2D::operator=(POINT _pt)
     return Vector2D(float(_pt.x), float(_pt.y));
 }
 
+Vector2D Vector2D::operator*(int _i)
+{
+    return Vector2D(x * (float)_i, y*(float)_i);
+}
+
+void Vector2D::operator+=(Vector2D _vOther)
+{
+    x += _vOther.x;
+    y += _vOther.y;
+    mag = (float)sqrt(pow(x, 2) + pow(y, 2));
+}
+
 bool Vector2D::operator==(const Vector2D& v)
 {
 

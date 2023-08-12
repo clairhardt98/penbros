@@ -80,6 +80,12 @@
     <Filter Include="Engine\05.Scene\Scene_Tool">
       <UniqueIdentifier>{6fc86ed9-056d-4fd9-8765-060a811d0629}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\07.Components\Animator">
+      <UniqueIdentifier>{a0c5ab8e-42ec-4421-be13-05afb1e5a527}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07.Components\Animator\Animation">
+      <UniqueIdentifier>{35be09d7-689a-47ae-bdf7-cc15dcbee225}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h">
@@ -166,7 +172,12 @@
     <ClInclude Include="pch.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="CAnimator.h" />
+    <ClInclude Include="CAnimator.h">
+      <Filter>Engine\07.Components\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimation.h">
+      <Filter>Engine\07.Components\Animator\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="penbros.rc">
@@ -251,6 +262,11 @@
     <ClCompile Include="CTimeMgr.cpp">
       <Filter>Engine\03.Manager\TimeMgr</Filter>
     </ClCompile>
-    <ClCompile Include="CAnimator.cpp" />
+    <ClCompile Include="CAnimator.cpp">
+      <Filter>Engine\07.Components\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimation.cpp">
+      <Filter>Engine\07.Components\Animator\Animation</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -17,7 +17,7 @@ public:
     HDC GetDC() { return m_dc; }
 private://텍스쳐를 아무나 생성하지 못하게 막아버림
     CTexture();
-    ~CTexture();
+    virtual ~CTexture();
 
     friend class CResMgr;//리소스매니저만 가능
 };

@@ -38,9 +38,9 @@ void CScene_Start::Enter()
 
 	AddObject(pObj, GROUP_TYPE::PLAYER);
 
-	CObject* pOtherPlayer = pObj->Clone();
+	/*CObject* pOtherPlayer = pObj->Clone();
 	pOtherPlayer->SetPos(Vector2D(740.0f, 384.0f));
-	AddObject(pOtherPlayer, GROUP_TYPE::PLAYER);
+	AddObject(pOtherPlayer, GROUP_TYPE::PLAYER);*/
 
 	//monster Ãß°¡
 	int iMonsterCnt = 10;
