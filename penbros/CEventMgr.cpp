@@ -24,12 +24,12 @@ void CEventMgr::Update()
 	for (size_t i = 0; i < m_vecEvent.size(); i++)
 	{
 		//메시지를 처리하고 메시지를 없애야 함
-		Excute(m_vecEvent[i]);
+		Execute(m_vecEvent[i]);
 	}
 	m_vecEvent.clear();
 }
 
-void CEventMgr::Excute(const tEvent& _eve)
+void CEventMgr::Execute(const tEvent& _eve)
 {
 	//이벤트 타입에 따라서 처리
 	switch (_eve.eEven)
@@ -52,7 +52,6 @@ void CEventMgr::Excute(const tEvent& _eve)
 		pDeadObj->SetDead();
 		m_vecDead.push_back(pDeadObj);
 	}
-
 		break;
 	case EVENT_TYPE::SCENE_CHANGE:
 		//lParam : next Scene type

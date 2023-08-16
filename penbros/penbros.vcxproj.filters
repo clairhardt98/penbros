@@ -86,6 +86,15 @@
     <Filter Include="Engine\07.Components\Animator\Animation">
       <UniqueIdentifier>{35be09d7-689a-47ae-bdf7-cc15dcbee225}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\07.Components\RigidBody">
+      <UniqueIdentifier>{bca660b0-3c3d-4e88-9289-547e50c108f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04.Object\Platform">
+      <UniqueIdentifier>{2067847f-ab35-4c8e-9a3f-f7083cb285f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04.Object\Bomb">
+      <UniqueIdentifier>{785b899a-5180-43de-ab0a-be5747547845}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h">
@@ -178,6 +187,15 @@
     <ClInclude Include="CAnimation.h">
       <Filter>Engine\07.Components\Animator\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="CRigidBody.h">
+      <Filter>Engine\07.Components\RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlatform.h">
+      <Filter>Engine\04.Object\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="CBomb.h">
+      <Filter>Engine\04.Object\Bomb</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="penbros.rc">
@@ -267,6 +285,15 @@
     </ClCompile>
     <ClCompile Include="CAnimation.cpp">
       <Filter>Engine\07.Components\Animator\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="CRigidBody.cpp">
+      <Filter>Engine\07.Components\RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlatform.cpp">
+      <Filter>Engine\04.Object\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="CBomb.cpp">
+      <Filter>Engine\04.Object\Bomb</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

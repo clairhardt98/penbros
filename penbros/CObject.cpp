@@ -6,12 +6,14 @@
 
 #include "CCollider.h"
 #include "CAnimator.h"
+#include "CRigidBody.h"
 
 CObject::CObject()
 	:m_vPos{}
 	,m_vScale{}
 	,m_pCollider(nullptr)
 	,m_pAnimator(nullptr)
+	,m_pRigidBody(nullptr)
 	,m_bAlive(true)
 {
 }
@@ -22,6 +24,7 @@ CObject::CObject(const CObject& _origin)
 	,m_vScale(_origin.m_vScale)
 	,m_pCollider(nullptr)
 	,m_pAnimator(nullptr)
+	, m_pRigidBody(nullptr)
 	,m_bAlive(true)
 {
 	//CCollider의 복사생성자 호출해서 새로운 콜라이더 생성
@@ -35,6 +38,11 @@ CObject::CObject(const CObject& _origin)
 		m_pAnimator = new CAnimator(*_origin.m_pAnimator);
 		m_pAnimator->m_pOwner = this;
 	}
+	if (_origin.m_pRigidBody)
+	{
+		m_pRigidBody = new CRigidBody(*_origin.m_pRigidBody);
+		m_pRigidBody->m_pOwner = this;
+	}
 	
 }
 
@@ -45,6 +53,9 @@ CObject::~CObject()
 
 	if (nullptr != m_pAnimator)
 		delete m_pAnimator;
+
+	if (nullptr != m_pRigidBody)
+		delete m_pRigidBody;
 }
 
 void CObject::CreateCollider()
@@ -59,10 +70,22 @@ void CObject::CreateAnimator()
 	m_pAnimator->m_pOwner = this;
 }
 
+void CObject::CreateRigidBody()
+{
+	m_pRigidBody = new CRigidBody;
+	m_pRigidBody->m_pOwner = this;
+}
+
 void CObject::FinalUpdate()
 {
+	if (m_pRigidBody)
+		m_pRigidBody->FinalUpdate();
 	if (m_pCollider)
 		m_pCollider->FinalUpdate();
+	if (m_pAnimator)
+		m_pAnimator->FinalUpdate();
+	
+
 }
 
 void CObject::Render(HDC _dc)

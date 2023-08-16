@@ -11,6 +11,7 @@ UINT CCollider::g_iNextID = 0;
 CCollider::CCollider()
 	:m_pOwner(nullptr)
 	,m_iID(g_iNextID++)
+	,m_iCol(0)
 {
 }
 

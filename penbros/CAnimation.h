@@ -40,8 +40,8 @@ private:
 public:
 	void Update();
 	void Render(HDC _dc);
-	void Create(const wstring& _strName, CTexture* _pTex, Vector2D _vLT, Vector2D _vSliceSize, Vector2D _vStep, float _fDuration, UINT _iFrameCount);
-
+	//void Create(const wstring& _strName, CTexture* _pTex, Vector2D _vLT, Vector2D _vSliceSize, Vector2D _vStep, float _fDuration, UINT _iFrameCount);
+	void Create(bool LR, const wstring& _strName, CTexture* _pTex, int _n, int _m, int _i, int _j, Vector2D _vsliceSize, float _fDuration, UINT _iFrameCount);
 public:
 	CAnimation();
 	~CAnimation();

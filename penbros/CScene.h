@@ -15,10 +15,10 @@ public:
 
 	virtual void Enter() = 0;//인터페이스, 해당 씬에 진입 시 호출
 	virtual void Exit() = 0;//해당 씬에서 탈출 시 호출
-
+	virtual void Start();
 	virtual void Update();
 	void FinalUpdate();
-	void Render(HDC _dc);
+	virtual void Render(HDC _dc);
 
 public:
 	void AddObject(CObject* _pObj, GROUP_TYPE _eType)

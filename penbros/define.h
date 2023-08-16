@@ -24,6 +24,7 @@ const float PI = 3.1415f;
 enum class GROUP_TYPE
 {
 	DEFAULT,
+	PLATFORM,
 	PLAYER,
 	BOMB,
 	MONSTER,

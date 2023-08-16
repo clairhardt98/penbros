@@ -20,6 +20,7 @@ public:
     virtual void OnCollisionEnter(CCollider* _pOther);
 public:
     virtual void Update()override;
+    virtual void Render(HDC _dc)override;
 
     CLONE(CMonster);
 

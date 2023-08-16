@@ -5,23 +5,19 @@ Vector2D::Vector2D(const float x, const float y)
 {
     this->x = x;
     this->y = y;
-    mag = (float)sqrt(pow(x, 2) + pow(y, 2));
 }
 
 Vector2D::Vector2D(const POINT& _pt)
 {
     x = (float)_pt.x;
     y = (float)_pt.y;
-    mag = (float)sqrt(pow(x, 2) + pow(y, 2));
 }
 
-Vector2D Vector2D::normalize()
+void Vector2D::normalize()
 {
-    Vector2D norm;
-    norm.x = x / mag;
-    norm.y = y / mag;
-    norm.mag = 1;
-    return norm;
+    float m = mag();
+    x = x / m;
+    y = y / m;
 }
 
 Vector2D Vector2D::operator+(const Vector2D& v)
@@ -50,11 +46,15 @@ Vector2D Vector2D::operator*(int _i)
     return Vector2D(x * (float)_i, y*(float)_i);
 }
 
+Vector2D Vector2D::operator*(float _f)
+{
+    return Vector2D(x * _f, y * _f);
+}
+
 void Vector2D::operator+=(Vector2D _vOther)
 {
     x += _vOther.x;
     y += _vOther.y;
-    mag = (float)sqrt(pow(x, 2) + pow(y, 2));
 }
 
 bool Vector2D::operator==(const Vector2D& v)

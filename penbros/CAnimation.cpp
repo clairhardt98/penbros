@@ -63,20 +63,62 @@ void CAnimation::Render(HDC _dc)
 		, (int)(m_vecFrm[m_iCurFrm].vLT.y)
 		, (int)(m_vecFrm[m_iCurFrm].vSlice.x)
 		, (int)(m_vecFrm[m_iCurFrm].vSlice.y)
-		, RGB(78, 230, 78));
+		, RGB(255, 0, 255));
 }
 
-void CAnimation::Create(const wstring& _strName, CTexture* _pTex, Vector2D _vLT, Vector2D _vSliceSize, Vector2D _vStep, float _fDuration, UINT _iFrameCount)
+//void CAnimation::Create(const wstring& _strName, CTexture* _pTex, Vector2D _vLT, Vector2D _vSliceSize, Vector2D _vStep, float _fDuration, UINT _iFrameCount)
+//{
+//	m_pTex = _pTex;
+//	tAnimFrm frm = {};
+//
+//	for (UINT i = 0; i < _iFrameCount; ++i)
+//	{
+//		frm.fDuration = _fDuration;
+//		frm.vSlice = _vSliceSize;
+//		frm.vLT = _vLT + _vStep * (int)i;
+//
+//		m_vecFrm.push_back(frm);
+//	}
+//}
+
+void CAnimation::Create(bool LR, const wstring& _strName, CTexture* _pTex, int _n, int _m, int _i, int _j, Vector2D _vsliceSize, float _fDuration, UINT _iFrameCount)
 {
 	m_pTex = _pTex;
 	tAnimFrm frm = {};
-
-	for (UINT i = 0; i < _iFrameCount; ++i)
+	
+	//n,m : 스프라이트는 n*m
+	//LR이 true면 right, false면 left
+	if (LR)
 	{
-		frm.fDuration = _fDuration;
-		frm.vSlice = _vSliceSize;
-		frm.vLT = _vLT + _vStep * i;
-
-		m_vecFrm.push_back(frm);
+		for (UINT count = 0; count < _iFrameCount; ++count)
+		{
+			frm.fDuration = _fDuration;
+			frm.vSlice = _vsliceSize;
+			frm.vLT = Vector2D(_j * _vsliceSize.x, _i * _vsliceSize.y);
+			_j++;
+			if (_j == _m)
+			{
+				_j = 0;
+				_i++;
+			}
+			m_vecFrm.push_back(frm);
+		}
 	}
+	else
+	{
+		for (UINT count = 0; count < _iFrameCount; ++count)
+		{
+			frm.fDuration = _fDuration;
+			frm.vSlice = _vsliceSize;
+			frm.vLT = Vector2D((_m-_j-1) * _vsliceSize.x, _i * _vsliceSize.y);
+			_j++;
+			if (_j == _m)
+			{
+				_j = 0;
+				_i++;
+			}
+			m_vecFrm.push_back(frm);
+		}
+	}
+
 }

@@ -2,6 +2,7 @@
 
 class CCollider;
 class CAnimator;
+class CRigidBody;
 class CObject
 {
 private:
@@ -12,6 +13,7 @@ private:
 	//충돌 기능
 	CCollider*	m_pCollider;
 	CAnimator*	m_pAnimator;
+	CRigidBody* m_pRigidBody;
 		
 	bool		m_bAlive;
 
@@ -34,14 +36,18 @@ public:
 
 	void CreateCollider();
 	void CreateAnimator();
+	void CreateRigidBody();
 	CCollider* GetCollider() { return m_pCollider; }
 	CAnimator* GetAnimator() { return m_pAnimator; }
+	CRigidBody* GetRigidBody() { return m_pRigidBody; }
+
 
 	virtual void OnCollision(CCollider* _pOther) {};
 	virtual void OnCollisionEnter(CCollider* _pOther) {};
 	virtual void OnCollisionExit(CCollider* _pOther) {};
 
 public:
+	virtual void Start() {}; // Scene이 시작되기 직전에 호출되는 함수
 	virtual void Update() = 0;
 	virtual void FinalUpdate() final;
 	virtual void Render(HDC _dc);
