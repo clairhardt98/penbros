@@ -48,3 +48,16 @@ public:
 
 	friend class CAnimator;
 };
+
+class Animator;
+
+class ÁÖÈ²¹ö¼¸
+{
+private:
+	Animator* animator;
+public:
+	void CreateAnimator()
+	{
+
+	}
+};

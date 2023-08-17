@@ -95,6 +95,9 @@
     <Filter Include="Engine\04.Object\Bomb">
       <UniqueIdentifier>{785b899a-5180-43de-ab0a-be5747547845}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\04.Object\Explosion">
+      <UniqueIdentifier>{6c507fb7-929b-4102-8415-13a1524ee922}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h">
@@ -196,6 +199,9 @@
     <ClInclude Include="CBomb.h">
       <Filter>Engine\04.Object\Bomb</Filter>
     </ClInclude>
+    <ClInclude Include="CExplosion.h">
+      <Filter>Engine\04.Object\Explosion</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="penbros.rc">
@@ -294,6 +300,9 @@
     </ClCompile>
     <ClCompile Include="CBomb.cpp">
       <Filter>Engine\04.Object\Bomb</Filter>
+    </ClCompile>
+    <ClCompile Include="CExplosion.cpp">
+      <Filter>Engine\04.Object\Explosion</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

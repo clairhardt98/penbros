@@ -27,7 +27,7 @@ void CPlatform::Update()
 void CPlatform::OnCollisionEnter(CCollider* _pOther)
 {
 	CObject* pOtherObj = _pOther->GetObj();
-	if (pOtherObj->GetName() == L"Player")
+	if (pOtherObj->GetName() == L"Player" || pOtherObj->GetName() == L"Bomb")
 	{
 		pOtherObj->GetRigidBody()->SetGrounded(true);
 		Vector2D vObjPos = _pOther->GetFinalPos();
@@ -49,7 +49,7 @@ void CPlatform::OnCollisionEnter(CCollider* _pOther)
 void CPlatform::OnCollision(CCollider* _pOther)
 {
 	CObject* pOtherObj = _pOther->GetObj();
-	if (pOtherObj->GetName() == L"Player")
+	if (pOtherObj->GetName() == L"Player" || pOtherObj->GetName() == L"Bomb")
 	{
 		//pOtherObj->GetRigidBody()->SetGrounded(true);
 		Vector2D vObjPos = _pOther->GetFinalPos();
@@ -70,7 +70,7 @@ void CPlatform::OnCollision(CCollider* _pOther)
 void CPlatform::OnCollisionExit(CCollider* _pOther)
 {
 	CObject* pOtherObj = _pOther->GetObj();
-	if (pOtherObj->GetName() == L"Player")
+	if (pOtherObj->GetName() == L"Player" || pOtherObj->GetName() == L"Bomb")
 	{
 		pOtherObj->GetRigidBody()->SetGrounded(false);
 	}

@@ -4,6 +4,7 @@ class CObject;
 void CreateObject(CObject* _pObj, GROUP_TYPE _eGroup);
 void DeleteObject(CObject* _pObj);
 void ChangeScene(SCENE_TYPE _eNext);
+void BombExploded();
 
 
 //자주 호출되는 벡터 지우는 함수

@@ -29,6 +29,7 @@ public:
 	float GetMass() { return m_fMass; }
 	float GetSpeed() { return m_vVelocity.mag(); }
 	void SetVelocity(Vector2D _v) { m_vVelocity = _v; }
+	Vector2D GetVelocity() { return m_vVelocity; }
 	void AddVelocity(Vector2D _v) { m_vVelocity += _v; }
 	void SetMaxVelocity(Vector2D _v) { m_vMaxVelocity = _v; }
 	void SetGravityScale(Vector2D _v) { m_vGravity = _v; }

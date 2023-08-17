@@ -12,15 +12,16 @@
 #include "CAnimator.h"
 #include "CAnimation.h"
 #include "CRigidBody.h"
-
+#include "CEventMgr.h"
 
 CPlayer::CPlayer()
 	:m_eCurState(PLAYER_STATUS::IDLE)
 	, m_ePrevState(PLAYER_STATUS::IDLE)
 	, m_iPrevDir(1)
 	, m_iDir(1)
-	,m_bIsSetBomb(false)
-	,m_bIsSliding(false)
+	, m_bCanSetBomb(true)
+	, m_bIsSliding(false)
+	, m_eBMod(BOMB_MODE::BLUE)
 {
 	CreateCollider();
 	GetCollider()->SetOffsetPos(Vector2D(0.0f, 0.0f));
@@ -64,6 +65,8 @@ CPlayer::CPlayer()
 		pAniAttackLeft->GetFrame(i).vOffset = Vector2D(0.f, -15.f);
 
 	pAnimator->Play(L"GOLEM_IDLE_RIGHT", true);
+
+	CEventMgr::GetInst()->SetPlayer(this);
 }
 
 CPlayer::~CPlayer()
@@ -122,7 +125,7 @@ void CPlayer::UpdateState()
 		GetRigidBody()->SetFricCoeff(200.0f);
 		m_eCurState = PLAYER_STATUS::IDLE;
 	}
-	if (KEY_TAP(KEY::SPACE)&&GetRigidBody()->IsGrounded())
+	if (KEY_TAP(KEY::SPACE) && GetRigidBody()->IsGrounded())
 	{
 		m_eCurState = PLAYER_STATUS::JUMP;
 	}
@@ -137,9 +140,9 @@ void CPlayer::UpdateMove()
 	CRigidBody* pRb = GetRigidBody();
 
 	//키 입력시 힘 가해서 이동
-	
+
 	if (m_bIsSliding) return;
-	
+
 	if (KEY_HOLD(KEY::LEFT))
 	{
 		pRb->AddForce(Vector2D(-200.f, 0.f));
@@ -161,7 +164,7 @@ void CPlayer::UpdateMove()
 		if (GetRigidBody()->IsGrounded())
 			pRb->SetVelocity(Vector2D(100.f, 0.f));
 	}
-	if (KEY_TAP(KEY::SPACE)&&GetRigidBody()->IsGrounded())
+	if (KEY_TAP(KEY::SPACE) && GetRigidBody()->IsGrounded())
 	{
 		GetRigidBody()->AddVelocity(Vector2D(0.0f, -300.0f));
 
@@ -170,7 +173,11 @@ void CPlayer::UpdateMove()
 	{
 		Slide();
 	}
-	
+	if (KEY_TAP(KEY::Q))
+	{
+		SetBomb();
+	}
+
 }
 
 void CPlayer::UpdateAnim()
@@ -210,7 +217,7 @@ void CPlayer::UpdateAnim()
 		else
 			GetAnimator()->Play(L"GOLEM_ATTACK_RIGHT", true);
 	}
-		break;
+	break;
 	case PLAYER_STATUS::JUMP:
 		break;
 	case PLAYER_STATUS::HOLDING:
@@ -233,6 +240,26 @@ void CPlayer::Slide()
 
 void CPlayer::SetBomb()
 {
+	if (!m_bCanSetBomb)return;
 
+	Vector2D vPos = GetPos();
+	Vector2D vDeployPos(vPos.x + m_iDir * 30.0f, vPos.y - 20.f);
+
+	CBomb* pBomb = new CBomb(m_eBMod);
+
+	pBomb->SetName(L"Bomb");
+	pBomb->SetPos(vDeployPos);
+	pBomb->SetScale(Vector2D(40.0f, 40.0f));
+
+	CreateObject(pBomb, GROUP_TYPE::BOMB);
+	//생성 시킨 후 힘을 가하자
+	Vector2D vDeployForce(m_iDir * 50.0f, -50.0f);
+	Vector2D vDeployForceToPlayer(-m_iDir * 100.0f, -50.f);
+	pBomb->GetRigidBody()->AddVelocity(vDeployForce + GetRigidBody()->GetVelocity());
+
+	GetRigidBody()->SetVelocity(Vector2D(0.0f, 0.0f));
+	GetRigidBody()->ResetAccel();
+	GetRigidBody()->AddVelocity(vDeployForceToPlayer);
+	m_bCanSetBomb = false;
 }
 

@@ -3,7 +3,9 @@
 #include "CObject.h"
 #include "CScene.h"
 #include "CSceneMgr.h"
+#include "CPlayer.h"
 CEventMgr::CEventMgr()
+	:m_pPlayer(nullptr)
 {
 
 }
@@ -58,6 +60,12 @@ void CEventMgr::Execute(const tEvent& _eve)
 		//씬 매니저에게 씬 변경을 요청
 		CSceneMgr::GetInst()->ChangeScene((SCENE_TYPE)_eve.lParam);
 		break;
+	case EVENT_TYPE::BOMB_EXPLODED:
+		//폭탄이 터지면 플레이어
+		m_pPlayer->SetCanSetBomb(true);
+		break;
 	}
 
 }
+
+

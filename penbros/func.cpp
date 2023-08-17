@@ -29,3 +29,11 @@ void ChangeScene(SCENE_TYPE _eNext)
 
 	CEventMgr::GetInst()->AddEvent(evn);
 }
+
+void BombExploded()
+{
+	tEvent evn = {};
+	evn.eEven = EVENT_TYPE::BOMB_EXPLODED;
+
+	CEventMgr::GetInst()->AddEvent(evn);
+}
