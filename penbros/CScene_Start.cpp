@@ -11,6 +11,7 @@
 #include "CSceneMgr.h"
 #include "CRigidBody.h"
 #include "CPlatform.h"
+#include "CSpinPlate.h"
 
 CScene_Start::CScene_Start()
 	:m_bUseForce(false)
@@ -93,6 +94,12 @@ void CScene_Start::Enter()
 	pGround->SetPos(Vector2D(400.0f, 500.0f));
 	pGround->SetScale(Vector2D(800.0f, 60.0f));
 	AddObject(pGround, GROUP_TYPE::PLATFORM);
+
+	//회전판 배치
+	CObject* pSpinPlate = new CSpinPlate;
+	pSpinPlate->SetPos(Vector2D(400.0f, 400.0f));
+	pSpinPlate->SetScale(Vector2D(200.0f, 30.0f));
+	AddObject(pSpinPlate, GROUP_TYPE::PLATFORM);
 	
 	//충돌 지정
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::MONSTER);

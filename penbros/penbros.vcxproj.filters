@@ -98,6 +98,12 @@
     <Filter Include="Engine\04.Object\Explosion">
       <UniqueIdentifier>{6c507fb7-929b-4102-8415-13a1524ee922}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\06.Resources\GdiplusImage">
+      <UniqueIdentifier>{3fe5fcdd-56df-490f-ade6-b247e8ca7176}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04.Object\SpinPlate">
+      <UniqueIdentifier>{a8f754be-4548-4da9-935c-8516998c567a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h">
@@ -202,6 +208,12 @@
     <ClInclude Include="CExplosion.h">
       <Filter>Engine\04.Object\Explosion</Filter>
     </ClInclude>
+    <ClInclude Include="CImage.h">
+      <Filter>Engine\06.Resources\GdiplusImage</Filter>
+    </ClInclude>
+    <ClInclude Include="CSpinPlate.h">
+      <Filter>Engine\04.Object\SpinPlate</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="penbros.rc">
@@ -303,6 +315,12 @@
     </ClCompile>
     <ClCompile Include="CExplosion.cpp">
       <Filter>Engine\04.Object\Explosion</Filter>
+    </ClCompile>
+    <ClCompile Include="CImage.cpp">
+      <Filter>Engine\06.Resources\GdiplusImage</Filter>
+    </ClCompile>
+    <ClCompile Include="CSpinPlate.cpp">
+      <Filter>Engine\04.Object\SpinPlate</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

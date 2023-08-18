@@ -4,6 +4,9 @@
 #include "CScene.h"
 #include "CSceneMgr.h"
 #include "CPlayer.h"
+#include "CSpinPlate.h"
+#include "CRigidBody.h"
+#include "CImage.h"
 CEventMgr::CEventMgr()
 	:m_pPlayer(nullptr)
 {
@@ -64,6 +67,27 @@ void CEventMgr::Execute(const tEvent& _eve)
 		//ÆøÅºÀÌ ÅÍÁö¸é ÇÃ·¹ÀÌ¾î
 		m_pPlayer->SetCanSetBomb(true);
 		break;
+	case EVENT_TYPE::SPIN_START:
+	{
+		m_pPlayer->SetSpinning(true);
+		//m_pPlayer->GetGdiPlusImage()->Invert(m_pPlayer->GetPos());
+		//m_pPlayer->GetGdiPlusImage()->GetImagePtr()->RotateFlip(Gdiplus::Rotate180FlipX);
+		
+		CSpinPlate* pPlate = (CSpinPlate*)_eve.lParam;
+		m_pPlayer->SetSpinCenter(pPlate->GetPos());
+		m_pPlayer->SetSpinClockwise((int)_eve.wParam);
+	}
+		break;
+	case EVENT_TYPE::SPIN_END:
+		m_pPlayer->SetSpinning(false);
+		m_pPlayer->GetRigidBody()->SetVelocity(Vector2D(0.f, 0.f));
+		//m_pPlayer->SetImgInverted(false);
+		//m_pPlayer->GetGdiPlusImage()->GetImagePtr()->RotateFlip(Gdiplus::Rotate180FlipX);
+
+		m_pPlayer->GetRigidBody()->ResetAccel();
+		/*CSpinPlate* pPlate = (CSpinPlate*)_eve.lParam;
+		pPlate->SetSpinning(false);*/
+		break;;
 	}
 
 }

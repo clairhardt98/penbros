@@ -13,6 +13,8 @@
 #include "CAnimation.h"
 #include "CRigidBody.h"
 #include "CEventMgr.h"
+#include "CImage.h"
+#include "CCore.h"
 
 CPlayer::CPlayer()
 	:m_eCurState(PLAYER_STATUS::IDLE)
@@ -21,6 +23,8 @@ CPlayer::CPlayer()
 	, m_iDir(1)
 	, m_bCanSetBomb(true)
 	, m_bIsSliding(false)
+	,m_bIsSpinning(false)
+	,m_bIsImgInverted(false)
 	, m_eBMod(BOMB_MODE::BLUE)
 {
 	CreateCollider();
@@ -32,6 +36,9 @@ CPlayer::CPlayer()
 
 	CTexture* pTexRight = CResMgr::GetInst()->LoadTexture(L"PlayerTexRight", L"Image\\Golem.bmp");
 	CTexture* pTexLeft = CResMgr::GetInst()->LoadTexture(L"PlayerTexLeft", L"Image\\Golem_Left.bmp");
+	CImage* pImgIdle = CResMgr::GetInst()->LoadImg(L"PlayerImageIdle", L"Image\\Golem_Idle_Image.bmp");
+	CImage* pImgIdleInvert = CResMgr::GetInst()->LoadImg(L"PlayerImageIdleInverted", L"Image\\Golem_Idle_Invert_Image.bmp");
+
 
 	CreateAnimator();
 	CAnimator* pAnimator = GetAnimator();
@@ -64,7 +71,7 @@ CPlayer::CPlayer()
 	for (int i = 0; i < pAniAttackLeft->GetMaxFrame(); i++)
 		pAniAttackLeft->GetFrame(i).vOffset = Vector2D(0.f, -15.f);
 
-	pAnimator->Play(L"GOLEM_IDLE_RIGHT", true);
+	//pAnimator->Play(L"GOLEM_IDLE_RIGHT", true);
 
 	CEventMgr::GetInst()->SetPlayer(this);
 }
@@ -77,7 +84,23 @@ void CPlayer::Update()
 {
 	UpdateMove();
 	UpdateState();
-	UpdateAnim();
+
+	if (m_bIsSpinning)
+	{
+		RotateImage(); 
+		GetRigidBody()->EnableGravity(false);
+		GetRigidBody()->SetVelocity(Vector2D(0.f, 0.f));
+		GetRigidBody()->SetFricCoeff(10000.f);
+		GetRigidBody()->ResetAccel();
+		RotatePos(m_vSpinCenter, (float)m_bSpinClockwise * 250.f * fDT);
+	}
+	else
+	{
+		GetRigidBody()->SetFricCoeff(200.f);
+		GetRigidBody()->EnableGravity(true);
+	}
+
+
 
 	m_ePrevState = m_eCurState;
 	m_iPrevDir = m_iDir;
@@ -86,6 +109,7 @@ void CPlayer::Update()
 void CPlayer::Render(HDC _dc)
 {
 	//본인이 보유하고 있는 애니메이션 정보
+	DrawImage();
 	ComponentRender(_dc);
 }
 
@@ -227,6 +251,50 @@ void CPlayer::UpdateAnim()
 	case PLAYER_STATUS::DEAD:
 		break;
 	}
+}
+
+void CPlayer::DrawImage()
+{
+	static bool iv = false;
+	using namespace Gdiplus;
+	Vector2D vPos = GetPos();
+	Graphics* pGr = CCore::GetInst()->GetGraphics();
+	CImage* pImg = nullptr;
+
+	int imgoffset;
+	if(m_bIsImgInverted)
+	{
+		imgoffset = -1;
+		pImg = CResMgr::GetInst()->FindImg(L"PlayerImageIdleInverted");
+	}
+	else
+	{	
+		imgoffset = 1;
+		pImg = CResMgr::GetInst()->FindImg(L"PlayerImageIdle");
+	}
+
+	int w = pImg->Width();
+	int h = pImg->Height();
+	
+	
+
+	pGr->DrawImage(pImg->GetImagePtr(),Rect((int)vPos.x - w / 2, (int)vPos.y - h / 2 - imgoffset*15, w, h), 
+		0,0,w,h, UnitPixel,pImg->GetImgAttr());
+}
+
+void CPlayer::RotateImage()
+{
+	CImage* pImg = nullptr;
+	if (m_bIsImgInverted)
+		pImg = CResMgr::GetInst()->FindImg(L"PlayerImageIdleInverted");
+	else
+		pImg = CResMgr::GetInst()->FindImg(L"PlayerImageIdle");
+	pImg->Rotate(GetPos(), (float)m_bSpinClockwise * 250.f * fDT);
+}
+
+CImage* CPlayer::GetGdiPlusImage(const wstring& _strImg)
+{
+	return CResMgr::GetInst()->FindImg(_strImg.c_str());
 }
 
 void CPlayer::Slide()

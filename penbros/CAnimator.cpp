@@ -59,6 +59,14 @@ void CAnimator::Play(const wstring& _strName, bool _bRepeat)
 	m_bRepeat = _bRepeat;
 }
 
+void CAnimator::Pause()
+{
+}
+
+void CAnimator::Resume()
+{
+}
+
 void CAnimator::FinalUpdate()
 {
 	if (nullptr != m_pCurAnim)

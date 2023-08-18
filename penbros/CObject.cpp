@@ -3,7 +3,7 @@
 
 #include "CKeyMgr.h"
 #include "CTimeMgr.h"
-
+#include "CEventMgr.h"
 #include "CCollider.h"
 #include "CAnimator.h"
 #include "CRigidBody.h"
@@ -74,6 +74,40 @@ void CObject::CreateRigidBody()
 {
 	m_pRigidBody = new CRigidBody;
 	m_pRigidBody->m_pOwner = this;
+}
+
+void CObject::RotatePos(Vector2D _refVector, float _amount)
+{
+	static float totalAmount = 0;
+	
+
+	float angleRadians = _amount * PI / 180.0f;
+	totalAmount += angleRadians;
+	float cosTheta = std::cos(angleRadians);
+	float sinTheta = std::sin(angleRadians);
+
+	Vector2D vPos = GetPos();
+	float translatedX = vPos.x - _refVector.x;
+	float translatedY = vPos.y - _refVector.y;
+
+	float rotatedX = translatedX * cosTheta - translatedY * sinTheta;
+	float rotatedY = translatedX * sinTheta + translatedY * cosTheta;
+
+	rotatedX += _refVector.x;
+	rotatedY += _refVector.y;
+	vPos.x = rotatedX;
+	vPos.y = rotatedY;
+
+	SetPos(vPos);
+	if (abs(totalAmount) >= PI)
+	{
+		tEvent eve;
+		eve.eEven = EVENT_TYPE::SPIN_END;
+		CEventMgr::GetInst()->AddEvent(eve);
+		//조금 넘어간 만큼 다시 회전 시키는 로직
+		//...
+		totalAmount = 0;
+	}
 }
 
 void CObject::FinalUpdate()

@@ -19,6 +19,9 @@ public:
 	CAnimation* GetCurAnimation() { return m_pCurAnim; }
 	void Play(const wstring& _strName, bool _bRepeat);
 
+	void Pause();
+	void Resume();
+
 	void FinalUpdate();
 	void Render(HDC _dc);
 

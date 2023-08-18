@@ -149,6 +149,7 @@
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CEventMgr.h" />
     <ClInclude Include="CExplosion.h" />
+    <ClInclude Include="CImage.h" />
     <ClInclude Include="CKeyMgr.h" />
     <ClInclude Include="CMissile.h" />
     <ClInclude Include="CMonster.h" />
@@ -167,6 +168,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="CSound.h" />
+    <ClInclude Include="CSpinPlate.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTimeMgr.h" />
     <ClInclude Include="define.h" />
@@ -188,6 +190,7 @@
     <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CEventMgr.cpp" />
     <ClCompile Include="CExplosion.cpp" />
+    <ClCompile Include="CImage.cpp" />
     <ClCompile Include="CKeyMgr.cpp" />
     <ClCompile Include="CMissile.cpp" />
     <ClCompile Include="CMonster.cpp" />
@@ -206,6 +209,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="CSound.cpp" />
+    <ClCompile Include="CSpinPlate.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CTimeMgr.cpp" />
     <ClCompile Include="func.cpp" />

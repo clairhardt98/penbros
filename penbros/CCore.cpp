@@ -20,6 +20,8 @@ CCore::CCore()
 	, m_hdc(0)
 	, m_hBit(0)
 	, m_memDC(0)
+	, gdiplusToken(0)
+	,m_gGraphics(nullptr)
 
 {}
 
@@ -34,6 +36,8 @@ CCore::~CCore()
 	{
 		DeleteObject(m_arrPen[i]);
 	}
+	delete m_gGraphics;
+	Gdiplus::GdiplusShutdown(gdiplusToken);
 }
 
 int CCore::Init(HWND hWnd, POINT res)
@@ -55,6 +59,13 @@ int CCore::Init(HWND hWnd, POINT res)
 	DeleteObject(hOldBit);
 	//자주 사용할 펜과 브러시 생성
 	CreateBrushPen();
+
+	// >>gdi+ init
+	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+	m_gGraphics = new Gdiplus::Graphics(m_memDC);
+	// <<
+	
 	//Init Mgr
 	CTimeMgr::GetInst()->Init();
 	CPathMgr::GetInst()->Init();

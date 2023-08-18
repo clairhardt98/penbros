@@ -12,8 +12,8 @@ using std::map;
 using std::make_pair;
 
 #include <cassert>
-
-
+#include <Gdiplus.h>
+#pragma comment(lib, "Gdiplus.lib")
 #pragma comment(lib,"Msimg32.lib")
 
 #include "Vector2D.h"

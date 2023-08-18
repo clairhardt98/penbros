@@ -3,12 +3,14 @@
 #include "CBomb.h"
 
 class CTexture;
+class CImage;
 
 enum class PLAYER_STATUS
 {
     IDLE,
     WALK,
     SLIDE,
+    SPIN,
     HOLDING,
     JUMP,
     HOLDINGJUMP,
@@ -29,21 +31,40 @@ private:
     bool        m_bCanSetBomb;
 
     BOMB_MODE   m_eBMod;
+
+    //회전
+    bool        m_bIsImgInverted;
+    bool        m_bIsSpinning;
+    int         m_bSpinClockwise;
+    Vector2D    m_vSpinCenter;
+
 public:
     virtual void Update()override;
     virtual void Render(HDC _dc)override;
-
+public:
+    PLAYER_STATUS GetCurState() { return m_eCurState; }
 public:
     void CreateMissile();
     void UpdateState();
     void UpdateMove();
     void UpdateAnim();//현재 상태에 대한 애니메이션 재생
 public:
+    //gid+
+    void DrawImage();
+    void RotateImage();
+
+    void SetSpinCenter(Vector2D _rotCenter) { m_vSpinCenter = _rotCenter; }
+    void SetSpinClockwise(int _b) { m_bSpinClockwise = _b; }
+    void SetImgInverted(bool _b) { m_bIsImgInverted = _b; }
+public:
+    CImage* GetGdiPlusImage(const wstring& _strImg);
+public:
     void Slide();
     void SetBomb();
     void SetCanSetBomb(bool _b) { m_bCanSetBomb = _b; }
     //아이템먹으면 이벤트 발생시켜서 이 함수 호출시키자
     void SetBombMode(BOMB_MODE _bm) { m_eBMod = _bm; }
+    void SetSpinning(bool _b) { m_bIsSpinning = _b; if(m_bIsSpinning) m_eCurState = PLAYER_STATUS::SPIN; }
 public:
     CLONE(CPlayer);
     CPlayer();

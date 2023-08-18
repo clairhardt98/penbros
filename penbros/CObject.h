@@ -47,6 +47,9 @@ public:
 	virtual void OnCollisionExit(CCollider* _pOther) {};
 
 public:
+	void RotatePos(Vector2D _refVector, float _amount);
+
+public:
 	virtual void Start() {}; // Scene이 시작되기 직전에 호출되는 함수
 	virtual void Update() = 0;
 	virtual void FinalUpdate() final;
