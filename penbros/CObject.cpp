@@ -7,6 +7,7 @@
 #include "CCollider.h"
 #include "CAnimator.h"
 #include "CRigidBody.h"
+#include "CCore.h"
 
 CObject::CObject()
 	:m_vPos{}
@@ -14,7 +15,9 @@ CObject::CObject()
 	,m_pCollider(nullptr)
 	,m_pAnimator(nullptr)
 	,m_pRigidBody(nullptr)
+	,m_pPrevRigidBody(nullptr)
 	,m_bAlive(true)
+	,m_pGraphics(nullptr)
 {
 }
 
@@ -43,6 +46,10 @@ CObject::CObject(const CObject& _origin)
 		m_pRigidBody = new CRigidBody(*_origin.m_pRigidBody);
 		m_pRigidBody->m_pOwner = this;
 	}
+	if (_origin.m_pGraphics)
+	{
+		m_pGraphics = new Gdiplus::Graphics(CCore::GetInst()->GetMemDC());
+	}
 	
 }
 
@@ -56,6 +63,8 @@ CObject::~CObject()
 
 	if (nullptr != m_pRigidBody)
 		delete m_pRigidBody;
+	if (nullptr != m_pGraphics)
+		delete m_pGraphics;
 }
 
 void CObject::CreateCollider()
@@ -75,6 +84,12 @@ void CObject::CreateRigidBody()
 	m_pRigidBody = new CRigidBody;
 	m_pRigidBody->m_pOwner = this;
 }
+
+void CObject::CreateGraphics()
+{
+	m_pGraphics = new Gdiplus::Graphics(CCore::GetInst()->GetMemDC());
+}
+
 
 void CObject::RotatePos(Vector2D _refVector, float _amount)
 {
@@ -118,8 +133,6 @@ void CObject::FinalUpdate()
 		m_pCollider->FinalUpdate();
 	if (m_pAnimator)
 		m_pAnimator->FinalUpdate();
-	
-
 }
 
 void CObject::Render(HDC _dc)

@@ -3,6 +3,7 @@
 class CCollider;
 class CAnimator;
 class CRigidBody;
+
 class CObject
 {
 private:
@@ -14,7 +15,11 @@ private:
 	CCollider*	m_pCollider;
 	CAnimator*	m_pAnimator;
 	CRigidBody* m_pRigidBody;
-		
+	CRigidBody* m_pPrevRigidBody;
+
+	//gdi+를 사용하기 위한 graphics 객체
+	Gdiplus::Graphics* m_pGraphics;
+
 	bool		m_bAlive;
 
 public:
@@ -37,14 +42,17 @@ public:
 	void CreateCollider();
 	void CreateAnimator();
 	void CreateRigidBody();
+	void CreateGraphics();
 	CCollider* GetCollider() { return m_pCollider; }
 	CAnimator* GetAnimator() { return m_pAnimator; }
 	CRigidBody* GetRigidBody() { return m_pRigidBody; }
-
+	Gdiplus::Graphics* GetGraphics() { return m_pGraphics; }
 
 	virtual void OnCollision(CCollider* _pOther) {};
 	virtual void OnCollisionEnter(CCollider* _pOther) {};
 	virtual void OnCollisionExit(CCollider* _pOther) {};
+public:
+	
 
 public:
 	void RotatePos(Vector2D _refVector, float _amount);

@@ -7,10 +7,12 @@ private:
     Gdiplus::Image* m_pImg;
     Gdiplus::ImageAttributes* m_pImgAttr;
 
+private:
+    float m_fRot;
+
 public:
     void Load(const wstring& _strFilePath);
-    void Rotate(Vector2D _center, float _amount);
-    void Invert(Vector2D _center);
+    bool Rotate(Gdiplus::Graphics* _Grp, Vector2D _center, float _amount);
     Gdiplus::Image* GetImagePtr() { return m_pImg; }
     Gdiplus::ImageAttributes* GetImgAttr() { return m_pImgAttr; }
 

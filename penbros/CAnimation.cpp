@@ -4,6 +4,7 @@
 #include "CTexture.h"
 #include "CObject.h"
 #include "CTimeMgr.h"
+#include "SelectGDI.h"
 
 
 CAnimation::CAnimation()
@@ -52,7 +53,7 @@ void CAnimation::Render(HDC _dc)
 
 	vPos += m_vecFrm[m_iCurFrm].vOffset; //오브젝트 포지션에 offset만큼 추가 이동 위치
 
-	m_vecFrm[m_iCurFrm].vOffset;
+	
 	TransparentBlt(_dc
 		, (int)(vPos.x - m_vecFrm[m_iCurFrm].vSlice.x / 2.0f)
 		, (int)(vPos.y - m_vecFrm[m_iCurFrm].vSlice.y / 2.0f)

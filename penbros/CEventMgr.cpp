@@ -76,15 +76,19 @@ void CEventMgr::Execute(const tEvent& _eve)
 		CSpinPlate* pPlate = (CSpinPlate*)_eve.lParam;
 		m_pPlayer->SetSpinCenter(pPlate->GetPos());
 		m_pPlayer->SetSpinClockwise((int)_eve.wParam);
+		m_pPlayer->GetRigidBody()->EnableGravity(false);
+		m_pPlayer->SetName(L"PlayerSpinning");
+		//m_pPlayer->DisableRigidBody();
 	}
 		break;
 	case EVENT_TYPE::SPIN_END:
 		m_pPlayer->SetSpinning(false);
 		m_pPlayer->GetRigidBody()->SetVelocity(Vector2D(0.f, 0.f));
-		//m_pPlayer->SetImgInverted(false);
-		//m_pPlayer->GetGdiPlusImage()->GetImagePtr()->RotateFlip(Gdiplus::Rotate180FlipX);
-
 		m_pPlayer->GetRigidBody()->ResetAccel();
+		m_pPlayer->GetRigidBody()->EnableGravity(true);
+		m_pPlayer->SetName(L"Player");
+
+		//m_pPlayer->EnableRigidBody();
 		/*CSpinPlate* pPlate = (CSpinPlate*)_eve.lParam;
 		pPlate->SetSpinning(false);*/
 		break;;

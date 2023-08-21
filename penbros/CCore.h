@@ -17,20 +17,20 @@ private:
 
 	//gdi+
 	ULONG_PTR gdiplusToken;
-	Gdiplus::Graphics* m_gGraphics;
+	
 
 public:
 	int Init(HWND hWnd, POINT res);
 	void Progress();
 private:
 	void CreateBrushPen();
-	
+
 
 public:
 	HWND GetMainHwnd() { return m_hWnd; }
 	POINT GetResolution() { return m_ptResolution; }
 	HDC GetMainDC() { return m_hdc; }
-	Gdiplus::Graphics* GetGraphics() { return m_gGraphics; }
+	HDC GetMemDC() { return m_memDC; }
 	HBRUSH GetBrush(BRUSH_TYPE _eType) { return m_arrBrush[(UINT)_eType]; }
 	HPEN GetPen(PEN_TYPE _eType) { return m_arrPen[(UINT)_eType]; }
 };

@@ -34,10 +34,12 @@ CPlayer::CPlayer()
 	CreateRigidBody();
 	GetRigidBody()->EnableGravity(true);
 
+	CreateGraphics();
+
 	CTexture* pTexRight = CResMgr::GetInst()->LoadTexture(L"PlayerTexRight", L"Image\\Golem.bmp");
 	CTexture* pTexLeft = CResMgr::GetInst()->LoadTexture(L"PlayerTexLeft", L"Image\\Golem_Left.bmp");
-	CImage* pImgIdle = CResMgr::GetInst()->LoadImg(L"PlayerImageIdle", L"Image\\Golem_Idle_Image.bmp");
-	CImage* pImgIdleInvert = CResMgr::GetInst()->LoadImg(L"PlayerImageIdleInverted", L"Image\\Golem_Idle_Invert_Image.bmp");
+	pImgIdle = CResMgr::GetInst()->LoadImg(L"PlayerImageIdle", L"Image\\Golem_Idle_Image.bmp");
+	pImgIdleInvert = CResMgr::GetInst()->LoadImg(L"PlayerImageIdleInverted", L"Image\\Golem_Idle_Invert_Image.bmp");
 
 
 	CreateAnimator();
@@ -71,62 +73,56 @@ CPlayer::CPlayer()
 	for (int i = 0; i < pAniAttackLeft->GetMaxFrame(); i++)
 		pAniAttackLeft->GetFrame(i).vOffset = Vector2D(0.f, -15.f);
 
-	//pAnimator->Play(L"GOLEM_IDLE_RIGHT", true);
+	pAnimator->Play(L"GOLEM_IDLE_RIGHT", true);
 
 	CEventMgr::GetInst()->SetPlayer(this);
 }
+
 
 CPlayer::~CPlayer()
 {
 
 }
+
 void CPlayer::Update()
 {
 	UpdateMove();
 	UpdateState();
-
+	UpdateAnim();
+	
 	if (m_bIsSpinning)
 	{
+		GetAnimator()->Pause();
 		RotateImage(); 
-		GetRigidBody()->EnableGravity(false);
-		GetRigidBody()->SetVelocity(Vector2D(0.f, 0.f));
-		GetRigidBody()->SetFricCoeff(10000.f);
-		GetRigidBody()->ResetAccel();
 		RotatePos(m_vSpinCenter, (float)m_bSpinClockwise * 250.f * fDT);
 	}
 	else
 	{
+		GetAnimator()->Resume();
 		GetRigidBody()->SetFricCoeff(200.f);
 		GetRigidBody()->EnableGravity(true);
 	}
 
-
-
 	m_ePrevState = m_eCurState;
 	m_iPrevDir = m_iDir;
+	
+	printf("Player Velocity) x : %.1lf, y : %.1lf, IsGrounded : %d\n", GetRigidBody()->GetVelocity().x, GetRigidBody()->GetVelocity().y,GetRigidBody()->IsGrounded());
+
 }
 
 void CPlayer::Render(HDC _dc)
 {
 	//본인이 보유하고 있는 애니메이션 정보
-	DrawImage();
-	ComponentRender(_dc);
+	//DrawImage();
+	
+	//회전중일때만 gdi+이미지 출력
+	if (m_bIsSpinning)
+		DrawImage();
+	else
+		ComponentRender(_dc);
 }
 
-void CPlayer::CreateMissile()
-{
-	Vector2D vMissilePos = GetPos();
-	vMissilePos.y -= GetScale().y / 2.0f;
 
-	CMissile* pMissile = new CMissile;
-
-	pMissile->SetName(L"Missile_Player");
-	pMissile->SetPos(vMissilePos);
-	pMissile->SetScale(Vector2D(25.0f, 25.0f));
-	pMissile->SetDir(Vector2D(0.0f, -1.0f));
-
-	CreateObject(pMissile, GROUP_TYPE::PROJ_PLAYER);
-}
 
 void CPlayer::UpdateState()
 {
@@ -165,7 +161,7 @@ void CPlayer::UpdateMove()
 
 	//키 입력시 힘 가해서 이동
 
-	if (m_bIsSliding) return;
+	if (m_bIsSliding || m_bIsSpinning) return;
 
 	if (KEY_HOLD(KEY::LEFT))
 	{
@@ -190,7 +186,7 @@ void CPlayer::UpdateMove()
 	}
 	if (KEY_TAP(KEY::SPACE) && GetRigidBody()->IsGrounded())
 	{
-		GetRigidBody()->AddVelocity(Vector2D(0.0f, -300.0f));
+		GetRigidBody()->AddVelocity(Vector2D(0.0f, -350.0f));
 
 	}
 	if (KEY_HOLD(KEY::DOWN) && KEY_TAP(KEY::SPACE) && GetRigidBody()->IsGrounded())
@@ -255,29 +251,26 @@ void CPlayer::UpdateAnim()
 
 void CPlayer::DrawImage()
 {
-	static bool iv = false;
 	using namespace Gdiplus;
 	Vector2D vPos = GetPos();
-	Graphics* pGr = CCore::GetInst()->GetGraphics();
+	Graphics* pGr = GetGraphics();
 	CImage* pImg = nullptr;
 
 	int imgoffset;
 	if(m_bIsImgInverted)
 	{
 		imgoffset = -1;
-		pImg = CResMgr::GetInst()->FindImg(L"PlayerImageIdleInverted");
+		pImg = pImgIdleInvert;
 	}
 	else
 	{	
 		imgoffset = 1;
-		pImg = CResMgr::GetInst()->FindImg(L"PlayerImageIdle");
+		pImg = pImgIdle;
 	}
 
 	int w = pImg->Width();
 	int h = pImg->Height();
 	
-	
-
 	pGr->DrawImage(pImg->GetImagePtr(),Rect((int)vPos.x - w / 2, (int)vPos.y - h / 2 - imgoffset*15, w, h), 
 		0,0,w,h, UnitPixel,pImg->GetImgAttr());
 }
@@ -286,10 +279,11 @@ void CPlayer::RotateImage()
 {
 	CImage* pImg = nullptr;
 	if (m_bIsImgInverted)
-		pImg = CResMgr::GetInst()->FindImg(L"PlayerImageIdleInverted");
+		pImg = pImgIdleInvert;
 	else
-		pImg = CResMgr::GetInst()->FindImg(L"PlayerImageIdle");
-	pImg->Rotate(GetPos(), (float)m_bSpinClockwise * 250.f * fDT);
+		pImg = pImgIdle;
+
+	pImg->Rotate(GetGraphics(), GetPos(), (float)m_bSpinClockwise * 250.f * fDT);
 }
 
 CImage* CPlayer::GetGdiPlusImage(const wstring& _strImg)

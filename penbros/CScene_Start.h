@@ -1,11 +1,13 @@
 #pragma once
 #include "CScene.h"
 
+class CTexture;
 class CScene_Start :
     public CScene
 {
 private:
     bool m_bUseForce;
+    CTexture* m_pBGTex;
 
 public:
     virtual void Update()override;

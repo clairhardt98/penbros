@@ -22,21 +22,24 @@ class CPlayer :
     public CObject
 {
 private:
-    int           m_iDir;
-    int           m_iPrevDir;
-    PLAYER_STATUS m_eCurState;
-    PLAYER_STATUS m_ePrevState;
+    int             m_iDir;
+    int             m_iPrevDir;
+    PLAYER_STATUS   m_eCurState;
+    PLAYER_STATUS   m_ePrevState;
 
-    bool		m_bIsSliding;
-    bool        m_bCanSetBomb;
+    bool		    m_bIsSliding;
+    bool            m_bCanSetBomb;
 
-    BOMB_MODE   m_eBMod;
+    BOMB_MODE       m_eBMod;
 
     //회전
-    bool        m_bIsImgInverted;
-    bool        m_bIsSpinning;
-    int         m_bSpinClockwise;
-    Vector2D    m_vSpinCenter;
+    bool            m_bIsImgInverted;
+    bool            m_bIsSpinning;
+    int             m_bSpinClockwise;
+    Vector2D        m_vSpinCenter;
+
+    CImage* pImgIdle; 
+    CImage* pImgIdleInvert; 
 
 public:
     virtual void Update()override;
@@ -44,7 +47,6 @@ public:
 public:
     PLAYER_STATUS GetCurState() { return m_eCurState; }
 public:
-    void CreateMissile();
     void UpdateState();
     void UpdateMove();
     void UpdateAnim();//현재 상태에 대한 애니메이션 재생

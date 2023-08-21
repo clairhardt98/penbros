@@ -10,6 +10,8 @@ private:
 	CObject*					m_pOwner;	//애니메이션 보유 오브젝트
 	bool						m_bRepeat;	//반복재생 여부
 
+	bool						m_bPaused;
+
 public:
 	CObject* GetObj() { return m_pOwner; }
 public:
@@ -22,6 +24,7 @@ public:
 	void Pause();
 	void Resume();
 
+	bool IsPaused() { return m_bPaused; }
 	void FinalUpdate();
 	void Render(HDC _dc);
 

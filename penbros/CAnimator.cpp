@@ -6,6 +6,7 @@ CAnimator::CAnimator()
 	:m_pCurAnim(nullptr)
 	,m_pOwner(nullptr)
 	,m_bRepeat(false)
+	,m_bPaused(false)
 {
 }
 
@@ -61,10 +62,12 @@ void CAnimator::Play(const wstring& _strName, bool _bRepeat)
 
 void CAnimator::Pause()
 {
+	m_bPaused = true;
 }
 
 void CAnimator::Resume()
 {
+	m_bPaused = false;
 }
 
 void CAnimator::FinalUpdate()

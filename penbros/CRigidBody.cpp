@@ -46,7 +46,7 @@ void CRigidBody::FinalUpdate()
 		}
 	}
 
-	if (m_bIsGravityOn && !m_bIsGrounded)
+	if (m_bIsGravityOn)
 		UpdateGravity();
 
 	m_vVelocity += m_vAccel * fDT;

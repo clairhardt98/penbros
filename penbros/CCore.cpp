@@ -21,8 +21,6 @@ CCore::CCore()
 	, m_hBit(0)
 	, m_memDC(0)
 	, gdiplusToken(0)
-	,m_gGraphics(nullptr)
-
 {}
 
 CCore::~CCore()
@@ -36,7 +34,7 @@ CCore::~CCore()
 	{
 		DeleteObject(m_arrPen[i]);
 	}
-	delete m_gGraphics;
+
 	Gdiplus::GdiplusShutdown(gdiplusToken);
 }
 
@@ -63,7 +61,7 @@ int CCore::Init(HWND hWnd, POINT res)
 	// >>gdi+ init
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
-	m_gGraphics = new Gdiplus::Graphics(m_memDC);
+	
 	// <<
 	
 	//Init Mgr
