@@ -25,7 +25,9 @@ CPlayer::CPlayer()
 	, m_bIsSliding(false)
 	,m_bIsSpinning(false)
 	,m_bIsImgInverted(false)
-	, m_eBMod(BOMB_MODE::BLUE)
+	, m_eBMod(BOMB_MODE::GREEN)
+	,m_bIsSticked(false)
+	,m_fStickDuration(0.f)
 {
 	CreateCollider();
 	GetCollider()->SetOffsetPos(Vector2D(0.0f, 0.0f));
@@ -90,6 +92,16 @@ void CPlayer::Update()
 	UpdateState();
 	UpdateAnim();
 	
+	if (m_bIsSticked)
+	{
+		m_fStickDuration += fDT;
+		if (m_fStickDuration >= 2.0f)
+		{
+			m_bIsSticked = false;
+			m_fStickDuration = 0.f;
+			GetRigidBody()->EnableGravity(true);
+		}
+	}
 	if (m_bIsSpinning)
 	{
 		GetAnimator()->Pause();
@@ -100,13 +112,13 @@ void CPlayer::Update()
 	{
 		GetAnimator()->Resume();
 		GetRigidBody()->SetFricCoeff(200.f);
-		GetRigidBody()->EnableGravity(true);
+		//GetRigidBody()->EnableGravity(true);
 	}
 
 	m_ePrevState = m_eCurState;
 	m_iPrevDir = m_iDir;
 	
-	printf("Player Velocity) x : %.1lf, y : %.1lf, IsGrounded : %d\n", GetRigidBody()->GetVelocity().x, GetRigidBody()->GetVelocity().y,GetRigidBody()->IsGrounded());
+	printf("Player Velocity) x : %.1lf, y : %.1lf, IsSticked : %d, StickDur : %.1lf\n", GetRigidBody()->GetVelocity().x, GetRigidBody()->GetVelocity().y,IsSticked(),m_fStickDuration);
 
 }
 
@@ -197,7 +209,13 @@ void CPlayer::UpdateMove()
 	{
 		SetBomb();
 	}
-
+	if (m_bIsSticked && KEY_TAP(KEY::SPACE))
+	{
+		m_bIsSticked = false;
+		m_fStickDuration = 0.f;
+		GetRigidBody()->EnableGravity(true);
+		GetRigidBody()->SetVelocity(Vector2D(0.f, 200.0f));
+	}
 }
 
 void CPlayer::UpdateAnim()
@@ -275,6 +293,15 @@ void CPlayer::DrawImage()
 		0,0,w,h, UnitPixel,pImg->GetImgAttr());
 }
 
+void CPlayer::SetSticked(bool _b)
+{
+	 m_bIsSticked = _b; 
+	 if (!m_bIsSticked)
+	 {
+		 m_fStickDuration = 0.f;
+		 GetRigidBody()->EnableGravity(true);
+	 }
+}
 void CPlayer::RotateImage()
 {
 	CImage* pImg = nullptr;
@@ -307,7 +334,7 @@ void CPlayer::SetBomb()
 	Vector2D vPos = GetPos();
 	Vector2D vDeployPos(vPos.x + m_iDir * 30.0f, vPos.y - 20.f);
 
-	CBomb* pBomb = new CBomb(m_eBMod);
+	CBomb* pBomb = new CBomb(m_eBMod,m_iDir);
 
 	pBomb->SetName(L"Bomb");
 	pBomb->SetPos(vDeployPos);
@@ -316,7 +343,7 @@ void CPlayer::SetBomb()
 	CreateObject(pBomb, GROUP_TYPE::BOMB);
 	//생성 시킨 후 힘을 가하자
 	Vector2D vDeployForce(m_iDir * 50.0f, -50.0f);
-	Vector2D vDeployForceToPlayer(-m_iDir * 100.0f, -50.f);
+	Vector2D vDeployForceToPlayer(-m_iDir * 100.0f, 0.f);
 	pBomb->GetRigidBody()->AddVelocity(vDeployForce + GetRigidBody()->GetVelocity());
 
 	GetRigidBody()->SetVelocity(Vector2D(0.0f, 0.0f));

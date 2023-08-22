@@ -63,35 +63,11 @@ void CScene_Start::Enter()
 
 	AddObject(pObj, GROUP_TYPE::PLAYER);
 
-	/*CObject* pOtherPlayer = pObj->Clone();
-	pOtherPlayer->SetPos(Vector2D(740.0f, 384.0f));
-	AddObject(pOtherPlayer, GROUP_TYPE::PLAYER);*/
+	
+	
 
-	//monster Ãß°¡
-	int iMonsterCnt = 10;
-	float fMoveDist = 25.0f;
-	float fObjScale = 50.0f;
 
-	Vector2D vResolution = CCore::GetInst()->GetResolution();
-
-	CMonster* pMonsterObj = nullptr;
-
-	float fTerm = (vResolution.x - ((fMoveDist + fObjScale /2.0f) * 2)) / (float)(iMonsterCnt-1);
-	for (int i = 0; i < iMonsterCnt; ++i)
-	{
-		pMonsterObj = new CMonster;
-		pMonsterObj->SetName(L"Monster");
-		pMonsterObj->CreateRigidBody();
-		pMonsterObj->GetRigidBody()->SetMass(1.f);
-
-		pMonsterObj->SetPos(Vector2D((fMoveDist + fObjScale / 2.0f) +(float)i * fTerm,50.0f));
-		pMonsterObj->SetCenterPos(Vector2D(pMonsterObj->GetPos()));
-		pMonsterObj->SetMaxDistance(fMoveDist);
-		pMonsterObj->SetScale(Vector2D(fObjScale, fObjScale));
-		AddObject(pMonsterObj, GROUP_TYPE::MONSTER);
-
-		
-	}
+	
 
 	//ÇÃ·§Æû ¹èÄ¡
 	
@@ -125,6 +101,8 @@ void CScene_Start::Enter()
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::PLATFORM);
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PROJ_PLAYER, GROUP_TYPE::MONSTER);
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::BOMB, GROUP_TYPE::PLATFORM);
+	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::EXPLOSION, GROUP_TYPE::PLAYER);
+	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::EXPLOSION, GROUP_TYPE::MONSTER);
 	Start();
 }
 

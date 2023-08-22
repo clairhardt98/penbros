@@ -18,6 +18,7 @@ CObject::CObject()
 	,m_pPrevRigidBody(nullptr)
 	,m_bAlive(true)
 	,m_pGraphics(nullptr)
+	,m_fRotateAmount(0)
 {
 }
 
@@ -29,6 +30,7 @@ CObject::CObject(const CObject& _origin)
 	,m_pAnimator(nullptr)
 	, m_pRigidBody(nullptr)
 	,m_bAlive(true)
+	, m_fRotateAmount(0)
 {
 	//CCollider의 복사생성자 호출해서 새로운 콜라이더 생성
 	if (_origin.m_pCollider)
@@ -93,11 +95,9 @@ void CObject::CreateGraphics()
 
 void CObject::RotatePos(Vector2D _refVector, float _amount)
 {
-	static float totalAmount = 0;
 	
-
 	float angleRadians = _amount * PI / 180.0f;
-	totalAmount += angleRadians;
+	m_fRotateAmount += angleRadians;
 	float cosTheta = std::cos(angleRadians);
 	float sinTheta = std::sin(angleRadians);
 
@@ -114,14 +114,52 @@ void CObject::RotatePos(Vector2D _refVector, float _amount)
 	vPos.y = rotatedY;
 
 	SetPos(vPos);
-	if (abs(totalAmount) >= PI)
+	if (abs(m_fRotateAmount) >= PI)
 	{
 		tEvent eve;
 		eve.eEven = EVENT_TYPE::SPIN_END;
 		CEventMgr::GetInst()->AddEvent(eve);
 		//조금 넘어간 만큼 다시 회전 시키는 로직
 		//...
-		totalAmount = 0;
+		/*if (m_fRotateAmount < 0)
+		{
+			float cosTheta = std::cos(PI + m_fRotateAmount);
+			float sinTheta = std::sin(PI + m_fRotateAmount);
+
+			Vector2D vPos = GetPos();
+			float translatedX = vPos.x - _refVector.x;
+			float translatedY = vPos.y - _refVector.y;
+
+			float rotatedX = translatedX * cosTheta - translatedY * sinTheta;
+			float rotatedY = translatedX * sinTheta + translatedY * cosTheta;
+
+			rotatedX += _refVector.x;
+			rotatedY += _refVector.y;
+			vPos.x = rotatedX;
+			vPos.y = rotatedY;
+
+			SetPos(vPos);
+		}
+		else
+		{
+			float cosTheta = std::cos(-PI + m_fRotateAmount);
+			float sinTheta = std::sin(-PI + m_fRotateAmount);
+
+			Vector2D vPos = GetPos();
+			float translatedX = vPos.x - _refVector.x;
+			float translatedY = vPos.y - _refVector.y;
+
+			float rotatedX = translatedX * cosTheta - translatedY * sinTheta;
+			float rotatedY = translatedX * sinTheta + translatedY * cosTheta;
+
+			rotatedX += _refVector.x;
+			rotatedY += _refVector.y;
+			vPos.x = rotatedX;
+			vPos.y = rotatedY;
+
+			SetPos(vPos);
+		}*/
+		m_fRotateAmount = 0;
 	}
 }
 

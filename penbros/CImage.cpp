@@ -36,8 +36,21 @@ bool CImage::Rotate(Gdiplus::Graphics* _Grp, Vector2D _center, float _amount)
 	
 	if (abs(m_fRot) > 180.f)
 	{
-		m_fRot = 0.f;
+		//초과분만큼 다시 원래대로 돌려주는 로직
+		if (m_fRot > 0)
+		{
+			mat.Reset();
+			mat.RotateAt(180.0f-m_fRot, Gdiplus::PointF(_center.x, _center.y));
+			_Grp->SetTransform(&mat);
+		}
+		else
+		{
+			mat.Reset();
+			mat.RotateAt(m_fRot - 180.f, Gdiplus::PointF(_center.x, _center.y));
+			_Grp->SetTransform(&mat);
+		}
 		mat.Reset();
+		m_fRot = 0.f;
 		return true;
 	}
 	mat.Reset();

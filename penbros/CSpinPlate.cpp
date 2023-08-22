@@ -55,10 +55,11 @@ void CSpinPlate::OnCollision(CCollider* _pOther)
 	if (pOtherObj->GetName() == L"Player")
 	{
 		CPlayer* pPlayer = (CPlayer*)pOtherObj;
-		if (KEY_TAP(KEY::DOWN))
+		if (KEY_TAP(KEY::DOWN) && pPlayer->GetPos().y<GetPos().y) // 위에서 누를 때
 		{
 			m_bIsSpinning = true;
 			pPlayer->SetImgInverted(false);
+			pPlayer->SetSticked(true);
 			tEvent eve = { };
 			eve.eEven = EVENT_TYPE::SPIN_START;
 			eve.lParam = (DWORD_PTR)this;
@@ -66,6 +67,23 @@ void CSpinPlate::OnCollision(CCollider* _pOther)
 			CEventMgr::GetInst()->AddEvent(eve);
 			//여기서 폭탄 날리는 이벤트 만들어야지
 
+			eve.eEven = EVENT_TYPE::THROW_BOMB;
+			//wParam, lParam은 그대로 써도 되겠네
+			CEventMgr::GetInst()->AddEvent(eve);
+
+		}
+		if (KEY_TAP(KEY::UP) && pPlayer->IsSticked())// 아래에서 올라갈 때 -> 폭탄 날릴 구조가 안되지 않나?
+		{
+			m_bIsSpinning = true;
+			pPlayer->SetImgInverted(true);
+			pPlayer->SetSticked(false);
+			//pPlayer->GetGdiPlusImage()->Invert(pPlayer->GetPos());
+			//이벤트 생성
+			tEvent eve = { };
+			eve.eEven = EVENT_TYPE::SPIN_START;
+			eve.lParam = (DWORD_PTR)this;
+			m_bSpinClockwise = eve.wParam = (pOtherObj->GetPos().x > GetPos().x) ? -1 : 1;//true는 시계, false는 반시계
+			CEventMgr::GetInst()->AddEvent(eve);
 		}
 	}
 	CPlatform::OnCollision(_pOther);

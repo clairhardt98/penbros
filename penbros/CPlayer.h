@@ -35,11 +35,13 @@ private:
     //È¸Àü
     bool            m_bIsImgInverted;
     bool            m_bIsSpinning;
+    bool            m_bIsSticked;
+    float           m_fStickDuration;
     int             m_bSpinClockwise;
     Vector2D        m_vSpinCenter;
 
-    CImage* pImgIdle; 
-    CImage* pImgIdleInvert; 
+    CImage* pImgIdle;
+    CImage* pImgIdleInvert;
 
 public:
     virtual void Update()override;
@@ -57,6 +59,8 @@ public:
 
     void SetSpinCenter(Vector2D _rotCenter) { m_vSpinCenter = _rotCenter; }
     void SetSpinClockwise(int _b) { m_bSpinClockwise = _b; }
+    void SetSticked(bool _b);
+    bool IsSticked() { return m_bIsSticked; }
     void SetImgInverted(bool _b) { m_bIsImgInverted = _b; }
 public:
     CImage* GetGdiPlusImage(const wstring& _strImg);

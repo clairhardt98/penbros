@@ -104,6 +104,15 @@
     <Filter Include="Engine\04.Object\SpinPlate">
       <UniqueIdentifier>{a8f754be-4548-4da9-935c-8516998c567a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\04.Object\Monster\Bat">
+      <UniqueIdentifier>{fc47d912-f636-48c4-b8b3-e873e73eaeb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04.Object\Monster\Rat">
+      <UniqueIdentifier>{82c5e83b-0506-47d5-9e8b-0a350b431a7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04.Object\Monster\Crab">
+      <UniqueIdentifier>{1119d313-7852-4bfb-99b8-fc9ac5139fa2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h">

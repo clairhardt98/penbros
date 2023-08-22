@@ -13,11 +13,13 @@ CPlatform::CPlatform()
 {
 	CreateCollider();
 	CreateAnimator();
-	CTexture* pTex = CResMgr::GetInst()->LoadTexture(L"PlatformTexture", L"Image\\Platform.bmp");
 
 	CAnimator* pAnim = GetAnimator();
+
+	CTexture* pTex = CResMgr::GetInst()->LoadTexture(L"PlatformTexture", L"Image\\Platform.bmp");
 	pAnim->CreateAnimation(true, L"PlatformIdle", pTex, 1, 1, 0, 0, Vector2D(240.f, 32.f), .1f, 1);
-	pAnim->Play(L"PlatformIdle",true);
+	pAnim->Play(L"PlatformIdle", true);
+
 }
 
 CPlatform::~CPlatform()
@@ -27,6 +29,7 @@ CPlatform::~CPlatform()
 void CPlatform::Start()
 {
 	GetCollider()->SetScale(Vector2D(GetScale()));
+	
 }
 
 void CPlatform::Update()

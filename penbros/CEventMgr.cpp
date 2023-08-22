@@ -76,6 +76,8 @@ void CEventMgr::Execute(const tEvent& _eve)
 		CSpinPlate* pPlate = (CSpinPlate*)_eve.lParam;
 		m_pPlayer->SetSpinCenter(pPlate->GetPos());
 		m_pPlayer->SetSpinClockwise((int)_eve.wParam);
+		m_pPlayer->GetRigidBody()->SetVelocity(Vector2D(0.f, 0.f));
+		m_pPlayer->GetRigidBody()->ResetAccel();
 		m_pPlayer->GetRigidBody()->EnableGravity(false);
 		m_pPlayer->SetName(L"PlayerSpinning");
 		//m_pPlayer->DisableRigidBody();
@@ -83,15 +85,19 @@ void CEventMgr::Execute(const tEvent& _eve)
 		break;
 	case EVENT_TYPE::SPIN_END:
 		m_pPlayer->SetSpinning(false);
-		m_pPlayer->GetRigidBody()->SetVelocity(Vector2D(0.f, 0.f));
-		m_pPlayer->GetRigidBody()->ResetAccel();
-		m_pPlayer->GetRigidBody()->EnableGravity(true);
+		
+		//sticked 가 아니라면 중력 복구
+		if(!m_pPlayer->IsSticked())
+			m_pPlayer->GetRigidBody()->EnableGravity(true);
 		m_pPlayer->SetName(L"Player");
 
 		//m_pPlayer->EnableRigidBody();
 		/*CSpinPlate* pPlate = (CSpinPlate*)_eve.lParam;
 		pPlate->SetSpinning(false);*/
-		break;;
+		break;
+	case EVENT_TYPE::THROW_BOMB:
+		if (nullptr == m_pBomb) return;
+		m_pBomb->BeThrown((CObject*)_eve.lParam, (int)_eve.wParam);
 	}
 
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 class CPlayer;
+class CBomb;
 
 struct tEvent
 {
@@ -12,14 +13,17 @@ class CEventMgr
 {
 	SINGLE(CEventMgr);
 private:
-	vector<tEvent> m_vecEvent;
-	vector<CObject*> m_vecDead;//삭제 예정 오브젝트들
+	vector<tEvent>		m_vecEvent;
+	vector<CObject*>	m_vecDead;//삭제 예정 오브젝트들
 	
 private:
-	CPlayer* m_pPlayer;
+	CPlayer*		m_pPlayer;
+	CBomb* m_pBomb = nullptr;
+
 
 public:
 	void SetPlayer(CPlayer* _pPlayer) { m_pPlayer = _pPlayer; }
+	void SetBomb(CBomb* _pBomb) { m_pBomb = _pBomb; }
 public:
 	void Update();
 

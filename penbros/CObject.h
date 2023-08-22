@@ -21,6 +21,8 @@ private:
 	Gdiplus::Graphics* m_pGraphics;
 
 	bool		m_bAlive;
+private:
+	float		m_fRotateAmount;
 
 public:
 	void SetPos(Vector2D _vPos) { m_vPos = _vPos; }
