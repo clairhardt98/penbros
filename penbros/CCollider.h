@@ -25,6 +25,8 @@ public:
 
 	CObject* GetObj() { return m_pOwner; }
 
+	int GetICol() { return m_iCol; }
+
 	UINT GetID() { return m_iID; }
 
 public:

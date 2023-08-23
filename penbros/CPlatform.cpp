@@ -29,7 +29,6 @@ CPlatform::~CPlatform()
 void CPlatform::Start()
 {
 	GetCollider()->SetScale(Vector2D(GetScale()));
-	
 }
 
 void CPlatform::Update()
@@ -40,7 +39,7 @@ void CPlatform::Update()
 void CPlatform::OnCollisionEnter(CCollider* _pOther)
 {
 	CObject* pOtherObj = _pOther->GetObj();
-	if (pOtherObj->GetName() == L"Player" || pOtherObj->GetName() == L"Bomb")
+	if (pOtherObj->GetName() == L"Player" || pOtherObj->GetName() == L"Bomb" || pOtherObj->GetName() == L"DeadPlayer")
 	{
 		Vector2D vObjPos = _pOther->GetFinalPos();
 		Vector2D vObjScale = _pOther->GetScale();
@@ -67,7 +66,7 @@ void CPlatform::OnCollisionEnter(CCollider* _pOther)
 void CPlatform::OnCollision(CCollider* _pOther)
 {
 	CObject* pOtherObj = _pOther->GetObj();
-	if (pOtherObj->GetName() == L"Player" || pOtherObj->GetName() == L"Bomb")
+	if (pOtherObj->GetName() == L"Player" || pOtherObj->GetName() == L"Bomb" || pOtherObj->GetName() == L"DeadPlayer")
 	{
 		Vector2D vObjPos = _pOther->GetFinalPos();
 		Vector2D vObjScale = _pOther->GetScale();
@@ -90,7 +89,7 @@ void CPlatform::OnCollision(CCollider* _pOther)
 void CPlatform::OnCollisionExit(CCollider* _pOther)
 {
 	CObject* pOtherObj = _pOther->GetObj();
-	if (pOtherObj->GetName() == L"Player" || pOtherObj->GetName() == L"Bomb")
+	if (pOtherObj->GetName() == L"Player" || pOtherObj->GetName() == L"Bomb" || pOtherObj->GetName() == L"DeadPlayer")
 	{
 		pOtherObj->GetRigidBody()->SetGrounded(false);
 	}

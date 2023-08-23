@@ -6,7 +6,7 @@
 #include "CTexture.h"
 #include "CResMgr.h"
 #include "CPathMgr.h"
-
+#include "CEventMgr.h"
 
 CExplosion::CExplosion()
 {
@@ -46,5 +46,12 @@ void CExplosion::Render(HDC _dc)
 
 void CExplosion::OnCollisionEnter(CCollider* _pOther)
 {
+	CObject* pObj = _pOther->GetObj();
+	//이벤트 생성, lParam은 충돌한 객체의 포인터, wParam은 null
+	tEvent eve = {};
+	eve.eEven = EVENT_TYPE::EXPLOSION_HIT;
+	eve.lParam = (DWORD_PTR)pObj;
+	eve.wParam = NULL;
+	CEventMgr::GetInst()->AddEvent(eve);
 }
 

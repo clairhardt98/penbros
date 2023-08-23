@@ -74,9 +74,6 @@
     <Filter Include="Engine\03.Manager\CollisionMgr">
       <UniqueIdentifier>{dbb26b8c-1b24-4858-8220-65c36e963460}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\04.Object\Missile">
-      <UniqueIdentifier>{9864c711-517f-4d9e-9bd7-b47ebb5f9fb7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\05.Scene\Scene_Tool">
       <UniqueIdentifier>{6fc86ed9-056d-4fd9-8765-060a811d0629}</UniqueIdentifier>
     </Filter>
@@ -101,9 +98,6 @@
     <Filter Include="Engine\06.Resources\GdiplusImage">
       <UniqueIdentifier>{3fe5fcdd-56df-490f-ade6-b247e8ca7176}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\04.Object\SpinPlate">
-      <UniqueIdentifier>{a8f754be-4548-4da9-935c-8516998c567a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\04.Object\Monster\Bat">
       <UniqueIdentifier>{fc47d912-f636-48c4-b8b3-e873e73eaeb4}</UniqueIdentifier>
     </Filter>
@@ -112,6 +106,12 @@
     </Filter>
     <Filter Include="Engine\04.Object\Monster\Crab">
       <UniqueIdentifier>{1119d313-7852-4bfb-99b8-fc9ac5139fa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04.Object\SpinPlate">
+      <UniqueIdentifier>{a8f754be-4548-4da9-935c-8516998c567a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04.Object\UI">
+      <UniqueIdentifier>{cfb58f65-2d60-4561-bdbe-658b0dcc817d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -154,9 +154,6 @@
     <ClInclude Include="CPlayer.h">
       <Filter>Engine\04.Object\Player</Filter>
     </ClInclude>
-    <ClInclude Include="CMonster.h">
-      <Filter>Engine\04.Object\Monster</Filter>
-    </ClInclude>
     <ClInclude Include="CObject.h">
       <Filter>Engine\04.Object</Filter>
     </ClInclude>
@@ -190,9 +187,6 @@
     <ClInclude Include="func.h">
       <Filter>Engine\01.Header</Filter>
     </ClInclude>
-    <ClInclude Include="CMissile.h">
-      <Filter>Engine\04.Object\Missile</Filter>
-    </ClInclude>
     <ClInclude Include="CScene_Tool.h">
       <Filter>Engine\05.Scene\Scene_Tool</Filter>
     </ClInclude>
@@ -222,6 +216,21 @@
     </ClInclude>
     <ClInclude Include="CSpinPlate.h">
       <Filter>Engine\04.Object\SpinPlate</Filter>
+    </ClInclude>
+    <ClInclude Include="CBat.h">
+      <Filter>Engine\04.Object\Monster\Bat</Filter>
+    </ClInclude>
+    <ClInclude Include="CCrab.h">
+      <Filter>Engine\04.Object\Monster\Crab</Filter>
+    </ClInclude>
+    <ClInclude Include="CRat.h">
+      <Filter>Engine\04.Object\Monster\Rat</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonster.h">
+      <Filter>Engine\04.Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CUI.h">
+      <Filter>Engine\04.Object\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -262,9 +271,6 @@
     <ClCompile Include="CPlayer.cpp">
       <Filter>Engine\04.Object\Player</Filter>
     </ClCompile>
-    <ClCompile Include="CMonster.cpp">
-      <Filter>Engine\04.Object\Monster</Filter>
-    </ClCompile>
     <ClCompile Include="CObject.cpp">
       <Filter>Engine\04.Object</Filter>
     </ClCompile>
@@ -298,9 +304,6 @@
     <ClCompile Include="func.cpp">
       <Filter>Engine\01.Header</Filter>
     </ClCompile>
-    <ClCompile Include="CMissile.cpp">
-      <Filter>Engine\04.Object\Missile</Filter>
-    </ClCompile>
     <ClCompile Include="CScene_Tool.cpp">
       <Filter>Engine\05.Scene\Scene_Tool</Filter>
     </ClCompile>
@@ -330,6 +333,21 @@
     </ClCompile>
     <ClCompile Include="CSpinPlate.cpp">
       <Filter>Engine\04.Object\SpinPlate</Filter>
+    </ClCompile>
+    <ClCompile Include="CBat.cpp">
+      <Filter>Engine\04.Object\Monster\Bat</Filter>
+    </ClCompile>
+    <ClCompile Include="CCrab.cpp">
+      <Filter>Engine\04.Object\Monster\Crab</Filter>
+    </ClCompile>
+    <ClCompile Include="CRat.cpp">
+      <Filter>Engine\04.Object\Monster\Rat</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonster.cpp">
+      <Filter>Engine\04.Object\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CUI.cpp">
+      <Filter>Engine\04.Object\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

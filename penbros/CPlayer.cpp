@@ -16,6 +16,8 @@
 #include "CImage.h"
 #include "CCore.h"
 
+
+
 CPlayer::CPlayer()
 	:m_eCurState(PLAYER_STATUS::IDLE)
 	, m_ePrevState(PLAYER_STATUS::IDLE)
@@ -28,6 +30,7 @@ CPlayer::CPlayer()
 	, m_eBMod(BOMB_MODE::GREEN)
 	,m_bIsSticked(false)
 	,m_fStickDuration(0.f)
+	,m_bIsAlive(true)
 {
 	CreateCollider();
 	GetCollider()->SetOffsetPos(Vector2D(0.0f, 0.0f));
@@ -52,6 +55,8 @@ CPlayer::CPlayer()
 	pAnimator->CreateAnimation(false, L"GOLEM_MOVE_LEFT", pTexLeft, 9, 10, 1, 6, Vector2D(128.0f, 128.0f), 0.1f, 4);
 	pAnimator->CreateAnimation(true, L"GOLEM_ATTACK_RIGHT", pTexRight, 9, 10, 2, 0, Vector2D(128.0f, 128.0f), 0.1f, 12);
 	pAnimator->CreateAnimation(false, L"GOLEM_ATTACK_LEFT", pTexLeft, 9, 10, 2, 0, Vector2D(128.0f, 128.0f), 0.1f, 12);
+	pAnimator->CreateAnimation(true, L"GOLEM_DIE_RIGHT", pTexRight, 9, 10, 5, 3, Vector2D(128.0f, 128.0f), 0.2f, 8);
+	pAnimator->CreateAnimation(false, L"GOLEM_DIE_LEFT", pTexLeft, 9, 10, 5, 3, Vector2D(128.0f, 128.0f), 0.2f, 8);
 
 	CAnimation* pAniIdleRight = pAnimator->FindAnimation(L"GOLEM_IDLE_RIGHT");
 	CAnimation* pAniIdleLeft = pAnimator->FindAnimation(L"GOLEM_IDLE_LEFT");
@@ -59,6 +64,8 @@ CPlayer::CPlayer()
 	CAnimation* pAniMoveLeft = pAnimator->FindAnimation(L"GOLEM_MOVE_LEFT");
 	CAnimation* pAniAttackRight = pAnimator->FindAnimation(L"GOLEM_ATTACK_RIGHT");
 	CAnimation* pAniAttackLeft = pAnimator->FindAnimation(L"GOLEM_ATTACK_LEFT");
+	CAnimation* pAniDieRight = pAnimator->FindAnimation(L"GOLEM_DIE_RIGHT");
+	CAnimation* pAnidieLeft = pAnimator->FindAnimation(L"GOLEM_DIE_LEFT");
 
 
 	//애니메이션의 오프셋 세팅
@@ -74,6 +81,10 @@ CPlayer::CPlayer()
 		pAniAttackRight->GetFrame(i).vOffset = Vector2D(0.f, -15.f);
 	for (int i = 0; i < pAniAttackLeft->GetMaxFrame(); i++)
 		pAniAttackLeft->GetFrame(i).vOffset = Vector2D(0.f, -15.f);
+	for (int i = 0; i < pAniDieRight->GetMaxFrame(); i++)
+		pAniDieRight->GetFrame(i).vOffset = Vector2D(0.f, -15.f);
+	for (int i = 0; i < pAnidieLeft->GetMaxFrame(); i++)
+		pAnidieLeft->GetFrame(i).vOffset = Vector2D(0.f, -15.f);
 
 	pAnimator->Play(L"GOLEM_IDLE_RIGHT", true);
 
@@ -118,7 +129,7 @@ void CPlayer::Update()
 	m_ePrevState = m_eCurState;
 	m_iPrevDir = m_iDir;
 	
-	printf("Player Velocity) x : %.1lf, y : %.1lf, IsSticked : %d, StickDur : %.1lf\n", GetRigidBody()->GetVelocity().x, GetRigidBody()->GetVelocity().y,IsSticked(),m_fStickDuration);
+	//printf("Player Velocity) x : %.1lf, y : %.1lf, IsSticked : %d, StickDur : %.1lf\n", GetRigidBody()->GetVelocity().x, GetRigidBody()->GetVelocity().y,IsSticked(),m_fStickDuration);
 
 }
 
@@ -139,8 +150,13 @@ void CPlayer::Render(HDC _dc)
 void CPlayer::UpdateState()
 {
 	//상태 관리
-
+	
 	//방향 전환
+	if (!m_bIsAlive)
+	{
+		m_eCurState = PLAYER_STATUS::DEAD;
+		return;
+	}
 	if (KEY_TAP(KEY::LEFT))
 	{
 		m_iDir = -1;
@@ -165,10 +181,12 @@ void CPlayer::UpdateState()
 	{
 		m_eCurState = PLAYER_STATUS::SLIDE;
 	}
+	
 }
 
 void CPlayer::UpdateMove()
 {
+	if (!m_bIsAlive)return;
 	CRigidBody* pRb = GetRigidBody();
 
 	//키 입력시 힘 가해서 이동
@@ -263,6 +281,12 @@ void CPlayer::UpdateAnim()
 	case PLAYER_STATUS::HOLDINGJUMP:
 		break;
 	case PLAYER_STATUS::DEAD:
+	{
+		if (m_iDir == -1)
+			GetAnimator()->Play(L"GOLEM_DIE_LEFT", false);
+		else
+			GetAnimator()->Play(L"GOLEM_DIE_RIGHT", false);
+	}
 		break;
 	}
 }
@@ -352,3 +376,12 @@ void CPlayer::SetBomb()
 	m_bCanSetBomb = false;
 }
 
+void CPlayer::Hit()
+{
+	//사망처리
+	//사망 애니메이션 재생
+	//상태를 사망으로
+	SetName(L"DeadPlayer");
+	m_bIsAlive = false;
+	GetRigidBody()->SetVelocity(Vector2D((float)-m_iDir*200.f, -150.f));
+}

@@ -188,6 +188,7 @@ void CBomb::CreateExplosion(Vector2D _vPos)
 	CExplosion* pExp = new CExplosion;
 	pExp->SetPos(_vPos);
 	pExp->SetScale(Vector2D(70.0f, 70.0f));
+	pExp->SetName(L"Explosion");
 	CreateObject(pExp, GROUP_TYPE::EXPLOSION);
 }
 

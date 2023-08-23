@@ -70,9 +70,7 @@ void CEventMgr::Execute(const tEvent& _eve)
 	case EVENT_TYPE::SPIN_START:
 	{
 		m_pPlayer->SetSpinning(true);
-		//m_pPlayer->GetGdiPlusImage()->Invert(m_pPlayer->GetPos());
-		//m_pPlayer->GetGdiPlusImage()->GetImagePtr()->RotateFlip(Gdiplus::Rotate180FlipX);
-		
+	
 		CSpinPlate* pPlate = (CSpinPlate*)_eve.lParam;
 		m_pPlayer->SetSpinCenter(pPlate->GetPos());
 		m_pPlayer->SetSpinClockwise((int)_eve.wParam);
@@ -80,7 +78,6 @@ void CEventMgr::Execute(const tEvent& _eve)
 		m_pPlayer->GetRigidBody()->ResetAccel();
 		m_pPlayer->GetRigidBody()->EnableGravity(false);
 		m_pPlayer->SetName(L"PlayerSpinning");
-		//m_pPlayer->DisableRigidBody();
 	}
 		break;
 	case EVENT_TYPE::SPIN_END:
@@ -91,15 +88,20 @@ void CEventMgr::Execute(const tEvent& _eve)
 			m_pPlayer->GetRigidBody()->EnableGravity(true);
 		m_pPlayer->SetName(L"Player");
 
-		//m_pPlayer->EnableRigidBody();
-		/*CSpinPlate* pPlate = (CSpinPlate*)_eve.lParam;
-		pPlate->SetSpinning(false);*/
+
 		break;
 	case EVENT_TYPE::THROW_BOMB:
 		if (nullptr == m_pBomb) return;
 		m_pBomb->BeThrown((CObject*)_eve.lParam, (int)_eve.wParam);
+		break;
+	case EVENT_TYPE::PLAYER_HIT:
+		m_pPlayer->Hit();
+		break;
+	case EVENT_TYPE::EXPLOSION_HIT:
+		CObject* pObj = (CObject*)_eve.lParam;
+		pObj->Hit();
+		break;
 	}
-
 }
 
 

@@ -13,6 +13,8 @@
 #include "CPlatform.h"
 #include "CSpinPlate.h"
 #include "CResMgr.h"
+#include "CBat.h"
+#include "CUI.h"
 
 CScene_Start::CScene_Start()
 	:m_bUseForce(false)
@@ -22,8 +24,7 @@ CScene_Start::CScene_Start()
 	m_pBGTex = CResMgr::GetInst()->FindTexture(L"Background0");
 }
 
-CScene_Start::~CScene_Start()
-{
+CScene_Start::~CScene_Start()``{
 }
 
 void CScene_Start::Update()
@@ -63,7 +64,13 @@ void CScene_Start::Enter()
 
 	AddObject(pObj, GROUP_TYPE::PLAYER);
 
-	
+	//Bat
+	CObject* pBat = new CBat;
+
+	pBat->SetName(L"Bat");
+	pBat->SetPos(Vector2D(400.0f, 440.0f));
+	pBat->SetScale(Vector2D(40.0f, 40.0f));
+	AddObject(pBat, GROUP_TYPE::MONSTER);
 	
 
 
@@ -92,14 +99,19 @@ void CScene_Start::Enter()
 	//회전판 배치
 	CObject* pSpinPlate = new CSpinPlate;
 	pSpinPlate->SetPos(Vector2D(400.0f, 350.0f));
-	pSpinPlate->SetScale(Vector2D(200.0f, 30.0f));
+	pSpinPlate->SetScale(Vector2D(150.0f, 30.0f));
 	pGround->SetName(L"SpinPlatform0");
 	AddObject(pSpinPlate, GROUP_TYPE::PLATFORM);
+
+	//UI
+	CObject* pUI = new CUI;
+	pUI->SetName(L"UI");
+	AddObject(pUI, GROUP_TYPE::UI);
 	
 	//충돌 지정
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::MONSTER);
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::PLATFORM);
-	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PROJ_PLAYER, GROUP_TYPE::MONSTER);
+	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::MONSTER, GROUP_TYPE::PLATFORM);
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::BOMB, GROUP_TYPE::PLATFORM);
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::EXPLOSION, GROUP_TYPE::PLAYER);
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::EXPLOSION, GROUP_TYPE::MONSTER);

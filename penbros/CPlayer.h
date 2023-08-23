@@ -22,6 +22,7 @@ class CPlayer :
     public CObject
 {
 private:
+    bool            m_bIsAlive;
     int             m_iDir;
     int             m_iPrevDir;
     PLAYER_STATUS   m_eCurState;
@@ -71,6 +72,8 @@ public:
     //아이템먹으면 이벤트 발생시켜서 이 함수 호출시키자
     void SetBombMode(BOMB_MODE _bm) { m_eBMod = _bm; }
     void SetSpinning(bool _b) { m_bIsSpinning = _b; if(m_bIsSpinning) m_eCurState = PLAYER_STATUS::SPIN; }
+
+    virtual void Hit()override;//오브젝트에서 선언한 가상함수
 public:
     CLONE(CPlayer);
     CPlayer();
