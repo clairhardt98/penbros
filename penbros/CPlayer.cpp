@@ -16,7 +16,10 @@
 #include "CImage.h"
 #include "CCore.h"
 
-
+int CPlayer::m_iHP = 2;
+int CPlayer::m_iScore = 0;
+int CPlayer::m_iCurStage = 0;
+int CPlayer::m_iCredit = 0;
 
 CPlayer::CPlayer()
 	:m_eCurState(PLAYER_STATUS::IDLE)
@@ -25,12 +28,13 @@ CPlayer::CPlayer()
 	, m_iDir(1)
 	, m_bCanSetBomb(true)
 	, m_bIsSliding(false)
-	,m_bIsSpinning(false)
-	,m_bIsImgInverted(false)
+	, m_bIsSpinning(false)
+	, m_bIsImgInverted(false)
 	, m_eBMod(BOMB_MODE::GREEN)
-	,m_bIsSticked(false)
-	,m_fStickDuration(0.f)
-	,m_bIsAlive(true)
+	, m_bIsSticked(false)
+	, m_fStickDuration(0.f)
+	, m_bIsAlive(true)
+	,m_fDeathTime(0.f)
 {
 	CreateCollider();
 	GetCollider()->SetOffsetPos(Vector2D(0.0f, 0.0f));
@@ -99,10 +103,21 @@ CPlayer::~CPlayer()
 
 void CPlayer::Update()
 {
+	if (!m_bIsAlive)
+	{
+		m_fDeathTime += fDT;
+		if (m_fDeathTime >= 2.0f)
+		{
+			tEvent eve = {};
+			eve.eEven = EVENT_TYPE::PLAYER_REVIVE;
+			DeleteObject(this);
+			CEventMgr::GetInst()->AddEvent(eve);
+		}
+	}
 	UpdateMove();
 	UpdateState();
 	UpdateAnim();
-	
+
 	if (m_bIsSticked)
 	{
 		m_fStickDuration += fDT;
@@ -116,28 +131,27 @@ void CPlayer::Update()
 	if (m_bIsSpinning)
 	{
 		GetAnimator()->Pause();
-		RotateImage(); 
+		RotateImage();
 		RotatePos(m_vSpinCenter, (float)m_bSpinClockwise * 250.f * fDT);
 	}
 	else
 	{
 		GetAnimator()->Resume();
 		GetRigidBody()->SetFricCoeff(200.f);
-		//GetRigidBody()->EnableGravity(true);
 	}
 
 	m_ePrevState = m_eCurState;
 	m_iPrevDir = m_iDir;
-	
-	//printf("Player Velocity) x : %.1lf, y : %.1lf, IsSticked : %d, StickDur : %.1lf\n", GetRigidBody()->GetVelocity().x, GetRigidBody()->GetVelocity().y,IsSticked(),m_fStickDuration);
 
+	//printf("Player Velocity) x : %.1lf, y : %.1lf, IsSticked : %d, StickDur : %.1lf\n", GetRigidBody()->GetVelocity().x, GetRigidBody()->GetVelocity().y,IsSticked(),m_fStickDuration);
+	
 }
 
 void CPlayer::Render(HDC _dc)
 {
 	//본인이 보유하고 있는 애니메이션 정보
 	//DrawImage();
-	
+
 	//회전중일때만 gdi+이미지 출력
 	if (m_bIsSpinning)
 		DrawImage();
@@ -150,7 +164,7 @@ void CPlayer::Render(HDC _dc)
 void CPlayer::UpdateState()
 {
 	//상태 관리
-	
+
 	//방향 전환
 	if (!m_bIsAlive)
 	{
@@ -181,7 +195,7 @@ void CPlayer::UpdateState()
 	{
 		m_eCurState = PLAYER_STATUS::SLIDE;
 	}
-	
+
 }
 
 void CPlayer::UpdateMove()
@@ -287,7 +301,7 @@ void CPlayer::UpdateAnim()
 		else
 			GetAnimator()->Play(L"GOLEM_DIE_RIGHT", false);
 	}
-		break;
+	break;
 	}
 }
 
@@ -299,32 +313,32 @@ void CPlayer::DrawImage()
 	CImage* pImg = nullptr;
 
 	int imgoffset;
-	if(m_bIsImgInverted)
+	if (m_bIsImgInverted)
 	{
 		imgoffset = -1;
 		pImg = pImgIdleInvert;
 	}
 	else
-	{	
+	{
 		imgoffset = 1;
 		pImg = pImgIdle;
 	}
 
 	int w = pImg->Width();
 	int h = pImg->Height();
-	
-	pGr->DrawImage(pImg->GetImagePtr(),Rect((int)vPos.x - w / 2, (int)vPos.y - h / 2 - imgoffset*15, w, h), 
-		0,0,w,h, UnitPixel,pImg->GetImgAttr());
+
+	pGr->DrawImage(pImg->GetImagePtr(), Rect((int)vPos.x - w / 2, (int)vPos.y - h / 2 - imgoffset * 15, w, h),
+		0, 0, w, h, UnitPixel, pImg->GetImgAttr());
 }
 
 void CPlayer::SetSticked(bool _b)
 {
-	 m_bIsSticked = _b; 
-	 if (!m_bIsSticked)
-	 {
-		 m_fStickDuration = 0.f;
-		 GetRigidBody()->EnableGravity(true);
-	 }
+	m_bIsSticked = _b;
+	if (!m_bIsSticked)
+	{
+		m_fStickDuration = 0.f;
+		GetRigidBody()->EnableGravity(true);
+	}
 }
 void CPlayer::RotateImage()
 {
@@ -358,7 +372,7 @@ void CPlayer::SetBomb()
 	Vector2D vPos = GetPos();
 	Vector2D vDeployPos(vPos.x + m_iDir * 30.0f, vPos.y - 20.f);
 
-	CBomb* pBomb = new CBomb(m_eBMod,m_iDir);
+	CBomb* pBomb = new CBomb(m_eBMod, m_iDir);
 
 	pBomb->SetName(L"Bomb");
 	pBomb->SetPos(vDeployPos);
@@ -383,5 +397,5 @@ void CPlayer::Hit()
 	//상태를 사망으로
 	SetName(L"DeadPlayer");
 	m_bIsAlive = false;
-	GetRigidBody()->SetVelocity(Vector2D((float)-m_iDir*200.f, -150.f));
+	GetRigidBody()->SetVelocity(Vector2D((float)-m_iDir * 200.f, -150.f));
 }

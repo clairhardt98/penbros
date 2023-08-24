@@ -88,10 +88,6 @@ void CBomb::Update()
 
 void CBomb::Render(HDC _dc)
 {
-	/*Vector2D vPos = GetPos();
-	Vector2D vScale = GetScale();
-	Ellipse(_dc, (int)(vPos.x - vScale.x / 2.0f), (int)(vPos.y - vScale.y / 2.0f),
-		(int)(vPos.x + vScale.x / 2.0f), (int)(vPos.y + vScale.y / 2.0f));*/
 	ComponentRender(_dc);
 }
 
@@ -120,7 +116,6 @@ void CBomb::OnCollision(CCollider* _pOther)
 void CBomb::OnCollisionExit(CCollider* _pOther)
 {
 	GetRigidBody()->SetFricCoeff(0.f);
-
 }
 
 

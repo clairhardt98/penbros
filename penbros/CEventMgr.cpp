@@ -98,9 +98,16 @@ void CEventMgr::Execute(const tEvent& _eve)
 		m_pPlayer->Hit();
 		break;
 	case EVENT_TYPE::EXPLOSION_HIT:
+	{
 		CObject* pObj = (CObject*)_eve.lParam;
 		pObj->Hit();
 		break;
+	}
+	case EVENT_TYPE::PLAYER_REVIVE:
+	{
+		CSceneMgr::GetInst()->GetCurScene()->RevivePlayer();
+		break;
+	}
 	}
 }
 

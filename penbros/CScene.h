@@ -21,6 +21,9 @@ public:
 	virtual void Render(HDC _dc);
 
 public:
+	virtual void RevivePlayer() {}
+
+public:
 	void AddObject(CObject* _pObj, GROUP_TYPE _eType)
 	{
 		//inline 처리를 통해서 호출 오버헤드 발생 x

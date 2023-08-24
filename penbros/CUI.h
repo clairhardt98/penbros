@@ -15,12 +15,13 @@ private:
     CImage* m_pPlayerIdle;
 
 private:
-    int m_pPlayerCnt;
+    //출력할 정보
+    
 
 private:
-    void RenderAlphabet(HDC _dc, Vector2D _vStartPos, wstring _str);
+    void RenderAlphabet(HDC _dc, Vector2D _vStartPos, wstring _str, int _size, int _interval);
     void RenderNum(HDC _dc, Vector2D _vStartPos, int _num, int _size, int _interval);
-    void DrawImage(Vector2D _vPos);
+    void DrawPlayerImage(Vector2D _vPos);
     
 public:
     virtual void Update()override;

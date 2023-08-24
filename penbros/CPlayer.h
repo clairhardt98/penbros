@@ -22,7 +22,24 @@ class CPlayer :
     public CObject
 {
 private:
+    static int m_iHP;
+    static int m_iScore;
+    static int m_iCurStage;
+    static int m_iCredit;
+public:
+    static int GetHP() { return m_iHP; }
+    static void ReduceHP() { m_iHP--; }
+    static void ResetHP() { m_iHP = 2; }
+    static int GetScore() { return m_iScore; }
+    static void AddScore(int _i) { m_iScore += _i; }
+    static int GetCurStage() { return m_iCurStage; }
+    static void GoNextStage() { m_iCurStage++; }
+    static int GetCredit() { return m_iCredit; }
+    static void AddCredit() { m_iCredit++; }
+
+private:
     bool            m_bIsAlive;
+    float           m_fDeathTime;
     int             m_iDir;
     int             m_iPrevDir;
     PLAYER_STATUS   m_eCurState;
