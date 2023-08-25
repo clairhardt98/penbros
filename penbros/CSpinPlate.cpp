@@ -60,6 +60,7 @@ void CSpinPlate::OnCollision(CCollider* _pOther)
 			m_bIsSpinning = true;
 			pPlayer->SetImgInverted(false);
 			pPlayer->SetSticked(true);
+
 			tEvent eve = { };
 			eve.eEven = EVENT_TYPE::SPIN_START;
 			eve.lParam = (DWORD_PTR)this;
@@ -120,6 +121,6 @@ void CSpinPlate::DrawImage()
 
 void CSpinPlate::RotateImage()
 {
-	if (pImg->Rotate(GetGraphics(), GetPos(), (float)m_bSpinClockwise * 250.f * fDT))
+	if (pImg->Rotate(GetGraphics(), GetPos(), (float)m_bSpinClockwise * 300.f * fDT))
 		m_bIsSpinning = false;
 }

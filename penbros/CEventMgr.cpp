@@ -91,7 +91,7 @@ void CEventMgr::Execute(const tEvent& _eve)
 
 		break;
 	case EVENT_TYPE::THROW_BOMB:
-		if (nullptr == m_pBomb) return;
+		if (nullptr == m_pBomb) return;		
 		m_pBomb->BeThrown((CObject*)_eve.lParam, (int)_eve.wParam);
 		break;
 	case EVENT_TYPE::PLAYER_HIT:

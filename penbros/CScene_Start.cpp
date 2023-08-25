@@ -15,11 +15,15 @@
 #include "CResMgr.h"
 #include "CBat.h"
 #include "CUI.h"
+#include "CTimeMgr.h"
+#include "CGhost.h"
 
 
 
 CScene_Start::CScene_Start()
 	:m_vPlayerSpawnPos(Vector2D(100.0f, 400.0f))
+	, m_fRemainingTime(999)
+	, m_bIsGhostOn(false)
 {
 	//이미지 로드하고, 애들 그려주기 전에 먼저 배경 그리면되겠네
 	CResMgr::GetInst()->LoadTexture(L"Background0", L"Image\\Background0.bmp");
@@ -32,6 +36,18 @@ CScene_Start::~CScene_Start()
 
 void CScene_Start::Update()
 {
+	//시간초 줄어들기
+	if(m_fRemainingTime >=0.f)
+		m_fRemainingTime -= fDT;
+	else
+	{
+		if (!m_bIsGhostOn)
+		{
+			SpawnGhost();
+			m_bIsGhostOn = true;
+		}
+	}
+	
 	//부모의 코드 그대로 사용
 	CScene::Update();
 	if (KEY_TAP(KEY::ENTER))
@@ -55,37 +71,74 @@ void CScene_Start::Enter()
 	CPlayer::GoNextStage();
 	//Bat
 	CObject* pBat = new CBat;
-
-	pBat->SetName(L"Bat");
+	pBat->SetName(L"Monster");
 	pBat->SetPos(Vector2D(400.0f, 440.0f));
 	pBat->SetScale(Vector2D(40.0f, 40.0f));
 	AddObject(pBat, GROUP_TYPE::MONSTER);
 
+	CObject* pBat1 = new CBat;
+	pBat1->SetName(L"Monster");
+	pBat1->SetPos(Vector2D(600.0f, 260.0f));
+	pBat1->SetScale(Vector2D(40.0f, 40.0f));
+	AddObject(pBat1, GROUP_TYPE::MONSTER);
+
+	CObject* pBat2 = new CBat;
+	pBat2->SetName(L"Monster");
+	pBat2->SetPos(Vector2D(200.0f, 260.0f));
+	pBat2->SetScale(Vector2D(40.0f, 40.0f));
+	CBat* temp = (CBat*)pBat2;
+	temp->SetDirection(1);
+	AddObject(pBat2, GROUP_TYPE::MONSTER);
+
 	//플랫폼 배치
-	CObject* pGround = new CPlatform;
-	pGround->SetPos(Vector2D(400.0f, 500.0f));
-	pGround->SetScale(Vector2D(800.0f, 60.0f));
-	pGround->SetName(L"Platform0");
-	AddObject(pGround, GROUP_TYPE::PLATFORM);
+	CObject* pGround0 = new CPlatform;
+	pGround0->SetPos(Vector2D(400.0f, 490.0f));
+	pGround0->SetScale(Vector2D(800.0f, 38.0f));
+	pGround0->SetName(L"BottomWall");
+	AddObject(pGround0, GROUP_TYPE::PLATFORM);
 
 	CObject* pGround1 = new CPlatform;
-	pGround1->SetPos(Vector2D(150.0f, 350.0f));
-	pGround1->SetScale(Vector2D(300.0f, 30.0f));
-	pGround->SetName(L"Platform1");
+	pGround1->SetPos(Vector2D(400.0f, 350.0f));
+	pGround1->SetScale(Vector2D(200.0f, 30.0f));
+	pGround1->SetName(L"Platform");
 	AddObject(pGround1, GROUP_TYPE::PLATFORM);
 
 	CObject* pGround2 = new CPlatform;
-	pGround2->SetPos(Vector2D(650.0f, 350.0f));
-	pGround2->SetScale(Vector2D(300.0f, 30.0f));
-	pGround->SetName(L"Platform2");
+	pGround2->SetPos(Vector2D(75.0f, 350.0f));
+	pGround2->SetScale(Vector2D(150.f, 30.0f));
+	pGround2->SetName(L"Platform");
 	AddObject(pGround2, GROUP_TYPE::PLATFORM);
 
+	CObject* pGround3 = new CPlatform;
+	pGround3->SetPos(Vector2D(725.0f, 350.0f));
+	pGround3->SetScale(Vector2D(150.f, 30.0f));
+	pGround3->SetName(L"Platform");
+	AddObject(pGround3, GROUP_TYPE::PLATFORM);
+
+	CObject* pWall0 = new CPlatform;
+	pWall0->SetPos(Vector2D(25.f, 400.0f));
+	pWall0->SetScale(Vector2D(50.0f, 800.0f));
+	pWall0->SetName(L"Wall");
+	AddObject(pWall0, GROUP_TYPE::PLATFORM);
+
+	CObject* pWall1 = new CPlatform;
+	pWall1->SetPos(Vector2D(775.f, 400.0f));
+	pWall1->SetScale(Vector2D(50.0f, 800.0f));
+	pWall1->SetName(L"Wall");
+	AddObject(pWall1, GROUP_TYPE::PLATFORM);
+
 	//회전판 배치
-	CObject* pSpinPlate = new CSpinPlate;
-	pSpinPlate->SetPos(Vector2D(400.0f, 350.0f));
-	pSpinPlate->SetScale(Vector2D(150.0f, 30.0f));
-	pGround->SetName(L"SpinPlatform0");
-	AddObject(pSpinPlate, GROUP_TYPE::PLATFORM);
+	CObject* pSpinPlate0 = new CSpinPlate;
+	pSpinPlate0->SetPos(Vector2D(225.0f, 350.0f));
+	pSpinPlate0->SetScale(Vector2D(150.0f, 30.0f));
+	pSpinPlate0->SetName(L"SpinPlatform");
+	AddObject(pSpinPlate0, GROUP_TYPE::PLATFORM);
+
+	CObject* pSpinPlate1 = new CSpinPlate;
+	pSpinPlate1->SetPos(Vector2D(575.0f, 350.0f));
+	pSpinPlate1->SetScale(Vector2D(150.0f, 30.0f));
+	pSpinPlate1->SetName(L"SpinPlatform");
+	AddObject(pSpinPlate1, GROUP_TYPE::PLATFORM);
 
 	//UI
 	CObject* pUI = new CUI;
@@ -95,8 +148,10 @@ void CScene_Start::Enter()
 	//충돌 지정
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::MONSTER);
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::PLATFORM);
+	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::GHOST);
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::MONSTER, GROUP_TYPE::PLATFORM);
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::BOMB, GROUP_TYPE::PLATFORM);
+	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::BOMB, GROUP_TYPE::MONSTER);
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::EXPLOSION, GROUP_TYPE::PLAYER);
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::EXPLOSION, GROUP_TYPE::MONSTER);
 	Start();
@@ -122,6 +177,13 @@ void CScene_Start::RevivePlayer()
 	{
 		CPlayer::ReduceHP();
 		InstantiatePlayer();
+		if (m_bIsGhostOn)
+		{
+			m_fRemainingTime += 30;
+			m_bIsGhostOn = false;
+			//Ghost 함수에서 사라지는 애니메이션 실행하고 사라지게 하는 로직 구현하면 되겟다
+			DeleteObject(GetGhost());
+		}
 	}
 }
 
@@ -134,4 +196,15 @@ void CScene_Start::InstantiatePlayer()
 	pObj->SetScale(Vector2D(100.0f, 100.0f));
 
 	AddObject(pObj, GROUP_TYPE::PLAYER);
+}
+
+void CScene_Start::SpawnGhost()
+{
+	CObject* pObj = new CGhost;
+
+	pObj->SetName(L"Ghost");
+	pObj->SetPos(Vector2D(CCore::GetInst()->GetResolution())/2.f);
+	pObj->SetScale(Vector2D(40.0f, 40.0f));
+
+	AddObject(pObj, GROUP_TYPE::GHOST);
 }

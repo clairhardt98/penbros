@@ -18,7 +18,7 @@ private:
 	
 private:
 	CPlayer*		m_pPlayer;
-	CBomb* m_pBomb = nullptr;
+	CBomb*			m_pBomb = nullptr;
 
 
 public:

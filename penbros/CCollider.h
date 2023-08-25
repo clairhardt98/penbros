@@ -11,6 +11,9 @@ private:
 	Vector2D	m_vFinalPos;	//최종 위치
 	Vector2D	m_vScale;		//충돌체의 크기
 
+	bool		m_bIsActive;
+	Vector2D	m_vTempScale;	//비활성 처리했을 때 이전 스케일을 담아둘 변수
+
 	UINT		m_iID;
 	int			m_iCol;
 
@@ -28,6 +31,9 @@ public:
 	int GetICol() { return m_iCol; }
 
 	UINT GetID() { return m_iID; }
+public:
+	void EnableCollider();
+	void DisableCollider();
 
 public:
 	void FinalUpdate();

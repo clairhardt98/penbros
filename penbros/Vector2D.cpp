@@ -46,9 +46,15 @@ Vector2D Vector2D::operator*(int _i)
     return Vector2D(x * (float)_i, y*(float)_i);
 }
 
+
 Vector2D Vector2D::operator*(float _f)
 {
     return Vector2D(x * _f, y * _f);
+}
+
+Vector2D Vector2D::operator-(const Vector2D& _v)
+{
+    return Vector2D(x - _v.x, y - _v.y);
 }
 
 void Vector2D::operator+=(Vector2D _vOther)

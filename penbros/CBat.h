@@ -5,6 +5,7 @@ class CBat :
 	public CMonster
 {
 public:
+	void SetDirection(int _i) { m_iDir = _i; }
 	void ChangeDirection();
 	void Move();
 	void UpdateAnim();

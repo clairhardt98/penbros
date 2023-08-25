@@ -29,6 +29,7 @@ enum class GROUP_TYPE
 	PLAYER,
 	BOMB,
 	MONSTER,
+	GHOST,
 
 	UI = 31,
 	END = 32,

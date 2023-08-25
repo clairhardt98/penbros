@@ -151,6 +151,7 @@
     <ClInclude Include="CCrab.h" />
     <ClInclude Include="CEventMgr.h" />
     <ClInclude Include="CExplosion.h" />
+    <ClInclude Include="CGhost.h" />
     <ClInclude Include="CImage.h" />
     <ClInclude Include="CKeyMgr.h" />
     <ClInclude Include="CMonster.h" />
@@ -195,6 +196,7 @@
     <ClCompile Include="CCrab.cpp" />
     <ClCompile Include="CEventMgr.cpp" />
     <ClCompile Include="CExplosion.cpp" />
+    <ClCompile Include="CGhost.cpp" />
     <ClCompile Include="CImage.cpp" />
     <ClCompile Include="CKeyMgr.cpp" />
     <ClCompile Include="CMonster.cpp" />

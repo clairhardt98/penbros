@@ -94,6 +94,11 @@ void CBomb::Render(HDC _dc)
 void CBomb::OnCollisionEnter(CCollider* _pOther)
 {
 	GetRigidBody()->SetFricCoeff(400.0f);
+	CObject* pObj = _pOther->GetObj();
+	if (L"Monster" == pObj->GetName())
+	{
+		Explode();
+	}
 }
 
 void CBomb::OnCollision(CCollider* _pOther)

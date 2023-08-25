@@ -18,6 +18,7 @@ public:
 	Vector2D operator=(POINT _pt);
 	Vector2D operator*(int _i);
 	Vector2D operator*(float _f);
+	Vector2D operator-(const Vector2D&);
 	void operator*=(float _f) { x *= _f, y *= _f; }
 	void operator+=(Vector2D _vOther);
 	void operator+=(float _f) { x += _f, y += _f; }

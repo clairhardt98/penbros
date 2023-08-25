@@ -12,6 +12,7 @@ CCollider::CCollider()
 	:m_pOwner(nullptr)
 	,m_iID(g_iNextID++)
 	,m_iCol(0)
+	,m_bIsActive(true)
 {
 }
 
@@ -26,6 +27,25 @@ CCollider::CCollider(const CCollider& _origin)
 
 CCollider::~CCollider()
 {
+}
+
+void CCollider::EnableCollider()
+{
+	if (!m_bIsActive)
+	{
+		m_bIsActive = true;
+		m_vScale = m_vTempScale;
+	}
+}
+
+void CCollider::DisableCollider()
+{
+	if (m_bIsActive)
+	{
+		m_bIsActive = false;
+		m_vTempScale = m_vScale;
+		m_vScale = Vector2D(0.f, 0.f);
+	}
 }
 
 void CCollider::FinalUpdate()

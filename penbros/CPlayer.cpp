@@ -132,7 +132,7 @@ void CPlayer::Update()
 	{
 		GetAnimator()->Pause();
 		RotateImage();
-		RotatePos(m_vSpinCenter, (float)m_bSpinClockwise * 250.f * fDT);
+		RotatePos(m_vSpinCenter, (float)m_bSpinClockwise * 300.f * fDT);
 	}
 	else
 	{
@@ -348,7 +348,7 @@ void CPlayer::RotateImage()
 	else
 		pImg = pImgIdle;
 
-	pImg->Rotate(GetGraphics(), GetPos(), (float)m_bSpinClockwise * 250.f * fDT);
+	pImg->Rotate(GetGraphics(), GetPos(), (float)m_bSpinClockwise * 300.f * fDT);
 }
 
 CImage* CPlayer::GetGdiPlusImage(const wstring& _strImg)
@@ -378,9 +378,10 @@ void CPlayer::SetBomb()
 	pBomb->SetPos(vDeployPos);
 	pBomb->SetScale(Vector2D(40.0f, 40.0f));
 
+	int BombYForceFlag = m_bIsSticked ? -1 : 1;
 	CreateObject(pBomb, GROUP_TYPE::BOMB);
 	//생성 시킨 후 힘을 가하자
-	Vector2D vDeployForce(m_iDir * 50.0f, -50.0f);
+	Vector2D vDeployForce(m_iDir * 50.0f, m_bIsSticked  * 50.0f);
 	Vector2D vDeployForceToPlayer(-m_iDir * 100.0f, 0.f);
 	pBomb->GetRigidBody()->AddVelocity(vDeployForce + GetRigidBody()->GetVelocity());
 

@@ -22,7 +22,21 @@ public:
 
 public:
 	virtual void RevivePlayer() {}
-
+	virtual int GetRemainingTime() { return 0; }
+	CObject* GetPlayer() 
+	{ 
+		if (!m_arrObj[(UINT)GROUP_TYPE::PLAYER].empty())
+			return m_arrObj[(UINT)GROUP_TYPE::PLAYER].front();
+		else
+			return nullptr;
+	}
+	CObject* GetGhost()
+	{
+		if (!m_arrObj[(UINT)GROUP_TYPE::GHOST].empty())
+			return m_arrObj[(UINT)GROUP_TYPE::GHOST].front();
+		else
+			return nullptr;
+	}
 public:
 	void AddObject(CObject* _pObj, GROUP_TYPE _eType)
 	{

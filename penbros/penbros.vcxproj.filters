@@ -113,6 +113,9 @@
     <Filter Include="Engine\04.Object\UI">
       <UniqueIdentifier>{cfb58f65-2d60-4561-bdbe-658b0dcc817d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\04.Object\Monster\Ghost">
+      <UniqueIdentifier>{396eb234-1b7c-44be-bc21-17f23308d999}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h">
@@ -232,6 +235,9 @@
     <ClInclude Include="CUI.h">
       <Filter>Engine\04.Object\UI</Filter>
     </ClInclude>
+    <ClInclude Include="CGhost.h">
+      <Filter>Engine\04.Object\Monster\Ghost</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="penbros.rc">
@@ -348,6 +354,9 @@
     </ClCompile>
     <ClCompile Include="CUI.cpp">
       <Filter>Engine\04.Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CGhost.cpp">
+      <Filter>Engine\04.Object\Monster\Ghost</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

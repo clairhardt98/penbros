@@ -4,6 +4,8 @@
 #include "CImage.h"
 #include "CTexture.h"
 #include "CPlayer.h"
+#include "CSceneMgr.h"
+#include "CScene.h"
 CUI::CUI()
 {
 	m_pNumFont = CResMgr::GetInst()->LoadTexture(L"Font_num", L"Image\\NumberFonts.bmp");
@@ -37,7 +39,7 @@ void CUI::Render(HDC _dc)
 	//플레이어 스코어
 	RenderNum(_dc, Vector2D(60.f, 20.f), CPlayer::GetScore(), 16, 2);
 	//중앙상단 타이머
-	RenderNum(_dc, Vector2D(340.f, 10.f), 99, 25, 6);
+	RenderNum(_dc, Vector2D(340.f, 10.f), CSceneMgr::GetInst()->GetCurScene()->GetRemainingTime(), 25, 6);
 	//중앙하단 스테이지
 	RenderAlphabet(_dc, Vector2D(340.f, 560.0f), L"ROUND", 16, 2);
 	RenderNum(_dc, Vector2D(420.f, 560.f), CPlayer::GetCurStage(), 16, 2);
