@@ -68,11 +68,12 @@ void CBat::Update()
 	ChangeDirection();
 	Move();
 	Remove();
+	UpdateAnim();
+
 }
 
 void CBat::Render(HDC _dc)
 {
-	UpdateAnim();
 	ComponentRender(_dc);
 }
 

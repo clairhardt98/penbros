@@ -37,6 +37,10 @@ public:
 		else
 			return nullptr;
 	}
+	bool IsMonsterRemaining()
+	{
+		return !m_arrObj[(UINT)GROUP_TYPE::MONSTER].empty();
+	}
 public:
 	void AddObject(CObject* _pObj, GROUP_TYPE _eType)
 	{

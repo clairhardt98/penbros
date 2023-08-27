@@ -116,6 +116,15 @@
     <Filter Include="Engine\04.Object\Monster\Ghost">
       <UniqueIdentifier>{396eb234-1b7c-44be-bc21-17f23308d999}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\04.Object\MonsterEgg">
+      <UniqueIdentifier>{44dc8e85-077a-43af-a767-f7359887b547}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04.Object\Key">
+      <UniqueIdentifier>{a0c08718-0bab-43d0-b11b-5330b3092283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04.Object\Lock">
+      <UniqueIdentifier>{8f74055a-ac69-4f2c-ad94-a41151fffc22}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h">
@@ -238,6 +247,15 @@
     <ClInclude Include="CGhost.h">
       <Filter>Engine\04.Object\Monster\Ghost</Filter>
     </ClInclude>
+    <ClInclude Include="CMonsterEgg.h">
+      <Filter>Engine\04.Object\MonsterEgg</Filter>
+    </ClInclude>
+    <ClInclude Include="CKey.h">
+      <Filter>Engine\04.Object\Key</Filter>
+    </ClInclude>
+    <ClInclude Include="CLock.h">
+      <Filter>Engine\04.Object\Lock</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="penbros.rc">
@@ -357,6 +375,15 @@
     </ClCompile>
     <ClCompile Include="CGhost.cpp">
       <Filter>Engine\04.Object\Monster\Ghost</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonsterEgg.cpp">
+      <Filter>Engine\04.Object\MonsterEgg</Filter>
+    </ClCompile>
+    <ClCompile Include="CKey.cpp">
+      <Filter>Engine\04.Object\Key</Filter>
+    </ClCompile>
+    <ClCompile Include="CLock.cpp">
+      <Filter>Engine\04.Object\Lock</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

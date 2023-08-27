@@ -153,8 +153,11 @@
     <ClInclude Include="CExplosion.h" />
     <ClInclude Include="CGhost.h" />
     <ClInclude Include="CImage.h" />
+    <ClInclude Include="CKey.h" />
     <ClInclude Include="CKeyMgr.h" />
+    <ClInclude Include="CLock.h" />
     <ClInclude Include="CMonster.h" />
+    <ClInclude Include="CMonsterEgg.h" />
     <ClInclude Include="CObject.h" />
     <ClInclude Include="CPathMgr.h" />
     <ClInclude Include="CPlatform.h" />
@@ -198,8 +201,11 @@
     <ClCompile Include="CExplosion.cpp" />
     <ClCompile Include="CGhost.cpp" />
     <ClCompile Include="CImage.cpp" />
+    <ClCompile Include="CKey.cpp" />
     <ClCompile Include="CKeyMgr.cpp" />
+    <ClCompile Include="CLock.cpp" />
     <ClCompile Include="CMonster.cpp" />
+    <ClCompile Include="CMonsterEgg.cpp" />
     <ClCompile Include="CObject.cpp" />
     <ClCompile Include="CPathMgr.cpp" />
     <ClCompile Include="CPlatform.cpp" />

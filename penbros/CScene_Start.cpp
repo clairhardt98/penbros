@@ -17,13 +17,16 @@
 #include "CUI.h"
 #include "CTimeMgr.h"
 #include "CGhost.h"
+#include "CMonsterEgg.h"
+#include "CKey.h"
 
 
 
 CScene_Start::CScene_Start()
 	:m_vPlayerSpawnPos(Vector2D(100.0f, 400.0f))
-	, m_fRemainingTime(999)
+	, m_fRemainingTime(100)
 	, m_bIsGhostOn(false)
+	, m_bIsPhaseChanged(false)
 {
 	//이미지 로드하고, 애들 그려주기 전에 먼저 배경 그리면되겠네
 	CResMgr::GetInst()->LoadTexture(L"Background0", L"Image\\Background0.bmp");
@@ -53,6 +56,37 @@ void CScene_Start::Update()
 	if (KEY_TAP(KEY::ENTER))
 	{
 		CPlayer::AddCredit();
+	}
+	if (!m_bIsPhaseChanged && !CSceneMgr::GetInst()->GetCurScene()->IsMonsterRemaining())
+	{
+		//몬스터 알 소환
+		CObject* pEgg0 = new CMonsterEgg;
+		pEgg0->SetName(L"MonsterEgg");
+		pEgg0->SetPos(Vector2D(200.0f, 0.f));
+		pEgg0->SetScale(Vector2D(40.0f, 40.0f));
+		CMonsterEgg* tempEgg = (CMonsterEgg*)pEgg0;
+		tempEgg->SetMonsterType(L"Bat");
+		tempEgg->SetTargetDir(1);
+		tempEgg->SetTargetPos(Vector2D(200.0f, 280.0f));
+		AddObject(pEgg0, GROUP_TYPE::MONSTEREGG);
+
+		CObject* pEgg1 = new CMonsterEgg;
+		pEgg1->SetName(L"MonsterEgg");
+		pEgg1->SetPos(Vector2D(600.0f, 0.f));
+		pEgg1->SetScale(Vector2D(40.0f, 40.0f));
+		tempEgg = (CMonsterEgg*)pEgg1;
+		tempEgg->SetMonsterType(L"Bat");
+		tempEgg->SetTargetDir(-1);
+		tempEgg->SetTargetPos(Vector2D(600.0f, 280.0f));
+		AddObject(pEgg1, GROUP_TYPE::MONSTEREGG);
+		//키 소환
+		CObject* pKey = new CKey;
+		pKey->SetPos(Vector2D(400.0f, 440.0f));
+		pKey->SetScale(Vector2D(40.0f, 40.0f));
+		pKey->SetName(L"Key");
+		AddObject(pKey, GROUP_TYPE::KEY);
+		//자물쇠 소환
+		m_bIsPhaseChanged = true;
 	}
 }
 
@@ -89,6 +123,8 @@ void CScene_Start::Enter()
 	CBat* temp = (CBat*)pBat2;
 	temp->SetDirection(1);
 	AddObject(pBat2, GROUP_TYPE::MONSTER);
+
+	
 
 	//플랫폼 배치
 	CObject* pGround0 = new CPlatform;
@@ -140,6 +176,8 @@ void CScene_Start::Enter()
 	pSpinPlate1->SetName(L"SpinPlatform");
 	AddObject(pSpinPlate1, GROUP_TYPE::PLATFORM);
 
+	
+
 	//UI
 	CObject* pUI = new CUI;
 	pUI->SetName(L"UI");
@@ -154,6 +192,9 @@ void CScene_Start::Enter()
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::BOMB, GROUP_TYPE::MONSTER);
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::EXPLOSION, GROUP_TYPE::PLAYER);
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::EXPLOSION, GROUP_TYPE::MONSTER);
+	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::KEY, GROUP_TYPE::PLATFORM);
+	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::KEY, GROUP_TYPE::PLAYER);
+
 	Start();
 }
 

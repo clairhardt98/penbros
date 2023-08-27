@@ -10,7 +10,7 @@ CRigidBody::CRigidBody()
 	, m_vMaxVelocity(Vector2D(300.f, 500.f))
 	, m_bIsGravityOn(false)
 	, m_bIsGrounded(false)
-	, m_vGravity(Vector2D(0.f, 500.f))
+	, m_vGravity(Vector2D(0.f, 800.f))
 {
 }
 

@@ -57,8 +57,8 @@ CPlayer::CPlayer()
 	pAnimator->CreateAnimation(false, L"GOLEM_IDLE_LEFT", pTexLeft, 9, 10, 0, 0, Vector2D(128.0f, 128.0f), 0.1f, 4);
 	pAnimator->CreateAnimation(true, L"GOLEM_MOVE_RIGHT", pTexRight, 9, 10, 1, 6, Vector2D(128.0f, 128.0f), 0.1f, 4);
 	pAnimator->CreateAnimation(false, L"GOLEM_MOVE_LEFT", pTexLeft, 9, 10, 1, 6, Vector2D(128.0f, 128.0f), 0.1f, 4);
-	pAnimator->CreateAnimation(true, L"GOLEM_ATTACK_RIGHT", pTexRight, 9, 10, 2, 0, Vector2D(128.0f, 128.0f), 0.1f, 12);
-	pAnimator->CreateAnimation(false, L"GOLEM_ATTACK_LEFT", pTexLeft, 9, 10, 2, 0, Vector2D(128.0f, 128.0f), 0.1f, 12);
+	pAnimator->CreateAnimation(true, L"GOLEM_ATTACK_RIGHT", pTexRight, 9, 10, 4, 3, Vector2D(128.0f, 128.0f), 0.3f, 1);
+	pAnimator->CreateAnimation(false, L"GOLEM_ATTACK_LEFT", pTexLeft, 9, 10, 4, 3, Vector2D(128.0f, 128.0f), 0.3f, 1);
 	pAnimator->CreateAnimation(true, L"GOLEM_DIE_RIGHT", pTexRight, 9, 10, 5, 3, Vector2D(128.0f, 128.0f), 0.2f, 8);
 	pAnimator->CreateAnimation(false, L"GOLEM_DIE_LEFT", pTexLeft, 9, 10, 5, 3, Vector2D(128.0f, 128.0f), 0.2f, 8);
 
@@ -230,7 +230,7 @@ void CPlayer::UpdateMove()
 	}
 	if (KEY_TAP(KEY::SPACE) && GetRigidBody()->IsGrounded())
 	{
-		GetRigidBody()->AddVelocity(Vector2D(0.0f, -350.0f));
+		GetRigidBody()->AddVelocity(Vector2D(0.0f, -410.0f));
 
 	}
 	if (KEY_HOLD(KEY::DOWN) && KEY_TAP(KEY::SPACE) && GetRigidBody()->IsGrounded())

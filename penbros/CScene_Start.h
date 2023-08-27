@@ -10,6 +10,7 @@ private:
     CTexture* m_pBGTex;
     float     m_fRemainingTime;
     bool      m_bIsGhostOn;
+    bool      m_bIsPhaseChanged;
 private:
     Vector2D m_vPlayerSpawnPos;
 

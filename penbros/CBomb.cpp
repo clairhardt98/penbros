@@ -32,6 +32,7 @@ CBomb::CBomb()
 
 	CreateRigidBody();
 	GetRigidBody()->EnableGravity(true);
+	GetRigidBody()->SetGravityScale(Vector2D(0.f, 100.0f));
 	
 	CEventMgr::GetInst()->SetBomb(this);
 	//normal 폭탄에 대한 애니메이션 할당 및 생성, 플레이
@@ -113,7 +114,7 @@ void CBomb::OnCollision(CCollider* _pOther)
 		float dist = abs(plateCenter.x - GetPos().x);
 		float ratio = dist / plateWidth;
 		
-		GetRigidBody()->AddVelocity(Vector2D((.5f + ratio)* 300.0f * m_iDir, (.5f + ratio) *  -200.0f));
+		GetRigidBody()->SetVelocity(Vector2D((.5f + ratio)* 400.0f *  m_iDir, (.5f + ratio) * -250.0f));
 		m_pCurPlate = nullptr;
 	}
 }
