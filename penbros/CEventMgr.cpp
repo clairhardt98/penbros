@@ -7,6 +7,7 @@
 #include "CSpinPlate.h"
 #include "CRigidBody.h"
 #include "CImage.h"
+#include "CKey.h"
 CEventMgr::CEventMgr()
 	:m_pPlayer(nullptr)
 {
@@ -91,8 +92,14 @@ void CEventMgr::Execute(const tEvent& _eve)
 
 		break;
 	case EVENT_TYPE::THROW_BOMB:
-		if (nullptr == m_pBomb) return;		
-		m_pBomb->BeThrown((CObject*)_eve.lParam, (int)_eve.wParam);
+	{
+		if (nullptr != m_pBomb)
+			m_pBomb->BeThrown((CObject*)_eve.lParam, (int)_eve.wParam);
+
+		CKey* temp = (CKey*)CSceneMgr::GetInst()->GetCurScene()->GetKey();
+		if(nullptr!=temp)
+			temp->BeThrown((CObject*)_eve.lParam, (int)_eve.wParam);
+	}
 		break;
 	case EVENT_TYPE::PLAYER_HIT:
 		m_pPlayer->Hit();
@@ -108,6 +115,11 @@ void CEventMgr::Execute(const tEvent& _eve)
 		CSceneMgr::GetInst()->GetCurScene()->RevivePlayer();
 		break;
 	}
+	case EVENT_TYPE::STAGE_CLEAR:
+		CSceneMgr::GetInst()->GetCurScene()->SetCleared(true);
+		DeleteObject(CSceneMgr::GetInst()->GetCurScene()->GetKey());
+		
+		break;
 	}
 }
 

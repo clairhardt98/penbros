@@ -125,6 +125,12 @@
     <Filter Include="Engine\04.Object\Lock">
       <UniqueIdentifier>{8f74055a-ac69-4f2c-ad94-a41151fffc22}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\05.Scene\Scene_Stage01">
+      <UniqueIdentifier>{f1e51485-69d3-4c17-b7be-ceba3681bacd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04.Object\Monster\Crab\CrabProjectile">
+      <UniqueIdentifier>{617bf0b8-7bdb-4707-bcd9-ac9e38e3715f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h">
@@ -256,6 +262,9 @@
     <ClInclude Include="CLock.h">
       <Filter>Engine\04.Object\Lock</Filter>
     </ClInclude>
+    <ClInclude Include="CCrabProjectile.h">
+      <Filter>Engine\04.Object\Monster\Crab\CrabProjectile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="penbros.rc">
@@ -384,6 +393,9 @@
     </ClCompile>
     <ClCompile Include="CLock.cpp">
       <Filter>Engine\04.Object\Lock</Filter>
+    </ClCompile>
+    <ClCompile Include="CCrabProjectile.cpp">
+      <Filter>Engine\04.Object\Monster\Crab\CrabProjectile</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

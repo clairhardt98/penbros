@@ -67,6 +67,14 @@ void CScene::Render(HDC _dc)
 	}
 }
 
+void CScene::ClearEnemy()
+{
+	for (auto iter = m_arrObj[(UINT)GROUP_TYPE::MONSTER].begin(); iter != m_arrObj[(UINT)GROUP_TYPE::MONSTER].end(); iter++)
+	{
+		(*iter)->Hit();
+	}
+}
+
 void CScene::DeleteGroup(GROUP_TYPE _eTarget)
 {
 	Safe_Delete_Vec<CObject*>(m_arrObj[(UINT)_eTarget]);

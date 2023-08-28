@@ -6,11 +6,16 @@
 #include "CPlayer.h"
 #include "CSceneMgr.h"
 #include "CScene.h"
+#include "CCore.h"
 CUI::CUI()
+	:m_bStageCleared(false)
+	,m_bGameOvered(false)
 {
 	m_pNumFont = CResMgr::GetInst()->LoadTexture(L"Font_num", L"Image\\NumberFonts.bmp");
 	m_pAlphabetFont = CResMgr::GetInst()->LoadTexture(L"Font_alpha", L"Image\\AlphabetFonts.bmp");
 	m_pPlayerIdle = CResMgr::GetInst()->LoadImg(L"PlayerImageIdle", L"Image\\Golem_Idle_Image.bmp");
+	m_pCOOLimg = CResMgr::GetInst()->LoadTexture(L"COOL", L"Image\\COOL!.bmp");
+	m_pGameOverImg = CResMgr::GetInst()->LoadTexture(L"GameOver", L"Image\\GameOver.bmp");
 
 	m_vFontSize = Vector2D(8.f, 8.f);
 
@@ -20,6 +25,7 @@ CUI::CUI()
 CUI::~CUI()
 {
 }
+
 
 void CUI::Update()
 {
@@ -46,6 +52,14 @@ void CUI::Render(HDC _dc)
 	//우하단 크레딧
 	RenderAlphabet(_dc, Vector2D(600.f, 560.f), L"CREDIT", 16, 2);
 	RenderNum(_dc, Vector2D(700.0f, 560.f), CPlayer::GetCredit(), 16, 2);
+	if (m_bStageCleared)
+	{
+		RenderCOOLImg(_dc);
+	}
+	if (m_bGameOvered)
+	{
+		RenderGameOverImg(_dc);
+	}
 }
 
 void CUI::RenderNum(HDC _dc, Vector2D _vStartPos, int _num, int _size, int _interval)
@@ -90,3 +104,14 @@ void CUI::DrawPlayerImage(Vector2D _vStartPos)
 		0, 0, w, h, UnitPixel, m_pPlayerIdle->GetImgAttr());
 }
 
+void CUI::RenderCOOLImg(HDC _dc)
+{
+	POINT pRes = CCore::GetInst()->GetResolution();
+	TransparentBlt(_dc, 0, 0, pRes.x, pRes.y, m_pCOOLimg->GetDC(), 0, 0, 800, 600, RGB(255,0,255));
+}
+
+void CUI::RenderGameOverImg(HDC _dc)
+{
+	POINT pRes = CCore::GetInst()->GetResolution();
+	TransparentBlt(_dc, 0, 0, pRes.x, pRes.y, m_pGameOverImg->GetDC(), 0, 0, 800, 600, RGB(255, 0, 255));
+}

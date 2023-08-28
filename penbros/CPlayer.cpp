@@ -15,6 +15,7 @@
 #include "CEventMgr.h"
 #include "CImage.h"
 #include "CCore.h"
+#include "CKey.h"
 
 int CPlayer::m_iHP = 2;
 int CPlayer::m_iScore = 0;
@@ -30,11 +31,14 @@ CPlayer::CPlayer()
 	, m_bIsSliding(false)
 	, m_bIsSpinning(false)
 	, m_bIsImgInverted(false)
-	, m_eBMod(BOMB_MODE::GREEN)
+	, m_eBMod(BOMB_MODE::RED)
 	, m_bIsSticked(false)
 	, m_fStickDuration(0.f)
 	, m_bIsAlive(true)
 	,m_fDeathTime(0.f)
+	,m_pKey(nullptr)
+	,m_bIsHoldingKey(false)
+	, m_bIsInVulnerable(false)
 {
 	CreateCollider();
 	GetCollider()->SetOffsetPos(Vector2D(0.0f, 0.0f));
@@ -100,6 +104,27 @@ CPlayer::~CPlayer()
 {
 
 }
+
+void CPlayer::OnStageCleared()
+{
+	//외부에서 호출해주는 함수
+	//힘을 반대방향으로 빡 주고
+	m_bIsInVulnerable = true;
+	m_bIsHoldingKey = false;
+	GetRigidBody()->SetVelocity(Vector2D(-200.0f * m_iDir, -300.0f));
+	//이미지 360도 회전시키면될것같은데?
+}
+
+void CPlayer::ThrowKey()
+{
+	if (nullptr == m_pKey)return;
+	m_pKey->GetRigidBody()->SetVelocity(Vector2D(200.0f * m_iDir, -100.0f));
+	m_pKey->SetCaptured(false);
+	m_pKey = nullptr;
+	m_bIsHoldingKey = false;
+}
+
+
 
 void CPlayer::Update()
 {
@@ -239,7 +264,13 @@ void CPlayer::UpdateMove()
 	}
 	if (KEY_TAP(KEY::Q))
 	{
-		SetBomb();
+		if (m_bIsHoldingKey)
+		{
+			//열쇠 던지는 로직
+			ThrowKey();
+		}
+		else
+			SetBomb();
 	}
 	if (m_bIsSticked && KEY_TAP(KEY::SPACE))
 	{
@@ -393,10 +424,20 @@ void CPlayer::SetBomb()
 
 void CPlayer::Hit()
 {
+	if (m_bIsInVulnerable) return;
 	//사망처리
 	//사망 애니메이션 재생
 	//상태를 사망으로
 	SetName(L"DeadPlayer");
 	m_bIsAlive = false;
 	GetRigidBody()->SetVelocity(Vector2D((float)-m_iDir * 200.f, -150.f));
+}
+
+void CPlayer::OnCollisionEnter(CCollider* _pOther)
+{
+	if (L"Key" == _pOther->GetObj()->GetName())
+	{
+		m_pKey = (CKey*)_pOther->GetObj();
+		m_bIsHoldingKey = true;
+	}
 }

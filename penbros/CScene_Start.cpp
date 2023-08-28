@@ -19,7 +19,9 @@
 #include "CGhost.h"
 #include "CMonsterEgg.h"
 #include "CKey.h"
-
+#include "CLock.h"
+#include "CUI.h"
+#include "CCrab.h"
 
 
 CScene_Start::CScene_Start()
@@ -27,6 +29,10 @@ CScene_Start::CScene_Start()
 	, m_fRemainingTime(100)
 	, m_bIsGhostOn(false)
 	, m_bIsPhaseChanged(false)
+	,m_bCleared(false)
+	,m_fAfterClearTime(0.f)
+	,m_bGameOvered(false)
+	,m_eCurState(SCENE_STATE::PLAY)
 {
 	//이미지 로드하고, 애들 그려주기 전에 먼저 배경 그리면되겠네
 	CResMgr::GetInst()->LoadTexture(L"Background0", L"Image\\Background0.bmp");
@@ -39,55 +45,64 @@ CScene_Start::~CScene_Start()
 
 void CScene_Start::Update()
 {
-	//시간초 줄어들기
-	if(m_fRemainingTime >=0.f)
-		m_fRemainingTime -= fDT;
-	else
-	{
-		if (!m_bIsGhostOn)
-		{
-			SpawnGhost();
-			m_bIsGhostOn = true;
-		}
-	}
-	
 	//부모의 코드 그대로 사용
+	UpdateState();
 	CScene::Update();
 	if (KEY_TAP(KEY::ENTER))
 	{
 		CPlayer::AddCredit();
 	}
-	if (!m_bIsPhaseChanged && !CSceneMgr::GetInst()->GetCurScene()->IsMonsterRemaining())
-	{
-		//몬스터 알 소환
-		CObject* pEgg0 = new CMonsterEgg;
-		pEgg0->SetName(L"MonsterEgg");
-		pEgg0->SetPos(Vector2D(200.0f, 0.f));
-		pEgg0->SetScale(Vector2D(40.0f, 40.0f));
-		CMonsterEgg* tempEgg = (CMonsterEgg*)pEgg0;
-		tempEgg->SetMonsterType(L"Bat");
-		tempEgg->SetTargetDir(1);
-		tempEgg->SetTargetPos(Vector2D(200.0f, 280.0f));
-		AddObject(pEgg0, GROUP_TYPE::MONSTEREGG);
 
-		CObject* pEgg1 = new CMonsterEgg;
-		pEgg1->SetName(L"MonsterEgg");
-		pEgg1->SetPos(Vector2D(600.0f, 0.f));
-		pEgg1->SetScale(Vector2D(40.0f, 40.0f));
-		tempEgg = (CMonsterEgg*)pEgg1;
-		tempEgg->SetMonsterType(L"Bat");
-		tempEgg->SetTargetDir(-1);
-		tempEgg->SetTargetPos(Vector2D(600.0f, 280.0f));
-		AddObject(pEgg1, GROUP_TYPE::MONSTEREGG);
-		//키 소환
-		CObject* pKey = new CKey;
-		pKey->SetPos(Vector2D(400.0f, 440.0f));
-		pKey->SetScale(Vector2D(40.0f, 40.0f));
-		pKey->SetName(L"Key");
-		AddObject(pKey, GROUP_TYPE::KEY);
-		//자물쇠 소환
-		m_bIsPhaseChanged = true;
+	switch (m_eCurState)
+	{
+	case SCENE_STATE::ENTER:
+		break;
+	case SCENE_STATE::PLAY:
+		if (m_fRemainingTime >= 0.f)
+			m_fRemainingTime -= fDT;
+		else
+		{
+			if (!m_bIsGhostOn)
+			{
+				SpawnGhost();
+				m_bIsGhostOn = true;
+			}
+		}
+		//페이즈 바뀔 때 한 번만 실행
+		if (!m_bIsPhaseChanged && !CSceneMgr::GetInst()->GetCurScene()->IsMonsterRemaining())
+		{
+			GenerateNewMonsters();
+			m_bIsPhaseChanged = true;
+		}
+
+		break;
+	case SCENE_STATE::GAMEOVER:
+		if (KEY_TAP(KEY::G))
+		{
+			ContinueGame();
+			
+		}
+		//동전넣으면 다시 플레이스테이트로 변경
+		//게임오버 UI 출력
+		break;
+	case SCENE_STATE::CLEAR:
+		if (m_bCleared)
+		{
+			m_fAfterClearTime += fDT;
+			if (m_fAfterClearTime >= 2.0f)
+			{
+				printf("Move to Next Scene\n");
+				MoveToNextStage();
+			}
+			return;
+		}
+		break;
 	}
+	
+	//시간초 줄어들기
+	
+	
+	
 }
 
 void CScene_Start::Render(HDC _dc)
@@ -99,6 +114,12 @@ void CScene_Start::Render(HDC _dc)
 
 void CScene_Start::Enter()
 {
+	m_fRemainingTime = 100.f;
+	m_bIsGhostOn = false;
+	m_bIsPhaseChanged = false;
+	m_bCleared = false;
+	m_fAfterClearTime = 0.f;
+	m_eCurState = SCENE_STATE::PLAY;
 	//player 추가
 	InstantiatePlayer();
 	//플레이어의 stageCnt ++
@@ -123,6 +144,17 @@ void CScene_Start::Enter()
 	CBat* temp = (CBat*)pBat2;
 	temp->SetDirection(1);
 	AddObject(pBat2, GROUP_TYPE::MONSTER);
+
+
+	//crab
+
+	CObject* pCrab0 = new CCrab;
+	pCrab0->SetName(L"Monster");
+	pCrab0->SetPos(Vector2D(75.0f, 280.f));
+	pCrab0->SetScale(Vector2D(40.0f, 40.0f));
+	CCrab* tempCrab = (CCrab*)pCrab0;
+	tempCrab->SetDirection(1);
+	AddObject(pCrab0, GROUP_TYPE::MONSTER);
 
 	
 
@@ -194,6 +226,8 @@ void CScene_Start::Enter()
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::EXPLOSION, GROUP_TYPE::MONSTER);
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::KEY, GROUP_TYPE::PLATFORM);
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::KEY, GROUP_TYPE::PLAYER);
+	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::LOCK, GROUP_TYPE::PLAYER);
+
 
 	Start();
 }
@@ -205,13 +239,58 @@ void CScene_Start::Exit()
 	//충돌 그룹 해제
 }
 
+void CScene_Start::GenerateNewMonsters()
+{
+	//몬스터 알 소환
+	CObject* pEgg0 = new CMonsterEgg;
+	pEgg0->SetName(L"MonsterEgg");
+	pEgg0->SetPos(Vector2D(200.0f, 0.f));
+	pEgg0->SetScale(Vector2D(40.0f, 40.0f));
+	CMonsterEgg* tempEgg = (CMonsterEgg*)pEgg0;
+	tempEgg->SetMonsterType(L"Bat");
+	tempEgg->SetTargetDir(1);
+	tempEgg->SetTargetPos(Vector2D(200.0f, 280.0f));
+	AddObject(pEgg0, GROUP_TYPE::MONSTEREGG);
+
+	CObject* pEgg1 = new CMonsterEgg;
+	pEgg1->SetName(L"MonsterEgg");
+	pEgg1->SetPos(Vector2D(600.0f, 0.f));
+	pEgg1->SetScale(Vector2D(40.0f, 40.0f));
+	tempEgg = (CMonsterEgg*)pEgg1;
+	tempEgg->SetMonsterType(L"Bat");
+	tempEgg->SetTargetDir(-1);
+	tempEgg->SetTargetPos(Vector2D(600.0f, 280.0f));
+	AddObject(pEgg1, GROUP_TYPE::MONSTEREGG);
+	//키 소환
+	CObject* pKey = new CKey;
+	pKey->SetPos(Vector2D(400.0f, 440.0f));
+	pKey->SetScale(Vector2D(40.0f, 40.0f));
+	pKey->SetName(L"Key");
+	AddObject(pKey, GROUP_TYPE::KEY);
+	//자물쇠 소환
+	CObject* pLock = new CLock;
+	pLock->SetPos(Vector2D(400.0f, 300.0f));
+	pLock->SetScale(Vector2D(50.0f, 50.0f));
+	pLock->SetName(L"Lock");
+	AddObject(pLock, GROUP_TYPE::LOCK);
+}
+
+void CScene_Start::MoveToNextStage()
+{
+	ChangeScene(SCENE_TYPE::TOOL);
+}
+
+
+void CScene_Start::UpdateState()
+{
+		
+}
 
 void CScene_Start::RevivePlayer()
 {
 	if (0 == CPlayer::GetHP())
 	{
-		//게임오버 애니메이션 
-		//동전넣고 플레이어 hp 다시 돌려놓고
+		SetGameOvered(true);
 		printf("GameOver\n");
 	}
 	else
@@ -226,6 +305,37 @@ void CScene_Start::RevivePlayer()
 			DeleteObject(GetGhost());
 		}
 	}
+}
+
+void CScene_Start::SetCleared(bool _b)
+{
+	m_bCleared = true;
+	if (m_bCleared)
+	{
+		printf("StageCleared!\n");
+		//존재하는 모든 적들에 대해 Hit함수 호출
+		ClearEnemy();
+		//플레이어의 승리 애니메이션 실행
+		CPlayer* temp = (CPlayer*)GetPlayer();
+		temp->OnStageCleared();
+		//Ghost가 On  상태라면 Ghost 객체 delete
+		if (m_bIsGhostOn)
+		{
+			DeleteObject(GetGhost());
+		}
+		//Cool이미지띄우기
+		CUI* pUI = (CUI*)GetUI();
+		pUI->SetCleared(true);
+		m_eCurState = SCENE_STATE::CLEAR;
+	}
+}
+
+void CScene_Start::SetGameOvered(bool _b)
+{
+	m_bGameOvered = _b;
+	CUI* pUI = (CUI*)GetUI();
+	pUI->SetGameOvered(true);
+	m_eCurState = SCENE_STATE::GAMEOVER;
 }
 
 void CScene_Start::InstantiatePlayer()
@@ -248,4 +358,16 @@ void CScene_Start::SpawnGhost()
 	pObj->SetScale(Vector2D(40.0f, 40.0f));
 
 	AddObject(pObj, GROUP_TYPE::GHOST);
+}
+
+void CScene_Start::ContinueGame()
+{
+	if (0 == CPlayer::GetCredit())return;
+	CPlayer::ReduceCredit();
+	CPlayer::SetHP(3);
+	CUI* pUI = (CUI*)GetUI();
+	pUI->SetGameOvered(false);
+	RevivePlayer();
+
+	m_eCurState = SCENE_STATE::PLAY;
 }

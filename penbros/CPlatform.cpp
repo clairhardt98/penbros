@@ -81,7 +81,7 @@ void CPlatform::OnCollisionEnter(CCollider* _pOther)
 void CPlatform::OnCollision(CCollider* _pOther)
 {
 	CObject* pOtherObj = _pOther->GetObj();
-	if (pOtherObj->GetName() == L"Player" || pOtherObj->GetName() == L"Bomb" || pOtherObj->GetName() == L"DeadPlayer" || pOtherObj->GetName() == L"Key")
+	if (pOtherObj->GetName() == L"Player" || pOtherObj->GetName() == L"Bomb" || pOtherObj->GetName() == L"DeadPlayer" || pOtherObj->GetName() == L"Key" || pOtherObj->GetName() == L"Monster")
 	{
 		Vector2D vObjPos = _pOther->GetFinalPos();
 		Vector2D vObjScale = _pOther->GetScale();

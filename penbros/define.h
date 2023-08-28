@@ -25,6 +25,7 @@ enum class GROUP_TYPE
 {
 	DEFAULT,
 	PLATFORM,
+	LOCK,
 	EXPLOSION,
 	PLAYER,
 	BOMB,
@@ -32,6 +33,7 @@ enum class GROUP_TYPE
 	GHOST,
 	MONSTEREGG,
 	KEY,
+	
 
 	UI = 31,
 	END = 32,
@@ -74,5 +76,6 @@ enum class EVENT_TYPE
 	EXPLOSION_HIT,
 	PLAYER_REVIVE,
 	PLAYER_HOLDKEY,
+	STAGE_CLEAR,
 	END,
 };

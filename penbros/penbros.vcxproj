@@ -149,6 +149,7 @@
     <ClInclude Include="CCollisionMgr.h" />
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CCrab.h" />
+    <ClInclude Include="CCrabProjectile.h" />
     <ClInclude Include="CEventMgr.h" />
     <ClInclude Include="CExplosion.h" />
     <ClInclude Include="CGhost.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="CCollisionMgr.cpp" />
     <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CCrab.cpp" />
+    <ClCompile Include="CCrabProjectile.cpp" />
     <ClCompile Include="CEventMgr.cpp" />
     <ClCompile Include="CExplosion.cpp" />
     <ClCompile Include="CGhost.cpp" />

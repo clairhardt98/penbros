@@ -22,6 +22,8 @@ public:
 
 public:
 	virtual void RevivePlayer() {}
+	virtual void SetCleared(bool _b) {}
+	virtual void SetGameOvered(bool _b) {}
 	virtual int GetRemainingTime() { return 0; }
 	CObject* GetPlayer() 
 	{ 
@@ -37,10 +39,27 @@ public:
 		else
 			return nullptr;
 	}
+	CObject* GetKey()
+	{
+		if (!m_arrObj[(UINT)GROUP_TYPE::KEY].empty())
+			return m_arrObj[(UINT)GROUP_TYPE::KEY].front();
+		else
+			return nullptr;
+	}
+	CObject* GetUI()
+	{
+		if (!m_arrObj[(UINT)GROUP_TYPE::UI].empty())
+			return m_arrObj[(UINT)GROUP_TYPE::UI].front();
+		else
+			return nullptr;
+	}
 	bool IsMonsterRemaining()
 	{
 		return !m_arrObj[(UINT)GROUP_TYPE::MONSTER].empty();
 	}
+
+protected:
+	void ClearEnemy();
 public:
 	void AddObject(CObject* _pObj, GROUP_TYPE _eType)
 	{

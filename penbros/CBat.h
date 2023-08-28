@@ -9,7 +9,6 @@ public:
 	void ChangeDirection();
 	void Move();
 	void UpdateAnim();
-	void SetDir(int _Dir) { m_iDir = _Dir; }
 public:
 	virtual void Start() override;
 	virtual void Update() override;
