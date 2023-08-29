@@ -13,7 +13,7 @@
 CCrab::CCrab()
 	:m_iDir(1)
 	,m_eCurState(CRAB_STATE::IDLE)
-	,m_ePrevState(CRAB_STATE::IDLE)
+	,m_ePrevState(CRAB_STATE::START)
 	,m_bIsAttacking(false)
 	,m_fDetectionDist(250.0f)
 {
@@ -36,6 +36,10 @@ CCrab::CCrab()
 	CAnimation* pAniDieRight = pAnimator->FindAnimation(L"CrabDieRight");
 	CAnimation* pAniDieLeft = pAnimator->FindAnimation(L"CrabDieLeft");
 	
+	//8프레임 째에 이벤트 발생하게 함
+	//이 이벤트는 fire 함수를 호출함
+	pAniAttackRight->SetEventFrame(6);
+	pAniAttackLeft->SetEventFrame(6);
 	for (int i = 0; i < pAniIdleRight->GetMaxFrame(); i++)
 		pAniIdleRight->GetFrame(i).vOffset = Vector2D(0.f, -15.f);
 	for (int i = 0; i < pAniIdleLeft->GetMaxFrame(); i++)
@@ -62,7 +66,7 @@ CCrab::~CCrab()
 
 void CCrab::UpdateAnim()
 {
-	if (IsDead() || m_eCurState != m_ePrevState)return;
+	if (IsDead() || m_eCurState == m_ePrevState)return;
 	switch (m_eCurState)
 	{
 	case CRAB_STATE::IDLE:
@@ -98,6 +102,8 @@ void CCrab::UpdateAnim()
 void CCrab::UpdateState()
 {
 	//현재 위치와 플레이어와의 거리를 판단해서 ATTACK 스테이트로 변경
+	m_ePrevState = m_eCurState;
+
 	if (IsDead())
 	{
 		m_eCurState = CRAB_STATE::DIE;
@@ -114,12 +120,14 @@ void CCrab::UpdateState()
 		m_eCurState = CRAB_STATE::IDLE;
 		m_bIsAttacking = false;
 	}
-	m_ePrevState = m_eCurState;
 }
 
 bool CCrab::CanAttack()
 {
-	Vector2D vPlayerPos = CSceneMgr::GetInst()->GetCurScene()->GetPlayer()->GetPos();
+	CObject* pPlayer = CSceneMgr::GetInst()->GetCurScene()->GetPlayer();
+	if (nullptr == pPlayer)return false;
+	Vector2D vPlayerPos = pPlayer->GetPos();
+	
 	Vector2D vPos = GetPos();
 	if (abs(vPlayerPos.y - vPos.y) > 30.f)return false;
 	if (m_iDir == -1 && vPos.x - vPlayerPos.x < m_fDetectionDist)
@@ -133,22 +141,32 @@ bool CCrab::CanAttack()
 
 void CCrab::Fire()
 {
+	CCrabProjectile* pProj = new CCrabProjectile;
+	pProj->SetPos(Vector2D(GetPos().x + 10 * m_iDir, GetPos().y - 10.f));
+	pProj->SetScale(Vector2D(17.f, 10.f));
+	pProj->SetDirection(m_iDir);
+	pProj->GetRigidBody()->SetVelocity(Vector2D(300.0f * m_iDir, 0.f));
+	CreateObject(pProj, GROUP_TYPE::MONSTERPROJ);
 }
 
 void CCrab::Start()
 {
+	if (m_iDir == 1)
+		GetAnimator()->Play(L"CrabIdleRight", true);
+	else
+		GetAnimator()->Play(L"CrabIdleLeft", true);
 }
 
 void CCrab::Update()
 {
 	Remove();
-	UpdateState();
 	UpdateAnim();
-	if (m_bIsAttacking)
-	{
-		if (GetAnimator()->GetCurAnimation()->IsFinish())
-			Fire();
-	}
+	UpdateState();
+	
+	
+	/*if (m_bIsAttacking && GetAnimator()->GetCurAnimation()->IsFinish())
+		Fire();*/
+	
 }
 
 void CCrab::Render(HDC _dc)
@@ -169,6 +187,11 @@ void CCrab::Hit()
 		GetAnimator()->Play(L"CrabDieLeft", false);
 	GetRigidBody()->EnableGravity(true);
 	GetRigidBody()->SetVelocity(Vector2D(0.f, -150.f));
+}
+
+void CCrab::OnAnimEvent()
+{
+	Fire();
 }
 
 

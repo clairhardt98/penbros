@@ -22,6 +22,7 @@ private:
 	float				m_fAccTime;
 
 	bool				m_bFinish; // 애니메이션이 끝났음을 체크
+	int					m_iEventFrm;
 
 public:
 	const wstring& GetName() { return m_strName; }
@@ -35,8 +36,11 @@ public:
 
 	tAnimFrm& GetFrame(int _iIdx) { return m_vecFrm[_iIdx]; }
 	int GetMaxFrame() { return m_vecFrm.size(); }
+	void SetEventFrame(int _i) { m_iEventFrm = _i; }
+
 private:
 	void SetName(const wstring& _strName) { m_strName = _strName; }
+	//어떤 프레임에 이벤트를 발생시킬 건지 정해준다
 public:
 	void Update();
 	void Render(HDC _dc);

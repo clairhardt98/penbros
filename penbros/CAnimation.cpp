@@ -13,6 +13,7 @@ CAnimation::CAnimation()
 	,m_iCurFrm(0)
 	,m_fAccTime(0.f)
 	,m_bFinish(false)
+	,m_iEventFrm(-1)
 {
 }
 
@@ -36,6 +37,11 @@ void CAnimation::Update()
 			m_bFinish = true;
 			m_fAccTime = 0;
 			return;
+		}
+		if (-1 != m_iEventFrm && m_iCurFrm == m_iEventFrm)
+		{
+			//특정 프레임에서 이벤트 호출한다
+			m_pAnimator->TriggerEvent();
 		}
 		//fdt가 오버한 양 만큼 남겨둬야 함
 		m_fAccTime = m_fAccTime - m_vecFrm[m_iCurFrm].fDuration;

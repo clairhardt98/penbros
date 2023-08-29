@@ -58,19 +58,19 @@ void CCollider::FinalUpdate()
 
 void CCollider::Render(HDC _dc)
 {
-	PEN_TYPE ePen = PEN_TYPE::GREEN;
+	//PEN_TYPE ePen = PEN_TYPE::GREEN;
 
-	if (m_iCol)ePen = PEN_TYPE::RED;
+	//if (m_iCol)ePen = PEN_TYPE::RED;
 
-	//임시객체 생성했기 때문에 함수 종료시 객체 소멸, 소멸자에서 다시 원래 펜과 브러시로 돌려놓음
-	SelectGDI p(_dc, ePen);
-	SelectGDI b(_dc, BRUSH_TYPE::HOLLOW);
+	////임시객체 생성했기 때문에 함수 종료시 객체 소멸, 소멸자에서 다시 원래 펜과 브러시로 돌려놓음
+	//SelectGDI p(_dc, ePen);
+	//SelectGDI b(_dc, BRUSH_TYPE::HOLLOW);
 
-	Rectangle(_dc
-		, (int)(m_vFinalPos.x - m_vScale.x / 2.0f)
-		, (int)(m_vFinalPos.y - m_vScale.y / 2.0f)
-		, (int)(m_vFinalPos.x + m_vScale.x / 2.0f)
-		, (int)(m_vFinalPos.y + m_vScale.y / 2.0f));
+	//Rectangle(_dc
+	//	, (int)(m_vFinalPos.x - m_vScale.x / 2.0f)
+	//	, (int)(m_vFinalPos.y - m_vScale.y / 2.0f)
+	//	, (int)(m_vFinalPos.x + m_vScale.x / 2.0f)
+	//	, (int)(m_vFinalPos.y + m_vScale.y / 2.0f));
 	
 }
 

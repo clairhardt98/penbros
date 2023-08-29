@@ -44,9 +44,6 @@
     <Filter Include="Engine\04.Object\Monster">
       <UniqueIdentifier>{dc46c70d-3e7a-4624-85c0-4bcf35d83985}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\05.Scene\Scene_Start">
-      <UniqueIdentifier>{f37d7585-ef3a-4dd5-9920-fd4db83a5556}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\03.Manager\TimeMgr">
       <UniqueIdentifier>{8195d638-6676-411c-8017-074a34f81c06}</UniqueIdentifier>
     </Filter>
@@ -73,9 +70,6 @@
     </Filter>
     <Filter Include="Engine\03.Manager\CollisionMgr">
       <UniqueIdentifier>{dbb26b8c-1b24-4858-8220-65c36e963460}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\05.Scene\Scene_Tool">
-      <UniqueIdentifier>{6fc86ed9-056d-4fd9-8765-060a811d0629}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\07.Components\Animator">
       <UniqueIdentifier>{a0c5ab8e-42ec-4421-be13-05afb1e5a527}</UniqueIdentifier>
@@ -125,11 +119,17 @@
     <Filter Include="Engine\04.Object\Lock">
       <UniqueIdentifier>{8f74055a-ac69-4f2c-ad94-a41151fffc22}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\05.Scene\Scene_Stage01">
-      <UniqueIdentifier>{f1e51485-69d3-4c17-b7be-ceba3681bacd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\04.Object\Monster\Crab\CrabProjectile">
       <UniqueIdentifier>{617bf0b8-7bdb-4707-bcd9-ac9e38e3715f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05.Scene\Scene_Stage01">
+      <UniqueIdentifier>{f37d7585-ef3a-4dd5-9920-fd4db83a5556}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05.Scene\Scene_Start">
+      <UniqueIdentifier>{6fc86ed9-056d-4fd9-8765-060a811d0629}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03.Manager\SoundMgr">
+      <UniqueIdentifier>{2f42d2ce-9309-4f15-999d-c88100ed5ad6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -166,8 +166,8 @@
     <ClInclude Include="CSceneMgr.h">
       <Filter>Engine\03.Manager\SceneMgr</Filter>
     </ClInclude>
-    <ClInclude Include="CScene_Start.h">
-      <Filter>Engine\05.Scene\Scene_Start</Filter>
+    <ClInclude Include="CScene_Stage01.h">
+      <Filter>Engine\05.Scene\Scene_Stage01</Filter>
     </ClInclude>
     <ClInclude Include="CPlayer.h">
       <Filter>Engine\04.Object\Player</Filter>
@@ -205,8 +205,8 @@
     <ClInclude Include="func.h">
       <Filter>Engine\01.Header</Filter>
     </ClInclude>
-    <ClInclude Include="CScene_Tool.h">
-      <Filter>Engine\05.Scene\Scene_Tool</Filter>
+    <ClInclude Include="CScene_Start.h">
+      <Filter>Engine\05.Scene\Scene_Start</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>Engine</Filter>
@@ -265,6 +265,9 @@
     <ClInclude Include="CCrabProjectile.h">
       <Filter>Engine\04.Object\Monster\Crab\CrabProjectile</Filter>
     </ClInclude>
+    <ClInclude Include="CSoundMgr.h">
+      <Filter>Engine\03.Manager\SoundMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="penbros.rc">
@@ -298,8 +301,8 @@
     <ClCompile Include="CSceneMgr.cpp">
       <Filter>Engine\03.Manager\SceneMgr</Filter>
     </ClCompile>
-    <ClCompile Include="CScene_Start.cpp">
-      <Filter>Engine\05.Scene\Scene_Start</Filter>
+    <ClCompile Include="CScene_Stage01.cpp">
+      <Filter>Engine\05.Scene\Scene_Stage01</Filter>
     </ClCompile>
     <ClCompile Include="CPlayer.cpp">
       <Filter>Engine\04.Object\Player</Filter>
@@ -337,8 +340,8 @@
     <ClCompile Include="func.cpp">
       <Filter>Engine\01.Header</Filter>
     </ClCompile>
-    <ClCompile Include="CScene_Tool.cpp">
-      <Filter>Engine\05.Scene\Scene_Tool</Filter>
+    <ClCompile Include="CScene_Start.cpp">
+      <Filter>Engine\05.Scene\Scene_Start</Filter>
     </ClCompile>
     <ClCompile Include="CTimeMgr.cpp">
       <Filter>Engine\03.Manager\TimeMgr</Filter>
@@ -396,6 +399,9 @@
     </ClCompile>
     <ClCompile Include="CCrabProjectile.cpp">
       <Filter>Engine\04.Object\Monster\Crab\CrabProjectile</Filter>
+    </ClCompile>
+    <ClCompile Include="CSoundMgr.cpp">
+      <Filter>Engine\03.Manager\SoundMgr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

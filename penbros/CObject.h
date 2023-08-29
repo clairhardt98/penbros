@@ -48,6 +48,7 @@ public:
 	void CreateGraphics();
 	CCollider* GetCollider() { return m_pCollider; }
 	CAnimator* GetAnimator() { return m_pAnimator; }
+	virtual void OnAnimEvent() {};
 	CRigidBody* GetRigidBody() { return m_pRigidBody; }
 	Gdiplus::Graphics* GetGraphics() { return m_pGraphics; }
 

@@ -3,7 +3,7 @@
 #include "CPathMgr.h"
 #include "CTexture.h"
 #include "CImage.h"
-
+#include "CSound.h"
 CResMgr::CResMgr()
 {
 
@@ -88,5 +88,43 @@ CImage* CResMgr::FindImg(const wstring& _strKey)
 
 	//키값으로 리소스 찾아서 반환하는 함수
 	return (CImage*)iter->second;
+}
+
+CSound* CResMgr::LoadSound(const wstring& _strKey, const wstring& _strRelativePath)
+{
+	CSound* pSound = FindSound(_strKey);
+	if (nullptr != pSound)
+	{
+		// 이미 있는 텍스쳐라면 그대로 반환
+		return pSound;
+	}
+
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+	strFilePath += _strRelativePath;
+
+	pSound = new CSound;
+	pSound->Load(strFilePath);
+
+	//리소스 객체가 키와 상대경로를 알게 하기
+	pSound->SetKey(_strKey);
+	pSound->SetRelativePath(_strRelativePath);
+
+	//map 자료구조를 활용하기 때문에 중복된 키의 리소스는 들어가지 않음
+	m_mapSound.insert(make_pair(_strKey, pSound));
+	return pSound;
+}
+
+CSound* CResMgr::FindSound(const wstring& _strKey)
+{
+	map<wstring, CRes*>::iterator iter = m_mapSound.find(_strKey);
+	//없으면 nullptr 반환
+
+	if (iter == m_mapSound.end())
+	{
+		return nullptr;
+	}
+
+	//키값으로 리소스 찾아서 반환하는 함수
+	return (CSound*)iter->second;
 }
 

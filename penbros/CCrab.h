@@ -3,6 +3,7 @@
 
 enum class CRAB_STATE
 {
+	START,
 	IDLE,
 	ATTACK,
 	DIE
@@ -32,6 +33,7 @@ public:
 public:
 	virtual void OnCollisionEnter(CCollider* _pOther)override;
 	virtual void Hit()override;
+	virtual void OnAnimEvent()override;
 public:
 	CLONE(CCrab);
 	CCrab();

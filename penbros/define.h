@@ -33,6 +33,7 @@ enum class GROUP_TYPE
 	GHOST,
 	MONSTEREGG,
 	KEY,
+	MONSTERPROJ,
 	
 
 	UI = 31,

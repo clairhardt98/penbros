@@ -23,6 +23,7 @@ public:
 
 	void Pause();
 	void Resume();
+	void TriggerEvent();
 
 	bool IsPaused() { return m_bPaused; }
 	void FinalUpdate();

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CAnimator.h"
 #include "CAnimation.h"
+#include "CObject.h"
 
 CAnimator::CAnimator()
 	:m_pCurAnim(nullptr)
@@ -68,6 +69,11 @@ void CAnimator::Pause()
 void CAnimator::Resume()
 {
 	m_bPaused = false;
+}
+
+void CAnimator::TriggerEvent()
+{
+	m_pOwner->OnAnimEvent();
 }
 
 void CAnimator::FinalUpdate()
