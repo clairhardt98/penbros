@@ -45,6 +45,6 @@ void CTimeMgr::Render()
 
 		wchar_t szBuffer[255] = {};
 		swprintf_s(szBuffer, L"FPS : %d, DT : %f", FPS, deltaTime);
-		SetWindowText(CCore::GetInst()->GetMainHwnd(), szBuffer);
+		//SetWindowText(CCore::GetInst()->GetMainHwnd(), szBuffer);
 	}
 }

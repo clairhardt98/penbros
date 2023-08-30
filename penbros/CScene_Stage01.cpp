@@ -9,6 +9,8 @@
 #include "CCollisionMgr.h"
 #include "CKeyMgr.h"
 #include "CSceneMgr.h"
+#include "CSoundMgr.h"
+#include "CSound.h"
 #include "CRigidBody.h"
 #include "CPlatform.h"
 #include "CSpinPlate.h"
@@ -24,6 +26,13 @@
 #include "CCrab.h"
 #include "CRat.h"
 
+//스테이지마다 바뀌어야 할 것들
+//==================================
+// 1. 플랫폼 위치
+// 2. 회전판 위치
+// 3. 몬스터 배치
+// 4. 2페이즈 몬스터 생성 위치
+//==================================
 
 CScene_Stage01::CScene_Stage01()
 	:m_vPlayerSpawnPos(Vector2D(100.0f, 400.0f))
@@ -33,11 +42,13 @@ CScene_Stage01::CScene_Stage01()
 	,m_bCleared(false)
 	,m_fAfterClearTime(0.f)
 	,m_bGameOvered(false)
-	,m_eCurState(SCENE_STATE::PLAY)
+	,m_eCurState(STAGE1_STATE::PLAY)
 {
 	//이미지 로드하고, 애들 그려주기 전에 먼저 배경 그리면되겠네
 	CResMgr::GetInst()->LoadTexture(L"Background0", L"Image\\Background0.bmp");
 	m_pBGTex = CResMgr::GetInst()->FindTexture(L"Background0");
+
+	m_pBGSound = CResMgr::GetInst()->LoadSound(L"Stage01BGM", L"Sound\\Stage1.wav");
 }
 
 CScene_Stage01::~CScene_Stage01()
@@ -56,9 +67,9 @@ void CScene_Stage01::Update()
 
 	switch (m_eCurState)
 	{
-	case SCENE_STATE::ENTER:
+	case STAGE1_STATE::ENTER:
 		break;
-	case SCENE_STATE::PLAY:
+	case STAGE1_STATE::PLAY:
 		if (m_fRemainingTime >= 0.f)
 			m_fRemainingTime -= fDT;
 		else
@@ -77,7 +88,7 @@ void CScene_Stage01::Update()
 		}
 
 		break;
-	case SCENE_STATE::GAMEOVER:
+	case STAGE1_STATE::GAMEOVER:
 		if (KEY_TAP(KEY::G))
 		{
 			ContinueGame();
@@ -86,7 +97,7 @@ void CScene_Stage01::Update()
 		//동전넣으면 다시 플레이스테이트로 변경
 		//게임오버 UI 출력
 		break;
-	case SCENE_STATE::CLEAR:
+	case STAGE1_STATE::CLEAR:
 		if (m_bCleared)
 		{
 			m_fAfterClearTime += fDT;
@@ -117,12 +128,15 @@ void CScene_Stage01::Render(HDC _dc)
 
 void CScene_Stage01::Enter()
 {
+	CSoundMgr::GetInst()->RegisterToBGM(m_pBGSound);
+	m_pBGSound->Play(true);
+
 	m_fRemainingTime = 100.f;
 	m_bIsGhostOn = false;
 	m_bIsPhaseChanged = false;
 	m_bCleared = false;
 	m_fAfterClearTime = 0.f;
-	m_eCurState = SCENE_STATE::PLAY;
+	m_eCurState = STAGE1_STATE::PLAY;
 	//player 추가
 	InstantiatePlayer();
 	//플레이어의 stageCnt ++
@@ -148,43 +162,6 @@ void CScene_Stage01::Enter()
 	temp->SetDirection(1);
 	AddObject(pBat2, GROUP_TYPE::MONSTER);
 	
-
-
-	//crab
-
-	CObject* pCrab0 = new CCrab;
-	pCrab0->SetName(L"Monster");
-	pCrab0->SetPos(Vector2D(75.0f, 280.f));
-	pCrab0->SetScale(Vector2D(40.0f, 40.0f));
-	CCrab* tempCrab = (CCrab*)pCrab0;
-	tempCrab->SetDirection(1);
-	AddObject(pCrab0, GROUP_TYPE::MONSTER);
-
-	CObject* pCrab1 = new CCrab;
-	pCrab1->SetName(L"Monster");
-	pCrab1->SetPos(Vector2D(725.0f, 280.f));
-	pCrab1->SetScale(Vector2D(40.0f, 40.0f));
-	tempCrab = (CCrab*)pCrab1;
-	tempCrab->SetDirection(-1);
-	AddObject(pCrab1, GROUP_TYPE::MONSTER);
-
-	//Rat
-
-	CObject* pRat0 = new CRat;
-	pRat0->SetName(L"Monster");
-	pRat0->SetPos(Vector2D(75.0f, 200.0f));
-	pRat0->SetScale(Vector2D(40.0f, 40.0f));
-	CRat* tempRat = (CRat*)pRat0;
-	tempRat->SetDirection(1);
-	AddObject(pRat0, GROUP_TYPE::MONSTER);
-
-	CObject* pRat1 = new CRat;
-	pRat1->SetName(L"Monster");
-	pRat1->SetPos(Vector2D(725.0f, 200.0f));
-	pRat1->SetScale(Vector2D(40.0f, 40.0f));
-	tempRat = (CRat*)pRat1;
-	tempRat->SetDirection(-1);
-	AddObject(pRat1, GROUP_TYPE::MONSTER);
 
 	
 
@@ -311,7 +288,7 @@ void CScene_Stage01::GenerateNewMonsters()
 	CMonsterEgg* tempEgg = (CMonsterEgg*)pEgg0;
 	tempEgg->SetMonsterType(L"Bat");
 	tempEgg->SetTargetDir(1);
-	tempEgg->SetTargetPos(Vector2D(200.0f, 280.0f));
+	tempEgg->SetTargetPos(Vector2D(200.0f, 175.0f));
 	AddObject(pEgg0, GROUP_TYPE::MONSTEREGG);
 
 	CObject* pEgg1 = new CMonsterEgg;
@@ -321,46 +298,27 @@ void CScene_Stage01::GenerateNewMonsters()
 	tempEgg = (CMonsterEgg*)pEgg1;
 	tempEgg->SetMonsterType(L"Bat");
 	tempEgg->SetTargetDir(-1);
-	tempEgg->SetTargetPos(Vector2D(600.0f, 280.0f));
+	tempEgg->SetTargetPos(Vector2D(600.0f, 175.0f));
 	AddObject(pEgg1, GROUP_TYPE::MONSTEREGG);
 
-	CObject* pEgg2 = new CMonsterEgg;
-	pEgg2->SetName(L"MonsterEgg");
-	pEgg2->SetPos(Vector2D(75.0f, 0.f));
-	pEgg2->SetScale(Vector2D(40.0f, 40.0f));
-	tempEgg = (CMonsterEgg*)pEgg2;
-	tempEgg->SetMonsterType(L"Crab");
-	tempEgg->SetTargetDir(1);
-	tempEgg->SetTargetPos(Vector2D(75.0f, 450.0f));
-	AddObject(pEgg2, GROUP_TYPE::MONSTEREGG);
-
-	CObject* pEgg3 = new CMonsterEgg;
-	pEgg3->SetName(L"MonsterEgg");
-	pEgg3->SetPos(Vector2D(725.0f, 0.f));
-	pEgg3->SetScale(Vector2D(40.0f, 40.0f));
-	tempEgg = (CMonsterEgg*)pEgg3;
-	tempEgg->SetMonsterType(L"Crab");
-	tempEgg->SetTargetDir(-1);
-	tempEgg->SetTargetPos(Vector2D(725.0f, 450.0f));
-	AddObject(pEgg3, GROUP_TYPE::MONSTEREGG);
 
 	//키 소환
 	CObject* pKey = new CKey;
-	pKey->SetPos(Vector2D(400.0f, 440.0f));
+	pKey->SetPos(Vector2D(400.0f, 300.0f));
 	pKey->SetScale(Vector2D(40.0f, 40.0f));
 	pKey->SetName(L"Key");
 	AddObject(pKey, GROUP_TYPE::KEY);
 	//자물쇠 소환
 	CObject* pLock = new CLock;
 	pLock->SetPos(Vector2D(700.0f, 185.0f));
-	pLock->SetScale(Vector2D(50.0f, 50.0f));
+	pLock->SetScale(Vector2D(64.0f, 64.0f));
 	pLock->SetName(L"Lock");
 	AddObject(pLock, GROUP_TYPE::LOCK);
 }
 
 void CScene_Stage01::MoveToNextStage()
 {
-	ChangeScene(SCENE_TYPE::TOOL);
+	ChangeScene(SCENE_TYPE::STAGE_02);
 }
 
 
@@ -409,7 +367,7 @@ void CScene_Stage01::SetCleared(bool _b)
 		//Cool이미지띄우기
 		CUI* pUI = (CUI*)GetUI();
 		pUI->SetCleared(true);
-		m_eCurState = SCENE_STATE::CLEAR;
+		m_eCurState = STAGE1_STATE::CLEAR;
 	}
 }
 
@@ -418,7 +376,7 @@ void CScene_Stage01::SetGameOvered(bool _b)
 	m_bGameOvered = _b;
 	CUI* pUI = (CUI*)GetUI();
 	pUI->SetGameOvered(true);
-	m_eCurState = SCENE_STATE::GAMEOVER;
+	m_eCurState = STAGE1_STATE::GAMEOVER;
 }
 
 void CScene_Stage01::InstantiatePlayer()
@@ -452,5 +410,5 @@ void CScene_Stage01::ContinueGame()
 	pUI->SetGameOvered(false);
 	RevivePlayer();
 
-	m_eCurState = SCENE_STATE::PLAY;
+	m_eCurState = STAGE1_STATE::PLAY;
 }

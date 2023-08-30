@@ -23,7 +23,7 @@ void CEventMgr::Update()
 	//이전 프레임의 데드벡터를 체크하고 삭제
 	for (size_t i = 0; i < m_vecDead.size(); i++)
 	{
-		delete m_vecDead[i];
+ 		delete m_vecDead[i];
 	}
 	m_vecDead.clear();
 	//이벤트 처리

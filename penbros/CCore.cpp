@@ -6,7 +6,7 @@
 #include "CSceneMgr.h"
 #include "CCollisionMgr.h"
 #include "CEventMgr.h"
-
+#include "CSoundMgr.h"
 
 //objects
 
@@ -65,12 +65,12 @@ int CCore::Init(HWND hWnd, POINT res)
 	// <<
 	
 	//Init Mgr
+	CSoundMgr::GetInst()->init();
 	CTimeMgr::GetInst()->Init();
 	CPathMgr::GetInst()->Init();
 	CKeyMgr::GetInst()->Init();
 	CSceneMgr::GetInst()->Init();
 	CCollisionMgr::GetInst()->Init();
-
 	return S_OK;
 }
 
@@ -94,11 +94,11 @@ void CCore::Progress()
 	CSceneMgr::GetInst()->Render(m_memDC);
 
 	BitBlt(m_hdc, 0, 0, m_ptResolution.x, m_ptResolution.y, m_memDC, 0, 0, SRCCOPY);
-	CTimeMgr::GetInst()->Render();
+	//CTimeMgr::GetInst()->Render();
 
 	//이벤트 지연처리
 	CEventMgr::GetInst()->Update();
-
+	SetWindowText(GetMainHwnd(), L"BLASTLORD");
 }
 
 void CCore::CreateBrushPen()

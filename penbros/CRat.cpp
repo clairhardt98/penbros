@@ -10,6 +10,7 @@
 #include "CScene.h"
 #include "CEventMgr.h"
 #include "CTimeMgr.h"
+#include "CSound.h"
 
 CRat::CRat()
 	:m_iDir(1)
@@ -67,10 +68,13 @@ CRat::CRat()
 	GetRigidBody()->SetFricCoeff(0.f);
 	GetRigidBody()->SetMaxVelocity(Vector2D(50.0f, 1000.f));
 
+	m_pHitSound = CResMgr::GetInst()->LoadSound(L"HitSound", L"Sound\\EnemyHit.wav");
+
 }
 
 CRat::~CRat()
 {
+
 }
 
 
@@ -87,7 +91,7 @@ void CRat::ChangeDirection()
 		GetAnimator()->Play(L"RatIdleRight", true);
 	else
 		GetAnimator()->Play(L"RatIdleLeft", true);
-	GetRigidBody()->SetMaxVelocity(Vector2D(150.0f, 1000.f));
+	GetRigidBody()->SetMaxVelocity(Vector2D(50.0f, 1000.f));
 
 }
 
@@ -209,6 +213,7 @@ void CRat::Hit()
 		GetAnimator()->Play(L"RatDieLeft", false);
 	GetRigidBody()->EnableGravity(true);
 	GetRigidBody()->SetVelocity(Vector2D(0.f, -150.f));
+	m_pHitSound->Play(false);
 }
 
 void CRat::OnCollisionEnter(CCollider* _pOther)

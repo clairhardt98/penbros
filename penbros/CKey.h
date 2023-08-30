@@ -1,11 +1,13 @@
 #pragma once
 #include "CObject.h"
 class CPlayer;
+class CSound;
 class CKey :
     public CObject
 {
 public:
     CPlayer*    m_pPlayer;
+    CSound*     m_pGetKeySound;
     bool        m_bIsCaptured;
     int         m_iDir;
     CObject*    m_pCurPlate;

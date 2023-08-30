@@ -1,9 +1,11 @@
 #pragma once
 #include "CMonster.h"
-
+class CSound;
 class CBat : 
 	public CMonster
 {
+private:
+	CSound* m_pHitSound;
 public:
 	void SetDirection(int _i) { m_iDir = _i; }
 	void ChangeDirection();

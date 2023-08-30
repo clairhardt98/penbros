@@ -1,6 +1,7 @@
 #pragma once
 #include "CMonster.h"
 
+class CSound;
 enum class RAT_STATE
 {
 	START,
@@ -14,6 +15,7 @@ class CRat
 	:public CMonster
 {
 public:
+	CSound* m_pHitSound;
 	int			m_iDir;
 	int			m_iPrevDir;
 	float		m_fDetectionDist;

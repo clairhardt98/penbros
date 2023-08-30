@@ -7,6 +7,7 @@
 #include "CResMgr.h"
 #include "CPathMgr.h"
 #include "CEventMgr.h"
+#include "CSound.h"
 
 CExplosion::CExplosion()
 {
@@ -26,10 +27,13 @@ CExplosion::CExplosion()
 		pExplosionAnim->GetFrame(i).vOffset = Vector2D(0.f, -15.f);*/
 
 	pAnim->Play(L"EXPLOSION", false);
+	m_pExplosionSound = CResMgr::GetInst()->LoadSound(L"Explosion", L"Sound\\Explosion.wav");
+	m_pExplosionSound->Play(false);
 }
 
 CExplosion::~CExplosion()
 {
+	
 }
 
 

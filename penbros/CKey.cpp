@@ -7,6 +7,7 @@
 #include "CRigidBody.h"
 #include "CEventMgr.h"
 #include "CPlayer.h"
+#include "CSound.h"
 CKey::CKey()
 	:m_pPlayer(nullptr)
 	,m_bIsCaptured(false)
@@ -28,10 +29,13 @@ CKey::CKey()
 	GetAnimator()->Play(L"KeyRight", true);
 	CreateRigidBody();
 	GetRigidBody()->EnableGravity(true);
+
+	m_pGetKeySound = CResMgr::GetInst()->LoadSound(L"GetKey", L"Sound\\GetKey.wav");
 }
 
 CKey::~CKey()
 {
+
 }
 
 
@@ -64,6 +68,7 @@ void CKey::OnCollisionEnter(CCollider* _pOther)
 	{
 		m_bIsCaptured = true;
 		m_pPlayer = (CPlayer*)pObj;
+		m_pGetKeySound->Play(false);
 	}
 }
 

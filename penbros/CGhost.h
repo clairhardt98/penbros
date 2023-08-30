@@ -2,11 +2,13 @@
 #include "CObject.h"
 
 class CObject;
+class CSound;
 class CGhost :
     public CObject
 {
 private:
 	CObject* m_pTarget;
+	CSound* m_pSound;
 	float m_fSpeed;
 	int m_iDir;
 private:

@@ -1,7 +1,10 @@
 #include "pch.h"
 #include "CSceneMgr.h"
 #include "CScene_Stage01.h"
+#include "CScene_Stage02.h"
+#include "CScene_Stage03.h"
 #include "CScene_Start.h"
+#include "CScene_End.h"
 
 
 CSceneMgr::CSceneMgr()
@@ -23,15 +26,20 @@ CSceneMgr::~CSceneMgr()
 void CSceneMgr::Init()
 {
 	//scene »ı¼º
-	m_arrScene[(UINT)SCENE_TYPE::START] = new CScene_Stage01;
+	
+	m_arrScene[(UINT)SCENE_TYPE::START] = new CScene_Start;
 	m_arrScene[(UINT)SCENE_TYPE::START]->SetName(L"Start Scene");
-	m_arrScene[(UINT)SCENE_TYPE::TOOL] = new CScene_Start;
-	m_arrScene[(UINT)SCENE_TYPE::TOOL]->SetName(L"Tool Scene");
-	/*m_arrScene[(UINT)SCENE_TYPE::STAGE_01] = new CScene_Stage01;
-	m_arrScene[(UINT)SCENE_TYPE::STAGE_02] = new CScene_Stage02;*/
+	m_arrScene[(UINT)SCENE_TYPE::STAGE_01] = new CScene_Stage01;
+	m_arrScene[(UINT)SCENE_TYPE::STAGE_01]->SetName(L"Stage01 Scene");
+	m_arrScene[(UINT)SCENE_TYPE::STAGE_02] = new CScene_Stage02;
+	m_arrScene[(UINT)SCENE_TYPE::STAGE_02]->SetName(L"Stage02 Scene");
+	m_arrScene[(UINT)SCENE_TYPE::STAGE_03] = new CScene_Stage03;
+	m_arrScene[(UINT)SCENE_TYPE::STAGE_03]->SetName(L"Stage03 Scene");
+	m_arrScene[(UINT)SCENE_TYPE::ENDING] = new CScene_End;
+	m_arrScene[(UINT)SCENE_TYPE::ENDING]->SetName(L"End Scene");
 
 	//ÇöÀç ¾À ÁöÁ¤
-	m_pCurScene = m_arrScene[(UINT)SCENE_TYPE::TOOL];
+	m_pCurScene = m_arrScene[(UINT)SCENE_TYPE::START];
 	//½ÃÀÛ ¾À ÁøÀÔ
 	m_pCurScene->Enter();
 }

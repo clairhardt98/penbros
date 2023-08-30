@@ -9,6 +9,7 @@
 #include "CScene.h"
 #include "CRigidBody.h"
 #include "CCrabProjectile.h"
+#include "CSound.h"
 
 CCrab::CCrab()
 	:m_iDir(1)
@@ -56,10 +57,13 @@ CCrab::CCrab()
 	GetCollider()->SetScale(Vector2D(25.0f, 25.0f));
 
 	GetRigidBody()->EnableGravity(true);
+
+	m_pHitSound = CResMgr::GetInst()->LoadSound(L"HitSound", L"Sound\\EnemyHit.wav");
 }
 
 CCrab::~CCrab()
 {
+
 }
 
 
@@ -130,10 +134,10 @@ bool CCrab::CanAttack()
 	
 	Vector2D vPos = GetPos();
 	if (abs(vPlayerPos.y - vPos.y) > 30.f)return false;
-	if (m_iDir == -1 && vPos.x - vPlayerPos.x < m_fDetectionDist)
+	if (m_iDir == -1 && vPos.x > vPlayerPos.x && vPos.x - vPlayerPos.x < m_fDetectionDist)
 		return true;
-	
-	if (m_iDir == 1 && vPlayerPos.x - vPos.x < m_fDetectionDist)
+
+	if (m_iDir == 1 && vPlayerPos.x > vPos.x && vPos.x - vPlayerPos.x < m_fDetectionDist)
 		return true;
 
 	return false;
@@ -187,6 +191,7 @@ void CCrab::Hit()
 		GetAnimator()->Play(L"CrabDieLeft", false);
 	GetRigidBody()->EnableGravity(true);
 	GetRigidBody()->SetVelocity(Vector2D(0.f, -150.f));
+	m_pHitSound->Play(false);
 }
 
 void CCrab::OnAnimEvent()

@@ -12,6 +12,7 @@ CResMgr::~CResMgr()
 {
 	Safe_Delete_Map(m_mapTex);
 	Safe_Delete_Map(m_mapImg);
+	Safe_Delete_Map(m_mapSound);
 }
 
 CTexture* CResMgr::LoadTexture(const wstring& _strKey, const wstring& _strRelativePath)

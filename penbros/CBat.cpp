@@ -7,6 +7,7 @@
 #include "CAnimator.h"
 #include "CRigidBody.h"
 #include "CEventMgr.h"
+#include "CSound.h"
 
 CBat::CBat()
 {
@@ -27,10 +28,13 @@ CBat::CBat()
 	pAnimator->Play(L"BatIdleLeft", true);
 
 	GetCollider()->SetScale(Vector2D(25.0f, 25.0f));
+	m_pHitSound = CResMgr::GetInst()->LoadSound(L"HitSound", L"Sound\\EnemyHit.wav");
+
 }
 
 CBat::~CBat()
 {
+	
 }
 
 void CBat::Start()
@@ -97,4 +101,6 @@ void CBat::Hit()
 		GetAnimator()->Play(L"BatDieLeft", false);
 	GetRigidBody()->EnableGravity(true);
 	GetRigidBody()->SetVelocity(Vector2D(0.f, -150.f));
+	m_pHitSound->Play(false);
+
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include "CMonster.h"
-
+class CSound;
 enum class CRAB_STATE
 {
 	START,
@@ -12,6 +12,7 @@ class CCrab
 	: public CMonster
 {
 private:
+	CSound*		m_pHitSound;
 	int			m_iDir;
 	float		m_fDetectionDist;
 	CRAB_STATE  m_ePrevState;

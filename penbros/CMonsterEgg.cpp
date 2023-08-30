@@ -7,6 +7,7 @@
 #include "CTexture.h"
 #include "CBat.h"
 #include "CCrab.h"
+#include "CRat.h"
 
 CMonsterEgg::CMonsterEgg()
 	:m_strMonsterType(L"")
@@ -89,6 +90,17 @@ void CMonsterEgg::SpawnMonster()
 		CCrab* temp = (CCrab*)pCrab;
 		temp->SetDirection(m_iTargetDir);
 		CreateObject(pCrab, GROUP_TYPE::MONSTER);
+	}
+
+	if (L"Rat" == m_strMonsterType)
+	{
+		CObject* pRat = new CRat;
+		pRat->SetName(L"Monster");
+		pRat->SetPos(m_vTargetPos);
+		pRat->SetScale(Vector2D(40.0f, 40.0f));
+		CRat* temp = (CRat*)pRat;
+		temp->SetDirection(m_iTargetDir);
+		CreateObject(pRat, GROUP_TYPE::MONSTER);
 	}
 	DeleteObject(this);
 }

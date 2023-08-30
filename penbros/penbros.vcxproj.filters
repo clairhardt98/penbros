@@ -131,6 +131,15 @@
     <Filter Include="Engine\03.Manager\SoundMgr">
       <UniqueIdentifier>{2f42d2ce-9309-4f15-999d-c88100ed5ad6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\05.Scene\Scene_End">
+      <UniqueIdentifier>{c3a43fe4-6994-4035-a5d5-05b928c821fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05.Scene\Scene_Stage03">
+      <UniqueIdentifier>{0e687df4-ee8c-4899-ac2d-1c9ce479052d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05.Scene\Scene_Stage02">
+      <UniqueIdentifier>{30453029-028a-4991-ab2c-0e487bec2894}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h">
@@ -208,9 +217,6 @@
     <ClInclude Include="CScene_Start.h">
       <Filter>Engine\05.Scene\Scene_Start</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="CAnimator.h">
       <Filter>Engine\07.Components\Animator</Filter>
     </ClInclude>
@@ -268,6 +274,16 @@
     <ClInclude Include="CSoundMgr.h">
       <Filter>Engine\03.Manager\SoundMgr</Filter>
     </ClInclude>
+    <ClInclude Include="CScene_End.h">
+      <Filter>Engine\05.Scene\Scene_End</Filter>
+    </ClInclude>
+    <ClInclude Include="CScene_Stage02.h">
+      <Filter>Engine\05.Scene\Scene_Stage02</Filter>
+    </ClInclude>
+    <ClInclude Include="CScene_Stage03.h">
+      <Filter>Engine\05.Scene\Scene_Stage03</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="penbros.rc">
@@ -402,6 +418,15 @@
     </ClCompile>
     <ClCompile Include="CSoundMgr.cpp">
       <Filter>Engine\03.Manager\SoundMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CScene_End.cpp">
+      <Filter>Engine\05.Scene\Scene_End</Filter>
+    </ClCompile>
+    <ClCompile Include="CScene_Stage02.cpp">
+      <Filter>Engine\05.Scene\Scene_Stage02</Filter>
+    </ClCompile>
+    <ClCompile Include="CScene_Stage03.cpp">
+      <Filter>Engine\05.Scene\Scene_Stage03</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

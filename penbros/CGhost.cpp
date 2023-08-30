@@ -11,6 +11,7 @@
 #include "CTexture.h"
 #include "CResMgr.h"
 #include "CTimeMgr.h"
+#include "CSound.h"
 
 CGhost::CGhost()
 	:m_pTarget(nullptr)
@@ -31,6 +32,9 @@ CGhost::CGhost()
 	CAnimator* pAnimator = GetAnimator();
 	pAnimator->CreateAnimation(true, L"GhostIdleRight", pTexRight, 1, 8, 0, 0, Vector2D(54.f, 58.f), .2f, 8);
 	pAnimator->CreateAnimation(false, L"GhostIdleLeft", pTexLeft, 1, 8, 0, 0, Vector2D(54.f, 58.f), .2f, 8);
+
+	m_pSound = CResMgr::GetInst()->LoadSound(L"Ghost", L"Sound\\Ghost.wav");
+	m_pSound->Play(false);
 }
 
 CGhost::~CGhost()

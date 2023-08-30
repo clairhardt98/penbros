@@ -7,11 +7,6 @@
 
 #define MAX_LOADSTRING 100
 
-#ifdef UNICODE
-#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
-#else
-#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
-#endif
 
 
 
@@ -36,7 +31,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     //동적 할당 문제가 걸린 지점 확인할 수 있음
 
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF|_CRTDBG_LEAK_CHECK_DF);
-    //_CrtSetBreakAlloc(799);
+    //_CrtSetBreakAlloc(395);
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 

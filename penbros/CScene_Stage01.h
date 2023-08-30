@@ -2,8 +2,9 @@
 #include "CScene.h"
 
 class CPlayer;
+class CSound;
 class CTexture;
-enum class SCENE_STATE
+enum class STAGE1_STATE
 {
     ENTER,
     PLAY,
@@ -14,8 +15,9 @@ class CScene_Stage01 :
     public CScene
 {
 private:
-    SCENE_STATE m_eCurState;
+    STAGE1_STATE m_eCurState;
     CTexture*   m_pBGTex;
+    CSound*     m_pBGSound;
     float       m_fRemainingTime;
     bool        m_bIsGhostOn;
     bool        m_bIsPhaseChanged;
