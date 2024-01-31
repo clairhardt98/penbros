@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>D:\penbros\Output\bin\penbros.exe</FullPath>
+      <FullPath>D:\penbros\Output\bin_debug\penbros.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
