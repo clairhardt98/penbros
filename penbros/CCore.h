@@ -17,7 +17,6 @@ private:
 
 	//gdi+
 	ULONG_PTR gdiplusToken;
-	
 
 public:
 	int Init(HWND hWnd, POINT res);
@@ -27,11 +26,11 @@ private:
 
 
 public:
-	HWND GetMainHwnd() { return m_hWnd; }
-	POINT GetResolution() { return m_ptResolution; }
-	HDC GetMainDC() { return m_hdc; }
-	HDC GetMemDC() { return m_memDC; }
-	HBRUSH GetBrush(BRUSH_TYPE _eType) { return m_arrBrush[(UINT)_eType]; }
-	HPEN GetPen(PEN_TYPE _eType) { return m_arrPen[(UINT)_eType]; }
+	HWND GetMainHwnd() const { return m_hWnd; }
+	POINT GetResolution() const { return m_ptResolution; }
+	HDC GetMainDC() const { return m_hdc; }
+	HDC GetMemDC() const { return m_memDC; }
+	HBRUSH GetBrush(BRUSH_TYPE _eType) const { return m_arrBrush[(UINT)_eType]; }
+	HPEN GetPen(PEN_TYPE _eType) const { return m_arrPen[(UINT)_eType]; }
 };
 

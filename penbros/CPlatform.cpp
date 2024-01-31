@@ -24,58 +24,35 @@ void CPlatform::Start()
 {
 	GetCollider()->SetScale(Vector2D(GetScale()));
 	CAnimator* pAnim = GetAnimator();
+	CTexture* pTex = nullptr;
+	wstring objName = GetName();
+	wstring animationName;
 	//플랫폼의 이름에 따라 다른 애니메이션 설정
-	if (L"BottomWall" == GetName())
+	if (L"BottomWall" == objName)
 	{
-		CTexture* pTex = CResMgr::GetInst()->LoadTexture(L"TopWallTexture", L"Image\\TopWall.bmp");
-		pAnim->CreateAnimation(true, L"TopWallIdle", pTex, 1, 1, 0, 0, GetScale(), .1f, 1);
-		pAnim->Play(L"TopWallIdle", true);
+		pTex = CResMgr::GetInst()->LoadTexture(L"TopWallTexture", L"Image\\TopWall.bmp");
+		animationName = L"TopWallIdle";
 	}
-	if (L"Platform" == GetName())
+	if (L"Platform" == objName)
 	{
-		CTexture* pTex = CResMgr::GetInst()->LoadTexture(L"PlatformTexture", L"Image\\Platform.bmp");
-		pAnim->CreateAnimation(true, L"PlatformIdle", pTex, 1, 1, 0, 0, GetScale(), .1f, 1);
-		pAnim->Play(L"PlatformIdle", true);
+		pTex = CResMgr::GetInst()->LoadTexture(L"PlatformTexture", L"Image\\Platform.bmp");
+		animationName = L"PlatformIdle";
 	}
-	if (L"Wall" == GetName())
+	if (L"Wall" == objName)
 	{
-		CTexture* pTex = CResMgr::GetInst()->LoadTexture(L"WallTexture", L"Image\\SideWall.bmp");
-		pAnim->CreateAnimation(true, L"WallIdle", pTex, 1, 1, 0, 0, GetScale(), .1f, 1);
-		pAnim->Play(L"WallIdle", true);
+		pTex = CResMgr::GetInst()->LoadTexture(L"WallTexture", L"Image\\SideWall.bmp");
+		animationName = L"WallIdle";
 	}
-	
+
+	if (pTex != nullptr) 
+	{
+		pAnim->CreateAnimation(true, animationName, pTex, 1, 1, 0, 0, GetScale(), .1f, 1);
+		pAnim->Play(animationName, true);
+	}
 }
 
 void CPlatform::Update()
 {
-}
-
-
-void CPlatform::OnCollisionEnter(CCollider* _pOther)
-{
-	/*CObject* pOtherObj = _pOther->GetObj();
-	if (pOtherObj->GetName() == L"Player" || pOtherObj->GetName() == L"Bomb" || pOtherObj->GetName() == L"DeadPlayer")
-	{
-		Vector2D vObjPos = _pOther->GetFinalPos();
-		Vector2D vObjScale = _pOther->GetScale();
-		int temp;
-		if (vObjPos.y > GetPos().y)
-			temp = 1;
-		else
-			temp = -1;
-		pOtherObj->GetRigidBody()->SetGrounded(true);
-
-		Vector2D vPos = GetPos();
-		Vector2D vScale = GetScale();
-
-		float fLen = abs(vObjPos.y - vPos.y);
-		float fDist = (vObjScale.y / 2.f + vScale.y / 2.f) - fLen;
-
-		vObjPos = pOtherObj->GetPos();
-		vObjPos.y += temp * fDist;
-
-		pOtherObj->SetPos(vObjPos);
-	}*/
 }
 
 void CPlatform::OnCollision(CCollider* _pOther)

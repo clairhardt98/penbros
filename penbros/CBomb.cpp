@@ -128,7 +128,11 @@ void CBomb::OnCollisionExit(CCollider* _pOther)
 
 void CBomb::Explode()
 {
-	BombExploded();
+	tEvent evn = {};
+	evn.eEven = EVENT_TYPE::BOMB_EXPLODED;
+
+	CEventMgr::GetInst()->AddEvent(evn);
+
 	Vector2D vPos = GetPos();
 	//Explosion °´Ã¼ »ý¼º
 	
@@ -192,5 +196,6 @@ void CBomb::CreateExplosion(Vector2D _vPos)
 	pExp->SetName(L"Explosion");
 	CreateObject(pExp, GROUP_TYPE::EXPLOSION);
 }
+
 
 

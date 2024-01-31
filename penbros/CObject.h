@@ -15,7 +15,6 @@ private:
 	CCollider*	m_pCollider;
 	CAnimator*	m_pAnimator;
 	CRigidBody* m_pRigidBody;
-	CRigidBody* m_pPrevRigidBody;
 
 	//gdi+를 사용하기 위한 graphics 객체
 	Gdiplus::Graphics* m_pGraphics;
@@ -28,12 +27,12 @@ public:
 	void SetPos(Vector2D _vPos) { m_vPos = _vPos; }
 	void SetScale(Vector2D _vScale) { m_vScale = _vScale; }
 
-	Vector2D GetPos() { return m_vPos; }
-	Vector2D GetScale() { return m_vScale; }
+	const Vector2D GetPos() const { return m_vPos; }
+	const Vector2D GetScale() const { return m_vScale; }
 
 	void SetName(const wstring& _strName) { m_strName = _strName; }
-	const wstring& GetName() { return m_strName; }
-	bool IsDead() { return !m_bAlive; }
+	const wstring& GetName() const { return m_strName; }
+	const bool IsDead() const { return !m_bAlive; }
 	virtual void Hit() {};
 
 private:

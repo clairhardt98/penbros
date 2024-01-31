@@ -124,8 +124,6 @@ void CPlayer::ThrowKey()
 	m_bIsHoldingKey = false;
 }
 
-
-
 void CPlayer::Update()
 {
 	if (!m_bIsAlive)
@@ -321,10 +319,6 @@ void CPlayer::UpdateAnim()
 	break;
 	case PLAYER_STATUS::JUMP:
 		break;
-	case PLAYER_STATUS::HOLDING:
-		break;
-	case PLAYER_STATUS::HOLDINGJUMP:
-		break;
 	case PLAYER_STATUS::DEAD:
 	{
 		if (m_iDir == -1)
@@ -343,22 +337,22 @@ void CPlayer::DrawImage()
 	Graphics* pGr = GetGraphics();
 	CImage* pImg = nullptr;
 
-	int imgoffset;
+	int imgOffset;
 	if (m_bIsImgInverted)
 	{
-		imgoffset = -1;
+		imgOffset = -1;
 		pImg = pImgIdleInvert;
 	}
 	else
 	{
-		imgoffset = 1;
+		imgOffset = 1;
 		pImg = pImgIdle;
 	}
 
 	int w = pImg->Width();
 	int h = pImg->Height();
 
-	pGr->DrawImage(pImg->GetImagePtr(), Rect((int)vPos.x - w / 2, (int)vPos.y - h / 2 - imgoffset * 15, w, h),
+	pGr->DrawImage(pImg->GetImagePtr(), Rect((int)vPos.x - w / 2, (int)vPos.y - h / 2 - imgOffset * 15, w, h),
 		0, 0, w, h, UnitPixel, pImg->GetImgAttr());
 }
 
@@ -382,7 +376,7 @@ void CPlayer::RotateImage()
 	pImg->Rotate(GetGraphics(), GetPos(), (float)m_bSpinClockwise * 300.f * fDT);
 }
 
-CImage* CPlayer::GetGdiPlusImage(const wstring& _strImg)
+CImage* CPlayer::GetGdiPlusImage(const wstring& _strImg) const
 {
 	return CResMgr::GetInst()->FindImg(_strImg.c_str());
 }
@@ -437,7 +431,7 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 {
 	if (L"Key" == _pOther->GetObj()->GetName())
 	{
-		m_pKey = (CKey*)_pOther->GetObj();
+		m_pKey = static_cast<CKey*>(_pOther->GetObj());
 		m_bIsHoldingKey = true;
 	}
 }

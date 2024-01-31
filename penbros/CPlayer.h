@@ -12,9 +12,7 @@ enum class PLAYER_STATUS
     WALK,
     SLIDE,
     SPIN,
-    HOLDING,
     JUMP,
-    HOLDINGJUMP,
     DEAD
 };
 
@@ -84,10 +82,10 @@ public:
     void SetSpinCenter(Vector2D _rotCenter) { m_vSpinCenter = _rotCenter; }
     void SetSpinClockwise(int _b) { m_bSpinClockwise = _b; }
     void SetSticked(bool _b);
-    bool IsSticked() { return m_bIsSticked; }
+    bool IsSticked() const { return m_bIsSticked; }
     void SetImgInverted(bool _b) { m_bIsImgInverted = _b; }
 public:
-    CImage* GetGdiPlusImage(const wstring& _strImg);
+    CImage* GetGdiPlusImage(const wstring& _strImg) const;
 public:
     void Slide();
     void SetBomb();
@@ -95,8 +93,8 @@ public:
     //아이템먹으면 이벤트 발생시켜서 이 함수 호출시키자
     void SetBombMode(BOMB_MODE _bm) { m_eBMod = _bm; }
     void SetSpinning(bool _b) { m_bIsSpinning = _b; if(m_bIsSpinning) m_eCurState = PLAYER_STATUS::SPIN; }
-    int GetDir() { return m_iDir; }
-    bool HasKey() { return m_bIsHoldingKey; }
+    inline int GetDir() const { return m_iDir; }
+    inline bool HasKey() const { return m_bIsHoldingKey; }
     void OnStageCleared();
 
     virtual void Hit()override;//오브젝트에서 선언한 가상함수

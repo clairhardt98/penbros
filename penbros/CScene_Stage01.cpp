@@ -39,10 +39,10 @@ CScene_Stage01::CScene_Stage01()
 	, m_fRemainingTime(100)
 	, m_bIsGhostOn(false)
 	, m_bIsPhaseChanged(false)
-	,m_bCleared(false)
-	,m_fAfterClearTime(0.f)
-	,m_bGameOvered(false)
-	,m_eCurState(STAGE1_STATE::PLAY)
+	, m_bCleared(false)
+	, m_fAfterClearTime(0.f)
+	, m_bGameOvered(false)
+	, m_eCurState(STAGE1_STATE::PLAY)
 {
 	//이미지 로드하고, 애들 그려주기 전에 먼저 배경 그리면되겠네
 	CResMgr::GetInst()->LoadTexture(L"Background0", L"Image\\Background0.bmp");
@@ -92,7 +92,7 @@ void CScene_Stage01::Update()
 		if (KEY_TAP(KEY::G))
 		{
 			ContinueGame();
-			
+
 		}
 		//동전넣으면 다시 플레이스테이트로 변경
 		//게임오버 UI 출력
@@ -110,13 +110,11 @@ void CScene_Stage01::Update()
 		}
 		break;
 	}
-	
+
 	if (KEY_TAP(KEY::I))
 	{
 		ClearEnemy();
 	}
-	
-	
 }
 
 void CScene_Stage01::Render(HDC _dc)
@@ -161,9 +159,9 @@ void CScene_Stage01::Enter()
 	CBat* temp = (CBat*)pBat2;
 	temp->SetDirection(1);
 	AddObject(pBat2, GROUP_TYPE::MONSTER);
-	
 
-	
+
+
 
 	//플랫폼 배치
 	CObject* pGround0 = new CPlatform;
@@ -245,13 +243,13 @@ void CScene_Stage01::Enter()
 	pSpinPlate2->SetName(L"SpinPlatform");
 	AddObject(pSpinPlate2, GROUP_TYPE::PLATFORM);
 
-	
+
 
 	//UI
 	CObject* pUI = new CUI;
 	pUI->SetName(L"UI");
 	AddObject(pUI, GROUP_TYPE::UI);
-	
+
 	//충돌 지정
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::MONSTER);
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::PLATFORM);
@@ -324,7 +322,7 @@ void CScene_Stage01::MoveToNextStage()
 
 void CScene_Stage01::UpdateState()
 {
-		
+
 }
 
 void CScene_Stage01::RevivePlayer()
@@ -395,7 +393,7 @@ void CScene_Stage01::SpawnGhost()
 	CObject* pObj = new CGhost;
 
 	pObj->SetName(L"Ghost");
-	pObj->SetPos(Vector2D(CCore::GetInst()->GetResolution())/2.f);
+	pObj->SetPos(Vector2D(CCore::GetInst()->GetResolution()) / 2.f);
 	pObj->SetScale(Vector2D(40.0f, 40.0f));
 
 	AddObject(pObj, GROUP_TYPE::GHOST);

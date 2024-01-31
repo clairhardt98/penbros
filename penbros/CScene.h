@@ -11,7 +11,7 @@ private:
 
 public:
 	void SetName(const wstring& _strName) { m_strName = _strName; }
-	const wstring& GetName() { return m_strName; }
+	const wstring& GetName() const { return m_strName; }
 
 	virtual void Enter() = 0;//인터페이스, 해당 씬에 진입 시 호출
 	virtual void Exit() = 0;//해당 씬에서 탈출 시 호출
@@ -25,35 +25,35 @@ public:
 	virtual void SetCleared(bool _b) {}
 	virtual void SetGameOvered(bool _b) {}
 	virtual int GetRemainingTime() { return 0; }
-	CObject* GetPlayer() 
+	CObject* GetPlayer() const
 	{ 
 		if (!m_arrObj[(UINT)GROUP_TYPE::PLAYER].empty())
 			return m_arrObj[(UINT)GROUP_TYPE::PLAYER].front();
 		else
 			return nullptr;
 	}
-	CObject* GetGhost()
+	CObject* GetGhost() const
 	{
 		if (!m_arrObj[(UINT)GROUP_TYPE::GHOST].empty())
 			return m_arrObj[(UINT)GROUP_TYPE::GHOST].front();
 		else
 			return nullptr;
 	}
-	CObject* GetKey()
+	CObject* GetKey() const
 	{
 		if (!m_arrObj[(UINT)GROUP_TYPE::KEY].empty())
 			return m_arrObj[(UINT)GROUP_TYPE::KEY].front();
 		else
 			return nullptr;
 	}
-	CObject* GetUI()
+	CObject* GetUI() const
 	{
 		if (!m_arrObj[(UINT)GROUP_TYPE::UI].empty())
 			return m_arrObj[(UINT)GROUP_TYPE::UI].front();
 		else
 			return nullptr;
 	}
-	bool IsMonsterRemaining()
+	bool IsMonsterRemaining() const
 	{
 		return !m_arrObj[(UINT)GROUP_TYPE::MONSTER].empty();
 	}

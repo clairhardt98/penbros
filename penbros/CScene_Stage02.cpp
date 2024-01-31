@@ -179,7 +179,7 @@ void CScene_Stage02::Enter()
 
 	CObject* pRat0 = new CRat;
 	pRat0->SetName(L"Monster");
-	pRat0->SetPos(Vector2D(75.0f, 200.0f));
+	pRat0->SetPos(Vector2D(75.0f, 190.0f));
 	pRat0->SetScale(Vector2D(40.0f, 40.0f));
 	CRat* tempRat = (CRat*)pRat0;
 	tempRat->SetDirection(1);
@@ -187,7 +187,7 @@ void CScene_Stage02::Enter()
 
 	CObject* pRat1 = new CRat;
 	pRat1->SetName(L"Monster");
-	pRat1->SetPos(Vector2D(725.0f, 200.0f));
+	pRat1->SetPos(Vector2D(725.0f, 190.0f));
 	pRat1->SetScale(Vector2D(40.0f, 40.0f));
 	tempRat = (CRat*)pRat1;
 	tempRat->SetDirection(-1);

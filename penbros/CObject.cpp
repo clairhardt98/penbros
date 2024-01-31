@@ -15,7 +15,6 @@ CObject::CObject()
 	,m_pCollider(nullptr)
 	,m_pAnimator(nullptr)
 	,m_pRigidBody(nullptr)
-	,m_pPrevRigidBody(nullptr)
 	,m_bAlive(true)
 	,m_pGraphics(nullptr)
 	,m_fRotateAmount(0)
@@ -119,46 +118,6 @@ void CObject::RotatePos(Vector2D _refVector, float _amount)
 		tEvent eve;
 		eve.eEven = EVENT_TYPE::SPIN_END;
 		CEventMgr::GetInst()->AddEvent(eve);
-		//조금 넘어간 만큼 다시 회전 시키는 로직
-		//...
-		/*if (m_fRotateAmount < 0)
-		{
-			float cosTheta = std::cos(PI + m_fRotateAmount);
-			float sinTheta = std::sin(PI + m_fRotateAmount);
-
-			Vector2D vPos = GetPos();
-			float translatedX = vPos.x - _refVector.x;
-			float translatedY = vPos.y - _refVector.y;
-
-			float rotatedX = translatedX * cosTheta - translatedY * sinTheta;
-			float rotatedY = translatedX * sinTheta + translatedY * cosTheta;
-
-			rotatedX += _refVector.x;
-			rotatedY += _refVector.y;
-			vPos.x = rotatedX;
-			vPos.y = rotatedY;
-
-			SetPos(vPos);
-		}
-		else
-		{
-			float cosTheta = std::cos(-PI + m_fRotateAmount);
-			float sinTheta = std::sin(-PI + m_fRotateAmount);
-
-			Vector2D vPos = GetPos();
-			float translatedX = vPos.x - _refVector.x;
-			float translatedY = vPos.y - _refVector.y;
-
-			float rotatedX = translatedX * cosTheta - translatedY * sinTheta;
-			float rotatedY = translatedX * sinTheta + translatedY * cosTheta;
-
-			rotatedX += _refVector.x;
-			rotatedY += _refVector.y;
-			vPos.x = rotatedX;
-			vPos.y = rotatedY;
-
-			SetPos(vPos);
-		}*/
 		m_fRotateAmount = 0;
 	}
 }

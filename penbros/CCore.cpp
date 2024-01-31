@@ -61,9 +61,9 @@ int CCore::Init(HWND hWnd, POINT res)
 	// >>gdi+ init
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
-	
+
 	// <<
-	
+
 	//Init Mgr
 	CSoundMgr::GetInst()->init();
 	CTimeMgr::GetInst()->Init();
