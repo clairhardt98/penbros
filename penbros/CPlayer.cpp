@@ -51,8 +51,8 @@ CPlayer::CPlayer()
 
 	CTexture* pTexRight = CResMgr::GetInst()->LoadTexture(L"PlayerTexRight", L"Image\\Golem.bmp");
 	CTexture* pTexLeft = CResMgr::GetInst()->LoadTexture(L"PlayerTexLeft", L"Image\\Golem_Left.bmp");
-	pImgIdle = CResMgr::GetInst()->LoadImg(L"PlayerImageIdle", L"Image\\Golem_Idle_Image.bmp");
-	pImgIdleInvert = CResMgr::GetInst()->LoadImg(L"PlayerImageIdleInverted", L"Image\\Golem_Idle_Invert_Image.bmp");
+	m_pImgIdle = CResMgr::GetInst()->LoadImg(L"PlayerImageIdle", L"Image\\Golem_Idle_Image.bmp");
+	m_pImgIdleInvert = CResMgr::GetInst()->LoadImg(L"PlayerImageIdleInverted", L"Image\\Golem_Idle_Invert_Image.bmp");
 
 
 	CreateAnimator();
@@ -341,12 +341,12 @@ void CPlayer::DrawImage()
 	if (m_bIsImgInverted)
 	{
 		imgOffset = -1;
-		pImg = pImgIdleInvert;
+		pImg = m_pImgIdleInvert;
 	}
 	else
 	{
 		imgOffset = 1;
-		pImg = pImgIdle;
+		pImg = m_pImgIdle;
 	}
 
 	int w = pImg->Width();
@@ -369,9 +369,9 @@ void CPlayer::RotateImage()
 {
 	CImage* pImg = nullptr;
 	if (m_bIsImgInverted)
-		pImg = pImgIdleInvert;
+		pImg = m_pImgIdleInvert;
 	else
-		pImg = pImgIdle;
+		pImg = m_pImgIdle;
 
 	pImg->Rotate(GetGraphics(), GetPos(), (float)m_bSpinClockwise * 300.f * fDT);
 }

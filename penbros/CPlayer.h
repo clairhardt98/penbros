@@ -59,8 +59,8 @@ private:
     int             m_bSpinClockwise;
     Vector2D        m_vSpinCenter;
 
-    CImage*         pImgIdle;
-    CImage*         pImgIdleInvert;
+    CImage*         m_pImgIdle;
+    CImage*         m_pImgIdleInvert;
 
     CKey*           m_pKey;
     bool            m_bIsHoldingKey;
